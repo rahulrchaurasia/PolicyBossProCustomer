@@ -1,15 +1,59 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Local configuration
 local.properties
+
+# IntelliJ
+*.iml
+
+# Keep only shared IDEA files
+.idea/caches/
+.idea/libraries/
+.idea/workspace.xml
+
+# Ignore machine/user specific IDEA files
+.idea/AndroidProjectSystem.xml
+.idea/appInsightsSettings.xml
+.idea/compiler.xml
+.idea/deploymentTargetSelector.xml
+.idea/deviceManager.xml
+.idea/kotlinc.xml
+.idea/material_theme_project_new.xml
+.idea/migrations.xml
+.idea/planningMode.xml
+.idea/studiobot.xml
+.idea/.gitignore
+
+# Native builds
+.externalNativeBuild/
+.cxx/
+
+# Kotlin
+.kotlin/
+
+# Mac
+.DS_Store
+
+# Captures
+captures/
+
+
+
+#*.iml
+#.gradle
+#/local.properties
+#/.idea/caches
+#/.idea/libraries
+#/.idea/modules.xml
+#/.idea/workspace.xml
+#/.idea/navEditor.xml
+#/.idea/assetWizardSettings.xml
+#.DS_Store
+#/build
+#/captures
+#.externalNativeBuild
+#.cxx
+#local.properties
