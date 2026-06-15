@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    //only for system config (status bar, splash, app theme base)-->
+
+    <style name="Theme.PolicyBossCustomer" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <!-- Splash Theme -->
+    <style
+        name="Theme.PolicyBossCustomer.Splash"
+        parent="Theme.SplashScreen">
+
+        <!-- background color -->
+        <item name="windowSplashScreenBackground">
+            @color/white
+        </item>
+
+        <!-- app icon -->
+        <item name="windowSplashScreenAnimatedIcon">
+            @mipmap/ic_launcher
+        </item>
+
+        <!-- after splash -->
+        <item name="postSplashScreenTheme">
+            @style/Theme.PolicyBossCustomer
+        </item>
+
+    </style>
+
+</resources>
