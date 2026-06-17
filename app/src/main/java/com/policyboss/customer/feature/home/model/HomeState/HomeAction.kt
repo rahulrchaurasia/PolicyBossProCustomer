@@ -1,5 +1,7 @@
 package com.policyboss.customer.feature.home.model.HomeState
 
+import com.policyboss.customer.feature.home.model.vault.VaultPolicy
+
 
 /*
 Here is how you separate the flow of data:
@@ -70,7 +72,10 @@ sealed interface HomeAction {
     object OnPrivilegeBannerClick : HomeAction
 
     // BottomSheet
-    object OnShowPolicyBottomSheetClick : HomeAction
+    data class OnShowPolicyBottomSheetClick (
+        val policy: VaultPolicy
+    ): HomeAction
+
     object OnDismissPolicyBottomSheet : HomeAction
 
     // Actions that might require ViewModel logic

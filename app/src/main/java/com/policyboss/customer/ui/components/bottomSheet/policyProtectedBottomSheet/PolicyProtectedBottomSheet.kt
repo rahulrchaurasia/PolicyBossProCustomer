@@ -18,12 +18,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.FloatingCloseButton
-import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.PolicyDetailsCard
+
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.PolicyHeaderImage
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.PolicyTitle
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
+import com.policyboss.customer.ui.components.card.PolicyDetailsCard
+
 
 private val policySheetGradient = Brush.verticalGradient(
     colors = listOf(
@@ -35,6 +37,7 @@ private val policySheetGradient = Brush.verticalGradient(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PolicyProtectedBottomSheet(
+    policy: VaultPolicy,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -98,13 +101,22 @@ fun PolicyProtectedBottomSheet(
                     modifier = Modifier.height(16.dp)
                 )
 
-                PolicyTitle()
+                PolicyTitle(title = policy.title)
 
                 Spacer(
                     modifier = Modifier.height(24.dp)
                 )
 
-                PolicyDetailsCard()
+                PolicyDetailsCard(
+
+                    companyLogo = policy.companyLogo,
+
+                    idv = policy.idv,
+
+                    premium = policy.premium,
+
+                    expiry = policy.expiry
+                )
 
                 Spacer(
                     modifier = Modifier.height(24.dp)
@@ -141,16 +153,30 @@ fun PolicyProtectedBottomSheet(
 )
 
 @Composable
+@Preview(showBackground = true)
+
 fun PreviewPolicyProtectedBottomSheet() {
-    // Wrap in your app's theme if you have one (e.g., AppTheme { ... })
+
+    val samplePolicy = VaultPolicy(
+        vehicleName = "Honda Amaze",
+        vehicleNumber = "MH12AB1234",
+        carImage = android.R.drawable.ic_menu_gallery,
+        daysLeft = "10 days left",
+        companyLogo = android.R.drawable.sym_def_app_icon,
+        idv = "₹5,00,000",
+        premium = "₹12,000",
+        expiry = "31 Dec 2026",
+        title = "Your Honda Amaze is now protected! Access your policy by syncing your email"
+    )
+
     MaterialTheme {
-        // We use a Box with BottomCenter alignment to simulate the bottom of the screen
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter
         ) {
             PolicyProtectedBottomSheet(
-                onDismiss = { /* Do nothing in preview */ }
+                policy = samplePolicy,
+                onDismiss = { }
             )
         }
     }

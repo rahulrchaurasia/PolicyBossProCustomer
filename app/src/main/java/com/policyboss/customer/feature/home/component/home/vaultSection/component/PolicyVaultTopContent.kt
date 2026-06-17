@@ -1,7 +1,22 @@
 package com.policyboss.customer.feature.home.component.home.vaultSection.component
 
+
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import com.policyboss.customer.feature.home.model.vault.VaultPolicy
+
+
 @Composable
-private fun TopContent(
+fun PolicyVaultTopContent(
 
     policy: VaultPolicy,
 
@@ -11,18 +26,16 @@ private fun TopContent(
     Box {
 
         PolicyHeaderImage(
-            policy.carImage
+            carImage = policy.carImage
         )
 
         ExpiryBadge(
 
             text = policy.daysLeft,
 
-            modifier = Modifier
-
-                .align(
-                    Alignment.TopEnd
-                )
+            modifier = Modifier.align(
+                Alignment.TopEnd
+            )
         )
 
         Column(
@@ -38,9 +51,7 @@ private fun TopContent(
 
                 text = policy.vehicleName,
 
-                color = Color.White,
-
-                fontWeight = FontWeight.Bold
+                color = Color.White
             )
 
             Text(
@@ -55,9 +66,7 @@ private fun TopContent(
                 modifier = Modifier.clickable {
 
                     onViewDetailsClick()
-                },
-
-                verticalAlignment = Alignment.CenterVertically
+                }
             ) {
 
                 Text(

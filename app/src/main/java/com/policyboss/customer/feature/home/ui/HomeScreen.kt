@@ -17,20 +17,18 @@ import androidx.compose.material3.*
 
 import androidx.compose.ui.graphics.Color
 import com.policyboss.customer.feature.home.component.home.PolicyCategoryItem
-import com.policyboss.customer.feature.home.component.home.PolicyVaultSection
+import com.policyboss.customer.feature.home.component.home.vaultSection.PolicyVaultSection
 import com.policyboss.customer.feature.home.component.home.footer.BosspediaSection
 import com.policyboss.customer.feature.home.component.home.footer.FooterTrustSection
 
 
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 import com.policyboss.customer.feature.home.component.home.card.QuickActionCard
 import com.policyboss.customer.feature.home.component.home.earningOpportunitySection.EarningOpportunitySection
 import com.policyboss.customer.ui.components.divider.SectionDivider
 
 import com.policyboss.customer.feature.home.component.home.heroSection.HeroSection
-import com.policyboss.customer.feature.home.model.HomeState.HomeUiEvent
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.PolicyProtectedBottomSheet
 
 
@@ -289,13 +287,18 @@ fun HomeScreen(
             ) {
 
                 PolicyVaultSection(
-                    modifier = Modifier.padding(
-                        horizontal = 24.dp
-                    ),
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    policy = policy,
+                    selectedTab = selectedTab,
+                    onTabSelected = onTabSelected,
                     onViewAllClick = {
-                        onAction(
-                            HomeAction.OnViewAllVaultClick
-                        )
+                        onAction(HomeAction.OnViewAllVaultClick)
+                    },
+                    onRenewClick = {
+                        onAction(HomeAction.OnRenewClick(policy))
+                    },
+                    onViewDetailsClick = {
+                        onAction(HomeAction.OnViewDetailsClick(policy))
                     }
                 )
             }
@@ -340,11 +343,11 @@ fun HomeScreen(
         // =====================================================
         // 2. OVERLAYS / BOTTOM SHEETS (Drawn last, on top of the grid)
         // =====================================================
-        if (uiState.showPolicyBottomSheet) {
+       //if selectedVaultPolicy  exists → sheet should open
+        uiState.selectedVaultPolicy?.let { policy ->
             PolicyProtectedBottomSheet(
+                policy = policy,
                 onDismiss = {
-                    // Make sure you use onAction here, NOT viewModel directly!
-
                     onAction(HomeAction.OnDismissPolicyBottomSheet)
                 }
             )

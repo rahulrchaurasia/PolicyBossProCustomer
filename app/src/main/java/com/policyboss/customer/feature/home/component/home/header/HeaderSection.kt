@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.home.component.home.section.CuratedPoliciesSection
 import com.policyboss.customer.feature.home.component.home.earningOpportunitySection.EarningOpportunitySection
-import com.policyboss.customer.feature.home.component.home.PolicyVaultSection
+import com.policyboss.customer.feature.home.component.home.vaultSection.PolicyVaultSection
 import com.policyboss.customer.feature.home.component.home.PromoBannersRow
 import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
 import com.policyboss.customer.feature.home.model.EarningBanner
@@ -198,6 +198,7 @@ fun HomeScreenPreview() {
                 EarningOpportunitySection(
                     banners = mockUiState.earningBanners,
                     onJoinPrivilegeClick = {},
+                    onBannerClick = {},
                     // Removed the duplicate padding since the parent column already has horizontal = 24.dp
                     modifier = Modifier
                 )
@@ -206,7 +207,12 @@ fun HomeScreenPreview() {
 
                 PolicyVaultSection(
                     modifier = Modifier,
-                    onViewAllClick = {}
+                    onViewAllClick = {},
+                    selectedTab = TODO(),
+                    policy = TODO(),
+                    onTabSelected = TODO(),
+                    onRenewClick = TODO(),
+                    onViewDetailsClick = TODO()
                 )
             }
         }

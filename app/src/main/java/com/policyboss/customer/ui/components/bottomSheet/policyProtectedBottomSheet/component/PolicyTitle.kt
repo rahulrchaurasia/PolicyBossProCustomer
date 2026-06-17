@@ -23,12 +23,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 @Composable
-public fun PolicyTitle() {
+public fun PolicyTitle(
+    title: String
+) {
 
     Text(
-        text =
-        "Your 'Honda Amaze' is now protected! Access your policy by syncing your email",
-
+        text = title,
         modifier = Modifier
             .fillMaxWidth(.95f),
 

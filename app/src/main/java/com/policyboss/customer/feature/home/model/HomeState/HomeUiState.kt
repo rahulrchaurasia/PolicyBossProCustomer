@@ -1,8 +1,10 @@
 package com.policyboss.customer.feature.home.model.HomeState
 
+import com.policyboss.customer.feature.home.component.home.vaultSection.component.VaultTab
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.QuickAction
+import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 
 /*
         User Click
@@ -34,6 +36,16 @@ data class HomeUiState(
     val earningBanners: List<EarningBanner> = emptyList(),
 
 
-// Fix: Add a default value here
-    val showPolicyBottomSheet: Boolean = false  // for   BottomSheet
+   // Mark: PolicyBottomSheet
+    val showPolicyBottomSheet: Boolean = false,  // for   BottomSheet
+
+
+    // Mark: vaultPolicies
+    val selectedVaultTab: Int = 0,
+    val vaultPolicies: List<VaultPolicy> = emptyList(),
+    val selectedVaultPolicy: VaultPolicy? = null
+
+
+
+    
 )

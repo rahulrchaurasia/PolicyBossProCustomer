@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.customer.R
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.HomeState.HomeAction
 import com.policyboss.customer.feature.home.model.HomeState.HomeUiEvent
@@ -65,129 +66,84 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
 
     private fun fetchHomeData() {
+
         viewModelScope.launch {
-            // 1. Show loading state if needed
-            _uiState.update { it.copy(isLoading = true) }
 
-            // 2. Simulate a network call or DB fetch (Replace with actual repository call)
-            delay(500)
+            _uiState.update {
 
-            // 3. Update the state with the fetched data
-            _uiState.update { currentState ->
-                currentState.copy(
+                it.copy(
+                    isLoading = true
+                )
+            }
+
+            delay(2000)
+
+            _uiState.update {
+
+                it.copy(
+
                     isLoading = false,
-                    curatedPolicies = listOf("Car", "Bike", "CV", "Health", "Life", "Travel"),
 
-                    // Add your dynamic banners here
-                    //BannerDestination has BannerAction and base on BannerAction we take decison
-                    promoBanners = listOf(
-                        PromoBanner(
-                            id = "renew_earn",
-                            tagText = "RENEW & EARN",
-                            title = "Become a ‘Privileged user’ and earn instantly on renewals",
-                            buttonText = "Complete Setup",
-                            imageRes = R.drawable.ic_banner1, // Replace with your actual drawable
-                            isYellowTheme = true, // Triggers the yellow gradient
-                            destination = BannerDestination.Privilege
-                        ),
-                        PromoBanner(
-                            id = "renew_car",
-                            tagText = "RENEW CAR INSURANCE",
-                            title = "Act fast — your ‘Honda Amaze’ protection expires in 21 days",
-                            buttonText = "Renew Now",
-                            imageRes = R.drawable.ic_banner2, // Replace with your actual drawable
-                            isYellowTheme = false, // Triggers the blue gradient
-                            destination = BannerDestination.PolicyAction(
-                                BannerAction.RenewCar
-                                    )
+                    promoBanners =
+                        HomeDummyData.promoBanners,
 
-                        ),
-                        PromoBanner(
-                            id = "build_portfolio_renew",
-                            tagText = "BUILD YOUR POLICY PORTFOLIO",
-                            title = "Link and access all your policies in just one click",
-                            buttonText = "Renew Now",
-                            imageRes = R.drawable.ic_banner3, // Replace with your actual drawable
-                            isYellowTheme = false,
-                            destination = BannerDestination.PolicyAction(
-                                BannerAction.RenewLife
-                            )
-                        ),
-                        PromoBanner(
-                            id = "renew_life",
-                            tagText = "RENEW LIFE INSURANCE",
-                            title = "Act fast — your ‘life insurance’ expires in 21 days",
-                            buttonText = "Renew Now",
-                            imageRes = R.drawable.ic_banner5, // Replace with your actual drawable
-                            isYellowTheme = false,
-                            destination = BannerDestination.PolicyAction(
-                                BannerAction.BuildPortfolioRenew
-                            )
-                        ),
-                        PromoBanner(
-                            id = "build_portfolio_sync",
-                            tagText = "BUILD YOUR POLICY PORTFOLIO",
-                            title = "Link and access all your policies in just one click",
-                            buttonText = "Sync Email",
-                            imageRes = R.drawable.ic_banner4, // Replace with your actual drawable
-                            isYellowTheme = false,
-                            destination = BannerDestination.PolicyAction(
-                                BannerAction.BuildPortfolioSync
-                            )
-                        )
+                    quickActions =
+                        HomeDummyData.quickActions,
 
-                    ),
-                    quickActions = listOf(
-                        QuickAction("renew", "Renew & Earn", "Become a 'Privileged user'", imageRes = R.drawable.ic_money, isPro = true),
-                        QuickAction("vault", "Policy Vault", "All your policies in one place",imageRes = R.drawable.ic_dashboard2,),
-                        QuickAction("claim", "Claim Support", "Guided claim filing & assistance", imageRes = R.drawable.ic_dashboard3,),
-                        QuickAction("bosspedia", "BOSSPedia", "Daily insights about insurance", imageRes = R.drawable.ic_dashboard4,)
-                    ),
-                    earningBanners = listOf(
-                        // Make sure to replace these with your actual drawable resources
-                        EarningBanner("1", "Earnings instantly hit your account upon renewal", R.drawable.ic_money),
-                        EarningBanner("2", "Help your network save smart, while boosting your income.", R.drawable.ic_earning_banner2),
-                        EarningBanner("3", "Compare and secure the best policies curated for you", R.drawable.ic_earning_banner3),
-                        EarningBanner("4", "See transparent potential earnings on each policy", R.drawable.ic_earning_banner2)
-                    )
+                    earningBanners =
+                        HomeDummyData.earningBanners,
+
+                    curatedPolicies =
+                        HomeDummyData.curatedPolicies,
+
+                    vaultPolicies =
+                        HomeDummyData.vaultPolicies
                 )
             }
         }
     }
 
+
+    //region onAction Hamdling
     fun onAction(
         action: HomeAction
     ) {
 
-        when(action){
+        when (action) {
+            is HomeAction.OnShowPolicyBottomSheetClick ->
+                handlePolicyClick(action)
 
-            HomeAction.OnShowPolicyBottomSheetClick -> {
+            is HomeAction.OnDismissPolicyBottomSheet ->
+                handleDismiss()
 
-                _uiState.update {
+            is HomeAction.OnPrivilegeBannerClick ->
+                handlePrivilegeClick()
 
-                    it.copy(
-                        showPolicyBottomSheet = true
-                    )
-                }
+            else -> {
+
             }
-
-            HomeAction.OnDismissPolicyBottomSheet -> {
-
-                _uiState.update {
-
-                    it.copy(
-                        showPolicyBottomSheet = false
-                    )
-                }
-            }
-
-            HomeAction.OnPrivilegeBannerClick -> {
-
-                handleJoinPrivilege()
-            }
-
-            else -> Unit
         }
+    }
+
+    private fun handlePolicyClick(action: HomeAction.OnShowPolicyBottomSheetClick) {
+        _uiState.update {
+            it.copy(
+                //showPolicyBottomSheet = true,
+                selectedVaultPolicy = action.policy
+            )
+        }
+    }
+
+    private fun handleDismiss() {
+        _uiState.update {
+            it.copy(
+               // showPolicyBottomSheet = false
+                selectedVaultPolicy = null
+            )
+        }
+    }
+    private fun handlePrivilegeClick() {
+        handleJoinPrivilege()
     }
 
     private fun handleJoinPrivilege() {
@@ -232,6 +188,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    //endregion
 
 
 }
