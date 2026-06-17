@@ -110,6 +110,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     ) {
 
         when (action) {
+
+            is HomeAction.OnVaultTabSelected ->
+                handleVaultTab(action)
+
             is HomeAction.OnShowPolicyBottomSheetClick ->
                 handlePolicyClick(action)
 
@@ -125,6 +129,17 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    private fun handleVaultTab(
+        action: HomeAction.OnVaultTabSelected
+    ){
+
+        _uiState.update {
+
+            it.copy(
+                selectedVaultTab = action.index
+            )
+        }
+    }
     private fun handlePolicyClick(action: HomeAction.OnShowPolicyBottomSheetClick) {
         _uiState.update {
             it.copy(

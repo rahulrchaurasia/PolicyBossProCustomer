@@ -31,6 +31,9 @@ import com.policyboss.customer.R
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
 
+//========================================
+//  Its horizontal scroll only
+
 @Composable
 fun PromoBannersRow(
     banners: List<PromoBanner>, // 1. Accept the list of banners

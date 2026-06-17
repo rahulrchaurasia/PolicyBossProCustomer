@@ -1,7 +1,7 @@
 package com.policyboss.customer.feature.home.model.vault
 
 import androidx.annotation.DrawableRes
-import com.policyboss.customer.ui.components.card.PolicyDetailsCardModel
+
 
 data class VaultTabItem(
 
@@ -12,16 +12,35 @@ data class VaultTabItem(
     val iconRes: Int
 )
 
+object VaultTabIds {
 
+    const val MOTOR = 0
+
+    const val BIKE = 1
+
+    const val CV = 2
+
+    const val HEALTH = 3
+
+    const val LIFE = 4
+
+    const val TRAVEL = 5
+
+    const val SMELINE = 6
+}
 
 data class VaultPolicy(
+
+    val id: String,
+
+    val tabId: Int,
 
     val vehicleName: String,
 
     val vehicleNumber: String,
 
     @DrawableRes
-    val carImage: Int,
+    val vehicleImage: Int,
 
     val daysLeft: String,
 
@@ -34,5 +53,5 @@ data class VaultPolicy(
 
     val expiry: String,
 
-    val title: String // 👈 add this
+    val title: String
 )

@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.FloatingCloseButton
 
@@ -26,13 +27,66 @@ import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSh
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.ui.components.card.PolicyDetailsCard
 
+/*
+User click
+     │
+     ▼
+
+HomeScreen
+
+     │
+     ▼
+
+onAction(
+ OnShowPolicyBottomSheetClick
+)
+     │
+     ▼
+ HomeRoute
+     │
+     ▼
+viewModel.onAction()
+     │
+     ▼
+HomeViewModel
+     │
+     ▼
+_uiState.update {
+
+   selectedVaultPolicy =
+      policy
+}
+
+     │
+
+     ▼
+
+HomeRoute
+
+collect uiState
+
+     │
+
+     ▼
+
+HomeScreen
+
+     │
+
+     ▼
+
+PolicyProtectedBottomSheet
+
+ */
 
 private val policySheetGradient = Brush.verticalGradient(
     colors = listOf(
-        Color(0xFF58AAFF),
-        Color(0xFF3B95FF),
-        Color(0xFF2F86F0)
+        Color(0xFF7FBCFF),
+        Color(0xFF1887FF),
+      //  Color(0xFF2F86F0)
     )
+
+
 )
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -147,37 +201,15 @@ fun PolicyProtectedBottomSheet(
     }
 }
 
-@Preview(
-    showBackground = true,
-    backgroundColor = 0xFFFFFFFF
-)
-
-@Composable
 @Preview(showBackground = true)
+@Composable
+private fun PolicyProtectedBottomSheetPreview() {
 
-fun PreviewPolicyProtectedBottomSheet() {
+    PolicyProtectedBottomSheet(
 
-    val samplePolicy = VaultPolicy(
-        vehicleName = "Honda Amaze",
-        vehicleNumber = "MH12AB1234",
-        carImage = android.R.drawable.ic_menu_gallery,
-        daysLeft = "10 days left",
-        companyLogo = android.R.drawable.sym_def_app_icon,
-        idv = "₹5,00,000",
-        premium = "₹12,000",
-        expiry = "31 Dec 2026",
-        title = "Your Honda Amaze is now protected! Access your policy by syncing your email"
+        policy = HomeDummyData.vaultPolicies.first(),
+
+        onDismiss = {}
     )
-
-    MaterialTheme {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter
-        ) {
-            PolicyProtectedBottomSheet(
-                policy = samplePolicy,
-                onDismiss = { }
-            )
-        }
-    }
 }
+

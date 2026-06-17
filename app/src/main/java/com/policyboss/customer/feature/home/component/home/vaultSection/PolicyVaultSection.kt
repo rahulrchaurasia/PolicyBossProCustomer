@@ -25,9 +25,38 @@ PolicyDetailsCard.kt
 PolicyHeaderImage.kt
  */
 
+///////
+
 
 // ---------------------------- IMPORTS ----------------------------
 
+/*
+        He can have:
+
+        Motor -> 3 policies
+
+        Bike -> 1 policy
+
+        CV -> 0 policies
+
+        Health -> 2 policies
+
+        Life -> 1 policy
+
+        Travel -> 0 policies
+
+        SMELINE -> 4 policies
+
+        So architecture is:
+
+    VaultTabItem (1)
+      |
+      |
+      |-----> many VaultPolicy
+ */
+
+
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 
 import androidx.compose.material3.*
@@ -40,61 +69,24 @@ import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.policyboss.customer.feature.home.component.home.vaultSection.component.EmptyVaultState
 import com.policyboss.customer.feature.home.component.home.vaultSection.component.MotorPolicyCard
 import com.policyboss.customer.feature.home.component.home.vaultSection.component.VaultTabBar
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
+import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.ui.theme.AppColors
 
 
-private val vaultTabs = listOf(
-
-    VaultTabItem(
-        0,
-        "Motor",
-        R.drawable.ic_motor01
-    ),
-
-    VaultTabItem(
-        1,
-        "Bike",
-        R.drawable.ic_bike01
-    ),
-
-    VaultTabItem(
-        2,
-        "CV",
-        R.drawable.ic_cv01
-    ),
-
-    VaultTabItem(
-        3,
-        "Health",
-        R.drawable.ic_health01
-    ),
-
-    VaultTabItem(
-        4,
-        "Life",
-        R.drawable.ic_life01
-    ),
-
-    VaultTabItem(
-        5,
-        "Travel",
-        R.drawable.ic_travel01
-    ),
-
-    VaultTabItem(
-        6,
-        "SMELINE",
-        R.drawable.ic_smeline01
-    )
-)
 
 @Composable
 fun PolicyVaultSection(
@@ -103,15 +95,15 @@ fun PolicyVaultSection(
 
     selectedTab: Int,
 
-    policy: VaultPolicy,
+    policies: List<VaultPolicy> ,
 
     onTabSelected: (Int) -> Unit,
 
     onViewAllClick: () -> Unit,
 
-    onRenewClick: () -> Unit,
+    onRenewClick: (VaultPolicy) -> Unit,
 
-    onViewDetailsClick: () -> Unit
+    onViewDetailsClick: (VaultPolicy) -> Unit
 ) {
 
     Column(
@@ -129,8 +121,8 @@ fun PolicyVaultSection(
 
         VaultTabBar(
 
-            tabs = vaultTabs,
-
+            //tabs = vaultTabs,
+            tabs = HomeDummyData.vaultTabs,
             selectedTab = selectedTab,
 
             onTabSelected = onTabSelected
@@ -142,7 +134,7 @@ fun PolicyVaultSection(
 
         Text(
 
-            text = "Total policies: 1",
+            text = "Total policies: ${policies.size}",
 
             style = MaterialTheme.typography.bodyMedium,
 
@@ -153,14 +145,47 @@ fun PolicyVaultSection(
             modifier = Modifier.height(12.dp)
         )
 
-        MotorPolicyCard(
+       //HorizontalPager
 
-            policy = policy,
+        if (policies.isEmpty()) {
 
-            onRenewClick = onRenewClick,
+            EmptyVaultState()
 
-            onViewDetailsClick = onViewDetailsClick
-        )
+        }
+        else {
+
+            HorizontalPager(
+
+                state = rememberPagerState {
+
+                    policies.size
+                },
+
+                pageSpacing = 0.dp,
+
+                modifier = Modifier.fillMaxWidth()
+
+            ) { page ->
+
+                val policy = policies[page]
+
+                MotorPolicyCard(
+
+                    policy = policy,
+
+                    onRenewClick = {
+
+                        onRenewClick(policy)
+                    },
+
+                    onViewDetailsClick = {
+
+                        onViewDetailsClick(policy)
+                    }
+                )
+            }
+        }
+        ///
     }
 }
 
@@ -174,7 +199,9 @@ private fun HeaderRow(
 
         modifier = Modifier.fillMaxWidth(),
 
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
         Text(
@@ -183,78 +210,73 @@ private fun HeaderRow(
 
             style = MaterialTheme.typography.titleMedium,
 
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.SemiBold
         )
 
-        Text(
 
-            text = "View All",
+        Row(
 
-            color = AppColors.BluePrimary,
+            modifier = Modifier
+                .clickable {
+                    onViewAllClick()
+                }
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Text(
 
-            modifier = Modifier.padding(8.dp)
-        )
+                text = "View All",
+
+                style = MaterialTheme.typography.labelLarge,
+
+
+
+                color = AppColors.BluePrimary,
+
+                modifier = Modifier.padding(4.dp)
+            )
+            Spacer(
+
+                modifier = Modifier.width(2.dp)
+            )
+
+            Icon(
+
+                painter = painterResource(
+                    id = R.drawable.ic_chevron_right
+                ),
+
+                contentDescription = null,
+
+                tint = AppColors.BluePrimary,
+
+                modifier = Modifier.size(20.dp)
+            )
+        }
+
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PolicyVaultPreview() {
-//    MaterialTheme {
-//        Column(
-//            modifier = Modifier.padding(16.dp)
-//        ) {
-//            PolicyVaultSection(
-//                modifier = Modifier,
-//                onViewAllClick = {}
-//            )
-//        }
-//    }
-//}
 
 @Preview(
     showBackground = true,
-    backgroundColor = 0xFFFFFFFF
+    showSystemUi = true
 )
 @Composable
-private fun PolicyVaultPreview() {
+private fun PolicyVaultSectionPreview() {
 
-    val policy = VaultPolicy(
+    PolicyVaultSection(
 
-        vehicleName = "Honda Amaze",
+        policies = HomeDummyData.vaultPolicies,
 
-        vehicleNumber = "MH 12 AB 3456",
+        selectedTab = VaultTabIds.MOTOR,
 
-        companyLogo = R.drawable.img_tata,
+        onTabSelected = {},
 
-        carImage = R.drawable.ic_car_protect,
+        onViewAllClick = {},
 
-        idv = "₹5L",
+        onRenewClick = {},
 
-        premium = "₹6,403",
-
-        expiry = "21.02.26",
-
-        daysLeft = "Expires in 21 days",
-
-        title = "Your 'Honda Amaze' is now protected! Access your policy by syncing your email"
+        onViewDetailsClick = {}
     )
-
-    MaterialTheme {
-
-        PolicyVaultSection(
-
-            policy = policy,
-
-            onViewAllClick = {},
-
-            onTabSelected = {},
-
-            onRenewClick = {},
-
-            onViewDetailsClick = {},
-            modifier = TODO(),
-            selectedTab = TODO()
-        )
-    }
 }

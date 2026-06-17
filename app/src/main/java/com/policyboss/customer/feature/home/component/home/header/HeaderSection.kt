@@ -25,10 +25,12 @@ import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.R
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
 import com.policyboss.customer.feature.home.model.HomeState.HomeUiState
 import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
+import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 
 @Composable
 fun HeaderSection(
@@ -206,13 +208,20 @@ fun HomeScreenPreview() {
                 CuratedPoliciesSection()
 
                 PolicyVaultSection(
+
                     modifier = Modifier,
+
+                    selectedTab = VaultTabIds.MOTOR,
+
+                    policies = HomeDummyData.vaultPolicies,
+
+                    onTabSelected = {},
+
                     onViewAllClick = {},
-                    selectedTab = TODO(),
-                    policy = TODO(),
-                    onTabSelected = TODO(),
-                    onRenewClick = TODO(),
-                    onViewDetailsClick = TODO()
+
+                    onRenewClick = {},
+
+                    onViewDetailsClick = {}
                 )
             }
         }

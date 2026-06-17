@@ -43,7 +43,9 @@ data class HomeUiState(
     // Mark: vaultPolicies
     val selectedVaultTab: Int = 0,
     val vaultPolicies: List<VaultPolicy> = emptyList(),
-    val selectedVaultPolicy: VaultPolicy? = null
+    val selectedVaultPolicy: VaultPolicy? = null,
+
+
 
 
 

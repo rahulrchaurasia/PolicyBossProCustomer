@@ -19,6 +19,22 @@ import androidx.compose.ui.draw.clip
 
 import androidx.compose.ui.graphics.Color
 
+
+import androidx.compose.foundation.background
+
+import androidx.compose.foundation.horizontalScroll
+
+import androidx.compose.foundation.layout.Row
+
+import androidx.compose.foundation.layout.fillMaxWidth
+
+import androidx.compose.foundation.layout.padding
+
+
+import androidx.compose.ui.tooling.preview.Preview
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
+
+
 @Composable
 fun VaultTabBar(
 
@@ -68,4 +84,21 @@ fun VaultTabBar(
             )
         }
     }
+}
+
+@Preview(
+    showBackground = true,
+    widthDp = 400
+)
+@Composable
+private fun VaultTabBarPreview() {
+
+    VaultTabBar(
+
+        tabs = HomeDummyData.vaultTabs,
+
+        selectedTab = 0,
+
+        onTabSelected = {}
+    )
 }

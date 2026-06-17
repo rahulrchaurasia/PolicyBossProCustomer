@@ -286,21 +286,52 @@ fun HomeScreen(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
 
+                val selectedPolicies = uiState.vaultPolicies.filter {
+                          it.tabId == uiState.selectedVaultTab }
+
                 PolicyVaultSection(
-                    modifier = Modifier.padding(horizontal = 24.dp),
-                    policy = policy,
-                    selectedTab = selectedTab,
-                    onTabSelected = onTabSelected,
+
+                    modifier = Modifier.padding(
+                        horizontal = 24.dp
+                    ),
+
+                    selectedTab = uiState.selectedVaultTab,
+                    policies = selectedPolicies,
+
+
+
+                    onTabSelected = {
+
+                        onAction(
+
+                            HomeAction.OnVaultTabSelected(it)
+                        )
+                    },
+
                     onViewAllClick = {
-                        onAction(HomeAction.OnViewAllVaultClick)
+
+                        onAction(
+
+                            HomeAction.OnViewAllVaultClick
+                        )
                     },
-                    onRenewClick = {
-                        onAction(HomeAction.OnRenewClick(policy))
+
+                    onRenewClick = { policy ->
+
+                        onAction(
+
+                            HomeAction
+                                .OnShowPolicyBottomSheetClick(policy)
+                        )
                     },
-                    onViewDetailsClick = {
-                        onAction(HomeAction.OnViewDetailsClick(policy))
+
+                    onViewDetailsClick = { policy ->
+
+                        //pending Action of View Details
                     }
                 )
+
+
             }
 
             // =====================================================

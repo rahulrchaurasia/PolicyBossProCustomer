@@ -71,12 +71,15 @@ sealed interface HomeAction {
     // API/business logic
     object OnPrivilegeBannerClick : HomeAction
 
-    // BottomSheet
+    // Mark: BottomSheet Action Handle
+    // region BottomSheet
     data class OnShowPolicyBottomSheetClick (
         val policy: VaultPolicy
     ): HomeAction
 
     object OnDismissPolicyBottomSheet : HomeAction
+    //endregion
+
 
     // Actions that might require ViewModel logic
     data class OnQuickActionClick(
@@ -96,4 +99,10 @@ sealed interface HomeAction {
     ) : HomeAction
 
 
+    // Mark: vaultPolicies Action
+    //region Vault Action
+    data class OnVaultTabSelected(
+        val index: Int
+    ) : HomeAction
+    //endregion
 }

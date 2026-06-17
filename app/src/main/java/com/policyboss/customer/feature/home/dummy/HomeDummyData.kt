@@ -7,6 +7,8 @@ import com.policyboss.customer.feature.home.model.QuickAction
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
+import com.policyboss.customer.feature.home.model.vault.VaultTabIds
+import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 
 /*
 HomeDummyData
@@ -139,43 +141,216 @@ object HomeDummyData {
     )
     val vaultPolicies = listOf(
 
+        // ================= MOTOR =================
+
         VaultPolicy(
+
+            id = "motor_1",
+
+            tabId = VaultTabIds.MOTOR,
+
+            vehicleName = "Honda Amaze",
+
+            vehicleNumber = "MH12AB3456",
+
+            vehicleImage = R.drawable.ic_car_protect,
+
+            daysLeft = "21 days left",
+
+            companyLogo = R.drawable.img_tata,
+
+            idv = "₹5L",
+
+            premium = "₹6,403",
+
+            expiry = "21.02.26",
+
+            title = "Comprehensive Cover"
+        ),
+
+        VaultPolicy(
+
+            id = "motor_2",
+
+            tabId = VaultTabIds.MOTOR,
+
             vehicleName = "Hyundai i20",
 
             vehicleNumber = "MH02AB1234",
 
-            carImage = R.drawable.ic_car_protect,
+            vehicleImage = R.drawable.ic_car_protect,
 
             daysLeft = "12 days left",
 
             companyLogo = R.drawable.img_tata,
 
-            idv = "₹7,50,000",
+            idv = "₹6L",
 
-            premium = "₹12,500",
+            premium = "₹7,250",
 
-            expiry = "28 Jun 2026",
-            title = "Title"
+            expiry = "05.03.26",
+
+            title = "Zero Dep Cover"
         ),
 
         VaultPolicy(
-            vehicleName = "Honda City",
 
-            vehicleNumber = "MH04CD5678",
+            id = "motor_3",
 
-            carImage = R.drawable.ic_car_protect,
+            tabId = VaultTabIds.MOTOR,
 
-            daysLeft = "30 days left",
+            vehicleName = "Tata Nexon",
 
-            companyLogo = R.drawable.ic_banner3,
+            vehicleNumber = "MH14XY5678",
 
-            idv = "₹9,20,000",
+            vehicleImage = R.drawable.ic_car_protect,
 
-            premium = "₹14,800",
+            daysLeft = "40 days left",
 
-            expiry = "10 Jul 2026",
+            companyLogo = R.drawable.img_tata,
 
-            title = "Title"
+            idv = "₹10L",
+
+            premium = "₹9,850",
+
+            expiry = "15.04.26",
+
+            title = "Third Party Cover"
+        ),
+
+        // ================= BIKE =================
+
+        VaultPolicy(
+
+            id = "bike_1",
+
+            tabId = VaultTabIds.BIKE,
+
+            vehicleName = "Royal Enfield Classic",
+
+            vehicleNumber = "MH01EF9012",
+
+            vehicleImage = R.drawable.ic_bike01,
+
+            daysLeft = "45 days left",
+
+            companyLogo = R.drawable.img_tata,
+
+            idv = "₹2L",
+
+            premium = "₹2,100",
+
+            expiry = "15.03.26",
+
+            title = "Comprehensive Cover"
+        ),
+
+        VaultPolicy(
+
+            id = "bike_2",
+
+            tabId = VaultTabIds.BIKE,
+
+            vehicleName = "TVS Jupiter",
+
+            vehicleNumber = "MH14JK8888",
+
+            vehicleImage = R.drawable.ic_bike01,
+
+            daysLeft = "70 days left",
+
+            companyLogo = R.drawable.img_tata,
+
+            idv = "₹90K",
+
+            premium = "₹1,800",
+
+            expiry = "25.05.26",
+
+            title = "Third Party Cover"
+        ),
+
+        // ================= CV =================
+
+        VaultPolicy(
+
+            id = "cv_1",
+
+            tabId = VaultTabIds.CV,
+
+            vehicleName = "Ashok Leyland Truck",
+
+            vehicleNumber = "MH20TR6789",
+
+            vehicleImage = R.drawable.ic_cv01,
+
+            daysLeft = "28 days left",
+
+            companyLogo = R.drawable.img_tata,
+
+            idv = "₹20L",
+
+            premium = "₹18,500",
+
+            expiry = "01.04.26",
+
+            title = "Commercial Vehicle Cover"
+        )
+
+        // Health
+
+        // Life
+
+        // Travel
+
+        // SMELINE
+
+        // intentionally empty for now
+    )
+
+
+    val vaultTabs = listOf(
+
+        VaultTabItem(
+            id = 0,
+            title = "Motor",
+            iconRes = R.drawable.ic_motor01
+        ),
+
+        VaultTabItem(
+            id = 1,
+            title = "Bike",
+            iconRes = R.drawable.ic_bike01
+        ),
+
+        VaultTabItem(
+            id = 2,
+            title = "CV",
+            iconRes = R.drawable.ic_cv01
+        ),
+
+        VaultTabItem(
+            id = 3,
+            title = "Health",
+            iconRes = R.drawable.ic_health01
+        ),
+
+        VaultTabItem(
+            id = 4,
+            title = "Life",
+            iconRes = R.drawable.ic_life01
+        ),
+
+        VaultTabItem(
+            id = 5,
+            title = "Travel",
+            iconRes = R.drawable.ic_travel01
+        ),
+
+        VaultTabItem(
+            id = 6,
+            title = "SMELINE",
+            iconRes = R.drawable.ic_smeline01
         )
     )
 }

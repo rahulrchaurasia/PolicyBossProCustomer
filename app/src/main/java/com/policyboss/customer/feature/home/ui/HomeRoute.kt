@@ -31,6 +31,49 @@ Instead of passing viewModel::onAction directly,
 intercept the actions in a when block right here.
  */
 
+/*
+============= General rule =============
+HomeRoute handles:
+
+✅ Navigation
+
+Profile screen
+
+Vault screen
+
+Bosspedia screen
+
+Privilege screen
+
+HomeRoute should be a traffic controller, not a UI state owner
+
+These are screen navigationsThese are screen navigations
+
+=================================================================
+ViewModel handles:
+
+✅ UI state
+
+    Loading
+    Selected tab
+    BottomSheet open
+    BottomSheet close
+    Selected policy
+    API response
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Does user leave HomeScreen?
+
+                YES
+                 ↓
+                HomeRoute
+
+                NO
+                 ↓
+                ViewModel
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ */
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
