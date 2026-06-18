@@ -56,7 +56,7 @@ fun ProfileScreen(
 
         Text(
             text = "Profile",
-            style = MaterialTheme.typography.titleLarge
+
         )
 
         Spacer(modifier = Modifier.height(8.dp))

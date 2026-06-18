@@ -58,7 +58,7 @@ fun CartScreen(
 
         Text(
             text = "Cart",
-            style = MaterialTheme.typography.titleLarge
+
         )
 
         Spacer(modifier = Modifier.height(8.dp))

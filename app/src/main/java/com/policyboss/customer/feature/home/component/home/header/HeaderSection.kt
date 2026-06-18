@@ -31,6 +31,7 @@ import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
+import com.policyboss.customer.feature.home.ui.HomeScreen
 
 @Composable
 fun HeaderSection(
@@ -88,167 +89,197 @@ fun HeaderSection(
 
 // ---------------------------- MAIN PREVIEW ----------------------------
 
+//@Preview(
+//    showBackground = true,
+//    showSystemUi = true,
+//    backgroundColor = 0xFFFFFFFF
+//)
+//@Composable
+//fun HomeScreenPreview() {
+//
+//    MaterialTheme {
+//
+//        val mockBanners = listOf(
+//            EarningBanner(
+//                "1",
+//                "Earnings instantly hit your account upon renewal",
+//                R.drawable.ic_airplane
+//            ), // Replace with actual preview drawables
+//            EarningBanner("2", "Help your network save smart, while boosting your income.", R.drawable.ic_launcher_background)
+//        )
+//
+//        val mockPromoBanners = listOf(
+//            PromoBanner(
+//                id = "renew_earn",
+//                tagText = "RENEW & EARN",
+//                title = "Become a ‘Privileged user’ and earn instantly on renewals",
+//                buttonText = "Complete Setup",
+//                imageRes = R.drawable.ic_banner1, // Replace with your actual drawable
+//                isYellowTheme = true, // Triggers the yellow gradient
+//                destination = BannerDestination.Privilege
+//            ),
+//            PromoBanner(
+//                id = "renew_car",
+//                tagText = "RENEW CAR INSURANCE",
+//                title = "Act fast — your ‘Honda Amaze’ protection expires in 21 days",
+//                buttonText = "Renew Now",
+//                imageRes = R.drawable.ic_banner2, // Replace with your actual drawable
+//                isYellowTheme = false, // Triggers the blue gradient
+//                destination = BannerDestination.PolicyAction(
+//                    BannerAction.RenewCar
+//                )
+//
+//            ),
+//            PromoBanner(
+//                id = "build_portfolio_renew",
+//                tagText = "BUILD YOUR POLICY PORTFOLIO",
+//                title = "Link and access all your policies in just one click",
+//                buttonText = "Renew Now",
+//                imageRes = R.drawable.ic_banner3, // Replace with your actual drawable
+//                isYellowTheme = false,
+//                destination = BannerDestination.PolicyAction(
+//                    BannerAction.RenewLife
+//                )
+//            ),
+//            PromoBanner(
+//                id = "renew_life",
+//                tagText = "RENEW LIFE INSURANCE",
+//                title = "Act fast — your ‘life insurance’ expires in 21 days",
+//                buttonText = "Renew Now",
+//                imageRes = R.drawable.ic_banner5, // Replace with your actual drawable
+//                isYellowTheme = false,
+//                destination = BannerDestination.PolicyAction(
+//                    BannerAction.BuildPortfolioRenew
+//                )
+//            ),
+//            PromoBanner(
+//                id = "build_portfolio_sync",
+//                tagText = "BUILD YOUR POLICY PORTFOLIO",
+//                title = "Link and access all your policies in just one click",
+//                buttonText = "Sync Email",
+//                imageRes = R.drawable.ic_banner4, // Replace with your actual drawable
+//                isYellowTheme = false,
+//                destination = BannerDestination.PolicyAction(
+//                    BannerAction.BuildPortfolioSync
+//                )
+//            )
+//
+//        )
+//        // (Optional) You can mock the entire state if your screen needs it
+//        val mockUiState = HomeUiState(
+//            earningBanners = mockBanners,
+//        )
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .background(Color(0xFFF3F4F6))
+//                .padding(vertical = 24.dp),
+//            verticalArrangement = Arrangement.spacedBy(24.dp)
+//        ) {
+//
+//            HeaderSection(
+//                userName = mockUiState.userName,
+//                initials = mockUiState.userInitials,
+//                modifier = Modifier,
+//                onProfileClick = {}
+//            )
+//
+//            PromoBannersRow(
+//                banners = mockPromoBanners,
+//                modifier = Modifier,
+//                onBannerClick = {}
+//            )
+//
+//            Column(
+//                modifier = Modifier.padding(horizontal = 24.dp),
+//                verticalArrangement = Arrangement.spacedBy(24.dp)
+//            ) {
+//
+//                QuickActionsGrid()
+//
+//                // 2. Pass the mock list to your section
+//                EarningOpportunitySection(
+//                    banners = mockUiState.earningBanners,
+//                    onJoinPrivilegeClick = {},
+//                    onBannerClick = {},
+//                    // Removed the duplicate padding since the parent column already has horizontal = 24.dp
+//                    modifier = Modifier
+//                )
+//
+//                CuratedPoliciesSection()
+//
+//                PolicyVaultSection(
+//
+//                    modifier = Modifier,
+//
+//                    selectedTab = VaultTabIds.MOTOR,
+//
+//                    policies = HomeDummyData.vaultPolicies,
+//
+//                    onTabSelected = {},
+//
+//                    onViewAllClick = {},
+//
+//                    onRenewClick = {},
+//
+//                    onViewDetailsClick = {}
+//                )
+//            }
+//        }
+//    }
+//}// ---------------------------- INDIVIDUAL PREVIEWS ----------------------------
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun HeaderSectionPreview() {
+//    MaterialTheme {
+//        Box(
+//            modifier = Modifier
+//                .background(AppColors.BluePrimary)
+//                .padding(vertical = 24.dp)
+//        ) {
+//            HeaderSection(
+//                userName = "Rahul",
+//                initials = "RC",
+//                modifier = Modifier,
+//                onProfileClick = {}
+//            )
+//        }
+//    }
+//}
+//
+//
+
+object HomePreviewData {
+
+    val uiState = HomeUiState(
+
+        userName = "Rahul",
+
+        userInitials = "RC",
+
+        promoBanners = HomeDummyData.promoBanners,
+
+        earningBanners = HomeDummyData.earningBanners ,
+
+        curatedPolicies = HomeDummyData.curatedPolicies
+    )
+}
+
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    backgroundColor = 0xFFFFFFFF
+    showSystemUi = true
 )
 @Composable
 fun HomeScreenPreview() {
 
     MaterialTheme {
 
-        val mockBanners = listOf(
-            EarningBanner(
-                "1",
-                "Earnings instantly hit your account upon renewal",
-                R.drawable.ic_airplane
-            ), // Replace with actual preview drawables
-            EarningBanner("2", "Help your network save smart, while boosting your income.", R.drawable.ic_launcher_background)
+        HomeScreen(
+            uiState = HomePreviewData.uiState,
+            onAction = {}
         )
-
-        val mockPromoBanners = listOf(
-            PromoBanner(
-                id = "renew_earn",
-                tagText = "RENEW & EARN",
-                title = "Become a ‘Privileged user’ and earn instantly on renewals",
-                buttonText = "Complete Setup",
-                imageRes = R.drawable.ic_banner1, // Replace with your actual drawable
-                isYellowTheme = true, // Triggers the yellow gradient
-                destination = BannerDestination.Privilege
-            ),
-            PromoBanner(
-                id = "renew_car",
-                tagText = "RENEW CAR INSURANCE",
-                title = "Act fast — your ‘Honda Amaze’ protection expires in 21 days",
-                buttonText = "Renew Now",
-                imageRes = R.drawable.ic_banner2, // Replace with your actual drawable
-                isYellowTheme = false, // Triggers the blue gradient
-                destination = BannerDestination.PolicyAction(
-                    BannerAction.RenewCar
-                )
-
-            ),
-            PromoBanner(
-                id = "build_portfolio_renew",
-                tagText = "BUILD YOUR POLICY PORTFOLIO",
-                title = "Link and access all your policies in just one click",
-                buttonText = "Renew Now",
-                imageRes = R.drawable.ic_banner3, // Replace with your actual drawable
-                isYellowTheme = false,
-                destination = BannerDestination.PolicyAction(
-                    BannerAction.RenewLife
-                )
-            ),
-            PromoBanner(
-                id = "renew_life",
-                tagText = "RENEW LIFE INSURANCE",
-                title = "Act fast — your ‘life insurance’ expires in 21 days",
-                buttonText = "Renew Now",
-                imageRes = R.drawable.ic_banner5, // Replace with your actual drawable
-                isYellowTheme = false,
-                destination = BannerDestination.PolicyAction(
-                    BannerAction.BuildPortfolioRenew
-                )
-            ),
-            PromoBanner(
-                id = "build_portfolio_sync",
-                tagText = "BUILD YOUR POLICY PORTFOLIO",
-                title = "Link and access all your policies in just one click",
-                buttonText = "Sync Email",
-                imageRes = R.drawable.ic_banner4, // Replace with your actual drawable
-                isYellowTheme = false,
-                destination = BannerDestination.PolicyAction(
-                    BannerAction.BuildPortfolioSync
-                )
-            )
-
-        )
-        // (Optional) You can mock the entire state if your screen needs it
-        val mockUiState = HomeUiState(
-            earningBanners = mockBanners,
-        )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFFF3F4F6))
-                .padding(vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-
-            HeaderSection(
-                userName = mockUiState.userName,
-                initials = mockUiState.userInitials,
-                modifier = Modifier,
-                onProfileClick = {}
-            )
-
-            PromoBannersRow(
-                banners = mockPromoBanners,
-                modifier = Modifier,
-                onBannerClick = {}
-            )
-
-            Column(
-                modifier = Modifier.padding(horizontal = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
-            ) {
-
-                QuickActionsGrid()
-
-                // 2. Pass the mock list to your section
-                EarningOpportunitySection(
-                    banners = mockUiState.earningBanners,
-                    onJoinPrivilegeClick = {},
-                    onBannerClick = {},
-                    // Removed the duplicate padding since the parent column already has horizontal = 24.dp
-                    modifier = Modifier
-                )
-
-                CuratedPoliciesSection()
-
-                PolicyVaultSection(
-
-                    modifier = Modifier,
-
-                    selectedTab = VaultTabIds.MOTOR,
-
-                    policies = HomeDummyData.vaultPolicies,
-
-                    onTabSelected = {},
-
-                    onViewAllClick = {},
-
-                    onRenewClick = {},
-
-                    onViewDetailsClick = {}
-                )
-            }
-        }
-    }
-}// ---------------------------- INDIVIDUAL PREVIEWS ----------------------------
-
-@Preview(showBackground = true)
-@Composable
-fun HeaderSectionPreview() {
-    MaterialTheme {
-        Box(
-            modifier = Modifier
-                .background(AppColors.BluePrimary)
-                .padding(vertical = 24.dp)
-        ) {
-            HeaderSection(
-                userName = "Rahul",
-                initials = "RC",
-                modifier = Modifier,
-                onProfileClick = {}
-            )
-        }
     }
 }
-
-
-
-
 
 

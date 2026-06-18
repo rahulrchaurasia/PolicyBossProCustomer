@@ -53,7 +53,7 @@ fun WishListScreen(
 
         Text(
             text = "Wishlist",
-            style = MaterialTheme.typography.titleLarge
+
         )
 
         Spacer(modifier = Modifier.height(8.dp))

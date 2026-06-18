@@ -126,6 +126,8 @@ object AppColors {
 
     val Placeholder = Color(0xFF98A2B3)
 
+    val White = Color(0xFFFFFFFF)
+
     // ===================================================
     // STATES
     // ===================================================

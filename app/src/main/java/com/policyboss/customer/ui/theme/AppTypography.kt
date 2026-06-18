@@ -249,3 +249,11 @@ val Typography.buttonLinkSmall: TextStyle
         fontWeight = FontWeight.SemiBold,
         fontFamily = GeistFontFamily
     )
+
+val Typography.bodyMediumSemiBold: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = GeistFontFamily
+    )

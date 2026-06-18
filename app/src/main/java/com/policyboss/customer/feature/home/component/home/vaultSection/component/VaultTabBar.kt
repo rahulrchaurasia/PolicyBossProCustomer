@@ -52,7 +52,7 @@ fun VaultTabBar(
             .fillMaxWidth()
 
             .clip(
-                RoundedCornerShape(50.dp)
+                RoundedCornerShape(20.dp)
             )
 
             .background(

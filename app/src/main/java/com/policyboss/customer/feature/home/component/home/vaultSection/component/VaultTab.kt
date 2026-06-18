@@ -77,7 +77,7 @@ fun VaultTab(
 
                 elevation = shadowElevation,
 
-                shape = RoundedCornerShape(50.dp),
+                shape = RoundedCornerShape(25.dp),
 
                 clip = false
             )
@@ -86,11 +86,11 @@ fun VaultTab(
 
                 color = backgroundColor,
 
-                shape = RoundedCornerShape(50.dp)
+                shape = RoundedCornerShape(25.dp)
             )
 
             .clip(
-                RoundedCornerShape(50.dp)
+                RoundedCornerShape(25.dp)
             )
 
             .clickable {
