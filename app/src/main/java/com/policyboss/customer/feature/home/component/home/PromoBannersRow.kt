@@ -1,12 +1,6 @@
 package com.policyboss.customer.feature.home.component.home
 
 
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-
-import androidx.compose.material3.*
-
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.home.component.home.card.BannerCard
@@ -21,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.home.model.PromoBanner
 
 import androidx.compose.foundation.layout.padding
@@ -55,8 +48,9 @@ fun PromoBannersRow(
             // 2. DYNAMICALLY assign BOTH gradient and text colors!
             val (gradientColors, dynamicTextColor) = if (banner.isYellowTheme) {
                 Pair(
-                    listOf(WarningYellow, AppColors.YellowBackground),
-                    Color(0xFF6B420B) // Dark text for the yellow card
+                    listOf(WarningYellow, AppColors.GoldBackground),
+                    AppColors.GoldText // Dark text for the yellow card
+
                 )
             } else {
                 Pair(

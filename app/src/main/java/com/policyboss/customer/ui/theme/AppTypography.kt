@@ -7,6 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import com.policyboss.customer.R
 
 
@@ -84,13 +85,31 @@ val Typography.tinyCaption: TextStyle
     style = MaterialTheme.typography.buttonExtraLarge
 )
  */
+
+//======================= Typography ========================================
+/*
+display / headline: Large screen titles, hero sections.
+
+title: Card headers, dialog titles, distinct sections.
+
+body: Long-form reading text (paragraphs, descriptions). Usually Normal weight.
+
+label: Short, utilitarian text inside UI components (buttons, tags, chips, "View Details" links). Usually Medium or SemiBold weight.
+ */
+//===============================================================
 val GeistFontFamily = FontFamily(
     Font(R.font.geist_thin, FontWeight.Thin),
     Font(R.font.geist_extralight, FontWeight.ExtraLight),
     Font(R.font.geist_light, FontWeight.Light),
+
     Font(R.font.geist_regular, FontWeight.Normal),
     Font(R.font.geist_medium, FontWeight.Medium),
-    Font(R.font.geist_semibold, FontWeight.SemiBold)
+    Font(R.font.geist_semibold, FontWeight.SemiBold),
+
+    Font(R.font.geist_regular_italic, FontWeight.Normal),
+    Font(R.font.geist_medium_italic, FontWeight.Medium),
+    Font(R.font.geist_semibold_italic, FontWeight.SemiBold)
+
 
 )
 
@@ -106,15 +125,15 @@ val AppTypography = Typography(
     // ===================================================
 
     displayLarge = TextStyle(
-        fontSize = 40.sp,
-        lineHeight = 48.sp,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = GeistFontFamily
     ),
 
     displayMedium = TextStyle(
-        fontSize = 32.sp,
-        lineHeight = 40.sp,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = GeistFontFamily
     ),
@@ -138,6 +157,14 @@ val AppTypography = Typography(
         fontFamily = GeistFontFamily
     ),
 
+    headlineSmall = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 21.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = GeistFontFamily
+
+    ),
+
 
     // ===================================================
     // TITLE
@@ -158,7 +185,7 @@ val AppTypography = Typography(
     ),
 
     titleSmall = TextStyle(
-        fontSize = 16.sp,
+        fontSize = 14.sp,
         lineHeight = 24.sp,
         fontWeight = FontWeight.Medium,
         fontFamily = GeistFontFamily
@@ -174,21 +201,21 @@ val AppTypography = Typography(
     bodyLarge = TextStyle(
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontFamily = GeistFontFamily
     ),
 
     bodyMedium = TextStyle(
         fontSize = 14.sp,
         lineHeight = 20.sp,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontFamily = GeistFontFamily
     ),
 
     bodySmall = TextStyle(
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight.Medium,
         fontFamily = GeistFontFamily
     ),
 
@@ -211,12 +238,7 @@ val AppTypography = Typography(
         fontFamily = GeistFontFamily
     ),
 
-//    labelMedium1 = TextStyle(
-//        fontSize = 14.sp,
-//        lineHeight = 20.sp,
-//        fontWeight = FontWeight.Medium,
-//        fontFamily = GeistFontFamily
-//    ),
+
 
     labelSmall = TextStyle(
         fontSize = 12.sp,
@@ -250,6 +272,14 @@ val Typography.buttonLinkSmall: TextStyle
         fontFamily = GeistFontFamily
     )
 
+val Typography.labelMediumSemiBold: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = GeistFontFamily
+    )
+
 val Typography.bodyMediumSemiBold: TextStyle
     get() = TextStyle(
         fontSize = 14.sp,
@@ -257,3 +287,10 @@ val Typography.bodyMediumSemiBold: TextStyle
         fontWeight = FontWeight.SemiBold,
         fontFamily = GeistFontFamily
     )
+
+val Typography.titleSmallItalic: TextStyle
+    get() = titleSmall.copy(
+        fontStyle = FontStyle.Italic
+    )
+
+

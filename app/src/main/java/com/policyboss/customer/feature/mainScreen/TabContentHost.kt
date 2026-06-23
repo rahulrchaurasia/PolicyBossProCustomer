@@ -76,7 +76,7 @@ fun TabContentHost(
                     globalActions.navigateTo(Dest.Bosspedia)
                 },
                 onNavigateToPrivilege = {
-                    globalActions.navigateTo(Dest.Privilege)
+                    globalActions.navigateTo( Dest.JoinPrivilege)
                 }
             )
         }

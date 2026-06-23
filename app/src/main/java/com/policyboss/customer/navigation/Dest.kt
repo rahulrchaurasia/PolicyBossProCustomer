@@ -89,7 +89,7 @@ sealed class Dest {
     data object Vault : Dest()
 
     // --- Bottom Navigation Destinations Tabs ---
-
+    // region Bottom Navigation
     @Serializable
     data object Home : Dest()
 
@@ -100,8 +100,16 @@ sealed class Dest {
     data object PolicyVault : Dest()
 
 
+
     @Serializable
     data object Privilege : Dest()
+    //endregion
+
+
+    @Serializable
+    data object JoinPrivilege : Dest()
+
+
 }
 //
 //@Serializable

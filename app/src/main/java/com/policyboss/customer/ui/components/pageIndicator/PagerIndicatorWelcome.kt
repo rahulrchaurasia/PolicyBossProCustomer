@@ -1,4 +1,4 @@
-package com.policyboss.customer.ui.components
+package com.policyboss.customer.ui.components.pageIndicator
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,15 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.foundation.layout.Arrangement
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
-
-import androidx.compose.ui.unit.dp
-
-
 @Composable
-fun PagerIndicator(
+fun PagerIndicatorWelcome(
     totalPages: Int,
     currentPage: Int,
     activeColor: Color = Color(0xFF2E90FA) // or use PrimaryBlue

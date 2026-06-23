@@ -84,6 +84,8 @@ import com.policyboss.customer.feature.home.component.home.vaultSection.componen
 import com.policyboss.customer.feature.home.dummy.HomeDummyData
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
+import com.policyboss.customer.ui.components.pageIndicator.PagerIndicator
+
 import com.policyboss.customer.ui.theme.AppColors
 
 
@@ -147,45 +149,99 @@ fun PolicyVaultSection(
 
        //HorizontalPager
 
+//        if (policies.isEmpty()) {
+//
+//            EmptyVaultState()
+//
+//        }
+//        else {
+//
+//            HorizontalPager(
+//
+//                state = rememberPagerState {
+//
+//                    policies.size
+//                },
+//
+//                pageSpacing = 0.dp,
+//
+//                modifier = Modifier.fillMaxWidth()
+//
+//            ) { page ->
+//
+//                val policy = policies[page]
+//
+//                MotorPolicyCard(
+//
+//                    policy = policy,
+//
+//                    onRenewClick = {
+//
+//                        onRenewClick(policy)
+//                    },
+//
+//                    onViewDetailsClick = {
+//
+//                        onViewDetailsClick(policy)
+//                    }
+//                )
+//            }
+//        }
+        ///
+
+
         if (policies.isEmpty()) {
 
             EmptyVaultState()
 
-        }
-        else {
+        } else {
 
-            HorizontalPager(
+            val pagerState = rememberPagerState(
+                pageCount = { policies.size }
+            )
 
-                state = rememberPagerState {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-                    policies.size
-                },
+                HorizontalPager(
 
-                pageSpacing = 0.dp,
+                    state = pagerState,
 
-                modifier = Modifier.fillMaxWidth()
+                    pageSpacing = 0.dp,
 
-            ) { page ->
+                    modifier = Modifier.fillMaxWidth()
 
-                val policy = policies[page]
+                ) { page ->
 
-                MotorPolicyCard(
+                    val policy = policies[page]
 
-                    policy = policy,
+                    MotorPolicyCard(
 
-                    onRenewClick = {
+                        policy = policy,
 
-                        onRenewClick(policy)
-                    },
+                        onRenewClick = {
+                            onRenewClick(policy)
+                        },
 
-                    onViewDetailsClick = {
+                        onViewDetailsClick = {
+                            onViewDetailsClick(policy)
+                        }
+                    )
+                }
 
-                        onViewDetailsClick(policy)
-                    }
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+
+                PagerIndicator(
+
+                    totalPages = policies.size,
+
+                    currentPage = pagerState.currentPage
                 )
             }
         }
-        ///
     }
 }
 

@@ -7,6 +7,6 @@ data class QuickAction(
     val title: String,
     val subtitle: String,
     val imageRes: Int,
-    val isPro: Boolean = false,
-    val isNew: Boolean = false
+    val badge: BadgeType? = null
 )
+

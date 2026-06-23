@@ -2,7 +2,6 @@ package com.policyboss.customer.ui.components.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -10,12 +9,10 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
-import com.policyboss.customer.ui.components.PagerIndicator
+import com.policyboss.customer.ui.components.pageIndicator.PagerIndicatorWelcome
 import com.policyboss.customer.ui.components.TrustBadgesSection
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.feature.onboarding.model.OnboardingPage
@@ -66,7 +63,7 @@ fun BottomActionCard(
         Spacer(Modifier.height(20.dp))
 
         // Indicator
-        PagerIndicator(
+        PagerIndicatorWelcome(
             totalPages = totalPages,
             currentPage = pageIndex
         )

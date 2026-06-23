@@ -1,4 +1,4 @@
-package com.policyboss.customer.feature.home.model.HomeState
+package com.policyboss.customer.feature.home.model.home
 
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 
@@ -66,6 +66,8 @@ sealed interface HomeAction {
     object OnProfileClick : HomeAction
     object OnViewAllVaultClick : HomeAction
     object OnExploreBosspediaClick : HomeAction
+
+    object OnAssistanceClick : HomeAction
 
 
     // API/business logic

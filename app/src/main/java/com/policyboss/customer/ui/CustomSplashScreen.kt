@@ -187,7 +187,7 @@ fun CustomSplashScreen(
         // ===================================================
 
         CategoryCard(
-            iconRes = R.drawable.ic_health,
+            iconRes = R.drawable.ic_health_card,
             width = 88.dp,
             height = 80.dp,
             modifier = Modifier.constrainAs(health) {
@@ -224,7 +224,7 @@ fun CustomSplashScreen(
         // ===================================================
 
         CategoryCard(
-            iconRes = R.drawable.ic_life,
+            iconRes = R.drawable.ic_life01,
             width = 90.dp,
             height = 81.dp,
             modifier = Modifier

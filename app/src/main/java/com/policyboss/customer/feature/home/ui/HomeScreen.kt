@@ -6,8 +6,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.policyboss.customer.feature.home.model.HomeState.HomeAction
-import com.policyboss.customer.feature.home.model.HomeState.HomeUiState
+import com.policyboss.customer.feature.home.model.home.HomeAction
+import com.policyboss.customer.feature.home.model.home.HomeUiState
 
 
 import androidx.compose.foundation.background
@@ -16,21 +16,33 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.*
 
 import androidx.compose.ui.graphics.Color
-import com.policyboss.customer.feature.home.component.home.PolicyCategoryItem
+
 import com.policyboss.customer.feature.home.component.home.vaultSection.PolicyVaultSection
 import com.policyboss.customer.feature.home.component.home.footer.BosspediaSection
 import com.policyboss.customer.feature.home.component.home.footer.FooterTrustSection
 
 
 import androidx.compose.ui.tooling.preview.Preview
+import com.policyboss.customer.feature.home.component.home.assistanceSection.AssistanceSection
 
 import com.policyboss.customer.feature.home.component.home.card.QuickActionCard
+import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryCard
 import com.policyboss.customer.feature.home.component.home.earningOpportunitySection.EarningOpportunitySection
 import com.policyboss.customer.ui.components.divider.SectionDivider
 
 import com.policyboss.customer.feature.home.component.home.heroSection.HeroSection
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.PolicyProtectedBottomSheet
 
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+
+
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.ui.layout.layout
+import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
+import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryGrid
 
 
 //The golden rule of UDF is: State flows down, Actions flow up.
@@ -80,6 +92,7 @@ This is exactly what LazyVerticalGrid with GridItemSpan(maxLineSpan) was designe
 private val HeroBottomTransition = 320.dp
 private val CurveOverlap = 20.dp
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -92,33 +105,39 @@ fun HomeScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+        LazyColumn(
+
             modifier = modifier
                 .fillMaxSize()
                 .background(Color.White),
-//        contentPadding = PaddingValues(
-//            bottom = 32.dp
-//        ),
+
             contentPadding = PaddingValues(
                 top = contentPadding.calculateTopPadding(),
                 bottom = contentPadding.calculateBottomPadding() + 32.dp,
+
 //            start = 16.dp, // Assuming you want side padding on the grid
 //            end = 16.dp
+
             ),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            // horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
+
         )
         {
 
-            // =====================================================
-            // 1. HERO / HEADER SECTION (Full Width)
-            // =====================================================
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
+            item {
 
-                HeroSection(
+                // =====================================================
+                // 1. HERO / HEADER SECTION (Full Width)
+                // =====================================================
+
+                // =====================================================
+                // POLICIES HEADER
+                // =====================================================
+
+                //region POLICIES HEADER
+
+                 HeroSection(
                     userName = uiState.userName,
                     initials = uiState.userInitials,
                     promoBanners = uiState.promoBanners,
@@ -133,56 +152,46 @@ fun HomeScreen(
                         )
                     }
                 )
+
+                //endregion
+
+
             }
 
-            // =====================================================
-            // 2. QUICK ACTIONS GRID (Half Width)
-            // =====================================================
-            itemsIndexed(
-                items = uiState.quickActions,
-                key = { _, item -> item.id }
-            ) { index, action ->
 
-                // Pulls the first two cards up to overlap the Hero section slightly
-                val topOffset = if (index < 2) (-42).dp else 0.dp
+            item {
 
-                // Adds specific padding based on left vs right column
-                val cardModifier = if (index % 2 == 0) {
-                    Modifier
-                        .offset(y = topOffset)
-                        .padding(start = 24.dp, end = 8.dp) // Left column
-                } else {
-                    Modifier
-                        .offset(y = topOffset)
-                        .padding(start = 8.dp, end = 24.dp) // Right column
-                }
+                // =====================================================
+                // 2. QUICK ACTIONS GRID (Half Width)
+                // =====================================================
+//                QuickActionsGrid(
+//
+//                    actions = uiState.quickActions,
+//
+//                    onClick = {
+//                        onAction(HomeAction.OnQuickActionClick(it))
+//                    },
+//
+//                    modifier = Modifier.padding(horizontal = 24.dp)
+//                )
 
-                QuickActionCard(
-                    modifier = cardModifier,
-                    title = action.title,
-                    subtitle = action.subtitle,
-                    imageRes = action.imageRes,
-                    isPro = action.isPro,
-                    isNew = action.isNew,
-                    onClick = { onAction(HomeAction.OnQuickActionClick(action.id)) }
+                QuickActionsGrid(
+                    actions = uiState.quickActions,
+                    onClick = {
+                        onAction(HomeAction.OnQuickActionClick(it))
+                    },
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .offset(y = (-42).dp)
                 )
             }
 
 
-            // =====================================================
-            // EARNING SECTION
-            // =====================================================
+            item {
 
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
-
-                SectionDivider()
-            }
-
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
+                // =====================================================
+                // EARNING SECTION
+                // =====================================================
 
                 EarningOpportunitySection(
                     banners = uiState.earningBanners,
@@ -200,75 +209,24 @@ fun HomeScreen(
                 )
             }
 
-            // =====================================================
-            // POLICIES HEADER
-            // =====================================================
 
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
+            item {
+                AssistanceSection(
 
-                SectionDivider()
-            }
-
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
-
-                Text(
-                    text = "Curated Policies - Just for you",
-                    style = MaterialTheme.typography.titleMedium,
                     modifier = Modifier.padding(
                         horizontal = 24.dp
-                    )
-                )
-            }
+                    ),
 
-            // =====================================================
-            // POLICY GRID
-            // =====================================================
-
-            itemsIndexed(
-                items = uiState.curatedPolicies
-            ) { index, policy ->
-
-                val itemModifier =
-                    if (index % 2 == 0) {
-
-                        Modifier.padding(
-                            start = 24.dp,
-                            end = 8.dp
-                        )
-
-                    } else {
-
-                        Modifier.padding(
-                            start = 8.dp,
-                            end = 24.dp
-                        )
-                    }
-
-                PolicyCategoryItem(
-                    title = policy,
-                    modifier = itemModifier,
                     onClick = {
                         onAction(
-                            HomeAction.OnPolicyCategoryClick(
-                                policy
-                            )
+                            HomeAction.OnAssistanceClick
                         )
                     }
                 )
             }
 
-            // =====================================================
-            // DIVIDER
-            // =====================================================
 
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
-
+            item {
                 HorizontalDivider(
                     modifier = Modifier.padding(
                         horizontal = 24.dp,
@@ -278,16 +236,15 @@ fun HomeScreen(
                 )
             }
 
-            // =====================================================
-            // VAULT
-            // =====================================================
+            item {
 
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
+                // =====================================================
+                // VAULT
+                // =====================================================
 
                 val selectedPolicies = uiState.vaultPolicies.filter {
-                          it.tabId == uiState.selectedVaultTab }
+                    it.tabId == uiState.selectedVaultTab
+                }
 
                 PolicyVaultSection(
 
@@ -297,7 +254,6 @@ fun HomeScreen(
 
                     selectedTab = uiState.selectedVaultTab,
                     policies = selectedPolicies,
-
 
 
                     onTabSelected = {
@@ -330,18 +286,45 @@ fun HomeScreen(
                         //pending Action of View Details
                     }
                 )
-
-
             }
 
-            // =====================================================
-            // BOSSPEDIA
-            // =====================================================
+            item {
+                SectionDivider()
+            }
 
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
+            item {
+                Text(
+                    text = "Curated Policies - Just for you",
+                    style = MaterialTheme.typography.headlineSmall,
 
+                    modifier = Modifier.padding(
+                        horizontal = 24.dp
+                    )
+                )
+            }
+
+            item {
+
+                PolicyCategoryGrid(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    policies = uiState.curatedPolicies,
+
+                    onPolicyClick = {
+
+                        onAction(
+
+                            HomeAction.OnPolicyCategoryClick(it)
+                        )
+                    }
+                )
+            }
+
+            item {
+                // =====================================================
+                // BOSSPEDIA
+                // =====================================================
+
+                //region BOSSPEDIA
                 BosspediaSection(
                     modifier = Modifier.padding(
                         horizontal = 24.dp
@@ -352,29 +335,27 @@ fun HomeScreen(
                         )
                     }
                 )
+                //endregion
             }
+
 
             // =====================================================
             // FOOTER
             // =====================================================
 
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
+            item {
 
-                FooterTrustSection(
-                    modifier = Modifier.padding(
-                        horizontal = 24.dp
-                    )
-                )
+                FooterTrustSection()
             }
+
 
         }
 
         // =====================================================
-        // 2. OVERLAYS / BOTTOM SHEETS (Drawn last, on top of the grid)
+        //  OVERLAYS / BOTTOM SHEETS (Drawn last, on top of the grid)
         // =====================================================
-       //if selectedVaultPolicy  exists → sheet should open
+        //if selectedVaultPolicy  exists → sheet should open
+        //region OVERLAYS / BOTTOM SHEETS
         uiState.selectedVaultPolicy?.let { policy ->
             PolicyProtectedBottomSheet(
                 policy = policy,
@@ -383,11 +364,15 @@ fun HomeScreen(
                 }
             )
         }
+        //endregion
 
     }
 
 
 }
+
+
+
 
 //
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
@@ -397,7 +382,7 @@ fun HomeScreenPreview() {
     val dummyState = HomeUiState(
         userName = "Alex",
         userInitials = "A",
-        curatedPolicies = listOf("Health Insurance", "Life Insurance", "Motor Insurance", "Travel Insurance"),
+        curatedPolicies = HomeDummyData.curatedPolicies,
     )
 
     MaterialTheme @Composable {

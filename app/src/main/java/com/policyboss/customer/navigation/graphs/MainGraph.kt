@@ -5,10 +5,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.policyboss.customer.feature.home.component.home.vaultSection.component.EmptyVaultState
 import com.policyboss.customer.feature.home.ui.HomeRoute
 import com.policyboss.customer.feature.home.ui.tabScreen.CartScreen
 import com.policyboss.customer.feature.home.ui.tabScreen.ProfileScreen
 import com.policyboss.customer.feature.home.ui.tabScreen.WishListScreen
+import com.policyboss.customer.feature.joinPrivilege.ui.JoinPrivilegeScreen
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
 import com.policyboss.customer.feature.mainScreen.MainScreen
@@ -246,15 +248,29 @@ fun NavGraphBuilder.mainGraph(
             )
         }
 
+        // ✅ Register your NEW Full Screen here!
+        composable<Dest.JoinPrivilege> {
+            JoinPrivilegeScreen(
+                onBackClick = { navigator.navigateBack() }
+            )
+        }
+        
         // 2. Add Bosspedia Here!
         composable<Dest.Bosspedia> {
-            // BosspediaScreen()
+            //BosspediaScreen()
         }
+
         // Note: If you are managing tabs entirely manually inside TabContentHost using a `when`
         // statement, you actually MIGHT NOT need to declare the tabs here.
         // BUT, if you use `globalActions.navigateTo(Dest.Privilege)`, it must be registered.
         // 🟢 Tabs (MANDATORY)
         // ✅ REGISTER ALL TABS HERE
+
+        composable<Dest.Vault> {
+            EmptyVaultState(
+
+            )
+        }
 
         composable<Dest.Privilege> {
             ProfileScreen(

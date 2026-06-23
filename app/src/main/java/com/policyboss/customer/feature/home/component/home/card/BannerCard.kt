@@ -3,11 +3,8 @@ package com.policyboss.customer.feature.home.component.home.card
 // ---------------------------- IMPORTS ----------------------------
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,15 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.policyboss.customer.ui.theme.AppColors.BluePrimary
 import com.policyboss.customer.ui.theme.AppColors.WarningYellow
 import androidx.compose.foundation.Image
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 
@@ -37,6 +31,8 @@ import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
 import com.policyboss.customer.ui.components.button.CardButton
+import com.policyboss.customer.ui.theme.AppColors
+import com.policyboss.customer.ui.theme.captionSmall
 
 @Composable
 fun BannerCard(
@@ -73,8 +69,8 @@ fun BannerCard(
                 Text(
                     text = banner.tagText.uppercase(),
                     modifier = Modifier.weight(1f),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = textColor.copy(alpha = 0.85f),
+                    style = MaterialTheme.typography.captionSmall,
+                    color = textColor,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -103,11 +99,11 @@ fun BannerCard(
                         .padding(end = 4.dp)
                 ) {
 
+
+
                     Text(
                         text = banner.title,
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.Medium
-                        ),
+                        style = MaterialTheme.typography.displayMedium,
                         color = textColor,
                         maxLines = 3,
                         overflow = TextOverflow.Ellipsis
@@ -178,7 +174,7 @@ fun BannerCardPreview() {
                     WarningYellow,
                     Color(0xFFF9A826)
                 ),
-                textColor = Color(0xFF6B420B),
+                textColor = AppColors.GoldText,
                 onBannerClick = {}
             )
 

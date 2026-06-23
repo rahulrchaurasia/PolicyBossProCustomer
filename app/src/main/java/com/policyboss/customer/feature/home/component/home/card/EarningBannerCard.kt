@@ -38,7 +38,7 @@ fun EarningBannerCard(banner: EarningBanner, onClick: () -> Unit) {
         // Text at Top-Start
         Text(
             text = banner.title,
-            color = AppColors.WarningText, // Darker brownish color for contrast
+            color = AppColors.GoldText, // Darker brownish color for contrast
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Bold,
                 lineHeight = 20.sp

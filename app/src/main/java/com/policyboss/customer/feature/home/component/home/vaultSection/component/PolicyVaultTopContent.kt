@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.bodyMediumSemiBold
-
+import com.policyboss.customer.ui.theme.labelMediumSemiBold
 
 
 @Composable
@@ -47,7 +47,7 @@ fun PolicyVaultTopContent(
         ) {
             // Background Wavy Asset & Triangle
             Image(
-                painter = painterResource(R.drawable.ic_car_protect),
+                painter = painterResource(R.drawable.ic_security_check),
                 contentDescription = null,
                 modifier = Modifier.size(120.dp)
             )
@@ -68,34 +68,35 @@ fun PolicyVaultTopContent(
         // Right Column (Text)
         Column(
             modifier = Modifier.weight(1f)
-        ) {
+        )
+        {
             Text(
                 text = policy.vehicleName,
-                style = MaterialTheme.typography.titleMedium,
-                color = Color.White
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = policy.vehicleNumber,
-                style = MaterialTheme.typography.bodyMedium, // Removed SemiBold to match screenshot closer
+                style = MaterialTheme.typography.labelMediumSemiBold,
                 color = Color.White
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            Text(
+                text = policy.vehicleNumber,
+                style = MaterialTheme.typography.labelMediumSemiBold, // ✅ Perfect semantic use
+                color = Color.White
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
             // View Details Row
             Row(
                 modifier = Modifier
                     //.clip(RoundedCornerShape(4.dp)) // Keeps the click ripple neat
-                    //.clickable { onViewDetailsClick() }
+                    .clickable { onViewDetailsClick() }
                     .padding(vertical = 4.dp), // slightly expand click area
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "View details",
-                    style = MaterialTheme.typography.bodyMedium, // Adjusted weight to match screenshot
+                    style = MaterialTheme.typography.labelMediumSemiBold, // Adjusted weight to match screenshot
                     color = Color.White
                 )
 
@@ -105,103 +106,13 @@ fun PolicyVaultTopContent(
                     painter = painterResource(R.drawable.ic_chevron_right), // Update with your actual chevron icon
                     contentDescription = "View Details",
                     tint = Color.White,
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(20.dp)
                 )
             }
         }
     }
 }
-//fun PolicyVaultTopContent(
-//    policy: VaultPolicy,
-//    onViewDetailsClick: () -> Unit
-//) {
-//
-//    Box(
-//        modifier = Modifier.fillMaxWidth()
-//    ) {
-//
-//        ExpiryBadge(
-//            text = policy.daysLeft,
-//            modifier = Modifier.align(Alignment.TopEnd)
-//        )
-//
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(top = 20.dp),
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//
-//            // Left Column
-//            Box(
-//                modifier = Modifier.weight(1f),
-//                contentAlignment = Alignment.Center
-//            ) {
-//
-//                Image(
-//                    painter = painterResource(R.drawable.ic_car_protect),
-//                    contentDescription = null,
-//                    modifier = Modifier.size(120.dp)
-//                )
-//
-//                Image(
-//                    painter = painterResource(policy.vehicleImage),
-//                    contentDescription = null,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .height(90.dp)
-//                )
-//            }
-//
-//            Spacer(modifier = Modifier.width(12.dp))
-//
-//            // Right Column
-//            Column(
-//                modifier = Modifier.weight(1f)
-//            ) {
-//
-//                Text(
-//                    text = policy.vehicleName,
-//                    style = MaterialTheme.typography.titleMedium,
-//                    color = Color.White
-//                )
-//
-//                Spacer(modifier = Modifier.height(6.dp))
-//
-//                Text(
-//                    text = policy.vehicleNumber,
-//                    style = MaterialTheme.typography.bodyMediumSemiBold,
-//                    color = Color.White
-//                )
-//
-//                Spacer(modifier = Modifier.height(6.dp))
-//
-//                Row(
-//                    modifier = Modifier.clickable {
-//                        onViewDetailsClick()
-//                    },
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//
-//                    Text(
-//                        text = "View details",
-//                        style = MaterialTheme.typography.bodyMediumSemiBold,
-//                        color = Color.White
-//                    )
-//
-//                    Spacer(modifier = Modifier.width(4.dp))
-//
-//                    Icon(
-//                        painter = painterResource(R.drawable.ic_chevron_right),
-//                        contentDescription = null,
-//                        tint = Color.White,
-//                        modifier = Modifier.size(16.dp)
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
+
 
 @Preview(
     showBackground = true,

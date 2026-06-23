@@ -35,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="2cff2e" />
-                            <entry key="outputName" value="ic_motor01" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_motor01.svg" />
+                            <entry key="outputName" value="ic_bike" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/motorbike-01.svg" />
                           </map>
                         </option>
                       </PersistentState>

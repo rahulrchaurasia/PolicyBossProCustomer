@@ -1,5 +1,6 @@
 package com.policyboss.customer.feature.home.component.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 
@@ -17,65 +18,76 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.policyboss.customer.R
 import com.policyboss.customer.feature.home.component.home.card.QuickActionCard
+import com.policyboss.customer.feature.home.model.QuickAction
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.ui.theme.AppColors
+import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 
 @Composable
-fun QuickActionsGrid() {
-    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            QuickActionCard(
-                modifier = Modifier.weight(1f),
-                title = "Renew & Earn",
-                subtitle = "Become a 'Privileged user'",
-                isPro = true,
-                onClick = {},
-                        imageRes = R.drawable.ic_money,
+fun QuickActionsGrid(
+    modifier: Modifier = Modifier,
+    actions: List<QuickAction>,
+    onClick: (String) -> Unit
+) {
+    val rows = actions.chunked(2)
 
-                isNew = false
-            )
-            QuickActionCard(
-                modifier = Modifier.weight(1f),
-                title = "Policy Vault",
-                subtitle = "All your policies in one place",
-                onClick = {},
-                imageRes = R.drawable.ic_money,
-                isPro = true,
-                isNew = false
-            )
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            QuickActionCard(
-                modifier = Modifier.weight(1f),
-                title = "Claim Support",
-                subtitle = "Guided claim filing & assistance",
-                onClick = {},
-                imageRes = R.drawable.ic_money,
-                isPro = false,
-                isNew = true
-            )
-            QuickActionCard(
-                modifier = Modifier.weight(1f),
-                title = "BOSSPedia",
-                subtitle = "Daily insights about insurance",
-                imageRes = R.drawable.ic_money,
-                isPro = false,
-                isNew = false,
-                onClick = {}
-            )
+    // Note: If you need the ENTIRE grid to move up to overlap a header,
+    // pass that offset into this composable's parameters:
+    // QuickActionsGrid(modifier = Modifier.offset(y = (-42).dp))
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(16.dp) // <-- This handles your row spacing cleanly
+    ) {
+        rows.forEach { rowItems ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp) // <-- Handles column spacing
+            ) {
+                rowItems.forEach { action ->
+                    QuickActionCard(
+                        modifier = Modifier.weight(1f),
+                        action = action,
+                        onClick = { onClick(action.id) }
+                    )
+                }
+
+                // Fill empty space if the last row has fewer than 2 items
+                repeat(2 - rowItems.size) {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
+            }
         }
     }
 }
 
 
 
-
 @Preview(showBackground = true)
 @Composable
-fun QuickActionPreview() {
-    MaterialTheme {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            QuickActionsGrid()
+private fun QuickActionsGridPreview() {
+
+    PolicyBossCustomerTheme {
+
+        Column {
+
+            QuickActionsGrid(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(AppColors.Background)
+                    .padding(horizontal = 24.dp),
+                actions = HomeDummyData.quickActions,
+                onClick = {}
+            )
         }
+
     }
 }

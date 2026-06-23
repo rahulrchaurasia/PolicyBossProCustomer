@@ -4,16 +4,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.policyboss.customer.R
 import com.policyboss.customer.feature.home.dummy.HomeDummyData
-import com.policyboss.customer.feature.home.model.EarningBanner
-import com.policyboss.customer.feature.home.model.HomeState.HomeAction
-import com.policyboss.customer.feature.home.model.HomeState.HomeUiEvent
-import com.policyboss.customer.feature.home.model.HomeState.HomeUiState
-import com.policyboss.customer.feature.home.model.PromoBanner
-import com.policyboss.customer.feature.home.model.QuickAction
-import com.policyboss.customer.feature.home.model.banner.BannerAction
-import com.policyboss.customer.feature.home.model.banner.BannerDestination
+import com.policyboss.customer.feature.home.model.home.HomeAction
+import com.policyboss.customer.feature.home.model.home.HomeExperience
+import com.policyboss.customer.feature.home.model.home.HomeUiEvent
+import com.policyboss.customer.feature.home.model.home.HomeUiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 
@@ -48,9 +43,13 @@ HomeRoute
    ↓
 Navigation / Snackbar
  */
+
+//Mark : HomeViewModel decides which experience to show.
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
 
+
+    //region Declaration
     // Private mutable state
     private val _uiState = MutableStateFlow(HomeUiState())
     // Public immutable state for Compose to observe
@@ -60,11 +59,37 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private val _uiEvent = Channel<HomeUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    //endregion
+
     init {
         fetchHomeData()
     }
 
+    // region Determine User Category
+    private fun determineExperience(): HomeExperience {
 
+        val cameFromMicrosite = false
+
+        val hasRecentlyBoughtPolicy = true
+
+        return when {
+
+            cameFromMicrosite -> {
+                HomeExperience.EARN_RENEWALS
+            }
+
+            hasRecentlyBoughtPolicy -> {
+                HomeExperience.ACCESS_POLICY
+            }
+
+            else -> {
+                HomeExperience.EXPLORE
+            }
+        }
+    }
+    //endregion
+
+    //region fetch data
     private fun fetchHomeData() {
 
         viewModelScope.launch {
@@ -103,8 +128,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    //endregion
 
+    //mark :Handle for all click Event say action for HomeScreen
     //region onAction Hamdling
+
     fun onAction(
         action: HomeAction
     ) {
@@ -123,12 +151,33 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             is HomeAction.OnPrivilegeBannerClick ->
                 handlePrivilegeClick()
 
+            is HomeAction.OnAssistanceClick ->
+                handleOnAssistanceClick()
+
             else -> {
 
             }
         }
     }
 
+    private fun handleOnAssistanceClick() {
+
+        val mobile = _uiState.value.rmMobileNo
+
+        if (mobile.isNotBlank()) {
+
+            viewModelScope.launch {
+
+                _uiEvent.send(
+
+                    HomeUiEvent.OpenDialer(
+
+                        phoneNumber = mobile
+                    )
+                )
+            }
+        }
+    }
     private fun handleVaultTab(
         action: HomeAction.OnVaultTabSelected
     ){

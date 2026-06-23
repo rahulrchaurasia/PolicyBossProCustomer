@@ -54,11 +54,32 @@ android {
 dependencies {
 
 
+    // Compose
+
+    //Preferred compose bom
+    implementation(platform(libs.androidx.compose.bom))
+
+    implementation(libs.androidx.activity.compose)
+
+   // implementation(libs.androidx.ui)
+
+    implementation(libs.androidx.compose.runtime)
+
+    implementation(libs.androidx.compose.ui)
 
     implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.compose.ui)
+
     // Core
+
+    implementation(libs.androidx.material3)
+
+    implementation(libs.androidx.ui.graphics)
+
+    implementation(libs.androidx.ui.tooling.preview)
+
+    debugImplementation(libs.androidx.ui.tooling)
+
+
     implementation(libs.androidx.core.ktx)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -69,22 +90,8 @@ dependencies {
 
     implementation(libs.androidx.appcompat)
 
-    // Compose
-    implementation(platform(libs.androidx.compose.bom))
 
-    implementation(libs.androidx.activity.compose)
-
-    implementation(libs.androidx.ui)
-
-    implementation(libs.androidx.ui.graphics)
-
-    implementation(libs.androidx.ui.tooling.preview)
-
-    debugImplementation(libs.androidx.ui.tooling)
-
-    implementation(libs.androidx.material3)
-
-    implementation(libs.foundation)
+    //implementation(libs.foundation)
 
     // Splash
     implementation(libs.androidx.core.splashscreen)

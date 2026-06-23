@@ -1,9 +1,9 @@
-package com.policyboss.customer.feature.home.model.HomeState
+package com.policyboss.customer.feature.home.model.home
 
-import com.policyboss.customer.feature.home.component.home.vaultSection.component.VaultTab
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.QuickAction
+import com.policyboss.customer.feature.home.model.policy.CuratedPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 
 /*
@@ -24,17 +24,23 @@ import com.policyboss.customer.feature.home.model.vault.VaultPolicy
         Navigation / Snackbar
  */
 // The UI State for the Home Screen ONLY
+
+//Mark : HomeViewModel decides which experience to show.
 data class HomeUiState(
+
+    val experience: HomeExperience = HomeExperience.EXPLORE,
     val isLoading: Boolean = false,
     val userName: String = "Rahul",
     val userInitials: String = "RC",
 
+    val rmMobileNo: String = "9224624999",
+
+
     // Lists driving the UI
     val promoBanners: List<PromoBanner> = emptyList(),
-    val curatedPolicies: List<String> = emptyList(),
     val quickActions: List<QuickAction> = emptyList(),
     val earningBanners: List<EarningBanner> = emptyList(),
-
+    val curatedPolicies: List<CuratedPolicy> = emptyList(),
 
    // Mark: PolicyBottomSheet
     val showPolicyBottomSheet: Boolean = false,  // for   BottomSheet

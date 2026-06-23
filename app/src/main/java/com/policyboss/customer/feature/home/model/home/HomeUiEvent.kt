@@ -1,4 +1,4 @@
-package com.policyboss.customer.feature.home.model.HomeState
+package com.policyboss.customer.feature.home.model.home
 
 
 
@@ -71,6 +71,12 @@ sealed interface HomeUiEvent {
 //    data object HidePolicyBottomSheet : HomeUiEvent
     // UI feedback events
     data class ShowSnackbar(val message: String) : HomeUiEvent
+
+
+    data class OpenDialer(
+        val phoneNumber: String
+    ) : HomeUiEvent
+
     
     // Example of future events you might need:
     // object NavigateToLogin : HomeUiEvent (e.g., if token expires)

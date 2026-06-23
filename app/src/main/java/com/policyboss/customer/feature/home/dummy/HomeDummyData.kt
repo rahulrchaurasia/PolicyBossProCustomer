@@ -6,9 +6,13 @@ import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.QuickAction
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
+import com.policyboss.customer.feature.home.model.policy.CuratedPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.feature.home.model.vault.VaultTabItem
+
+import androidx.compose.ui.graphics.Color
+import com.policyboss.customer.feature.home.model.BadgeType
 
 /*
 HomeDummyData
@@ -27,15 +31,109 @@ PolicyVaultSection
  */
 object HomeDummyData {
 
+
+
+    //region curatedPolicies
     val curatedPolicies = listOf(
-        "Car",
-        "Bike",
-        "CV",
-        "Health",
-        "Life",
-        "Travel"
+
+
+        CuratedPolicy(
+
+            id = "car",
+
+            title = "Car",
+
+            iconRes = R.drawable.ic_car,
+
+            backgroundColor = Color(0xFFEFF8FF),
+
+            isComingSoon = false
+        ),
+
+        CuratedPolicy(
+
+            id = "bike",
+
+            title = "Bike",
+
+            iconRes = R.drawable.ic_bike,
+
+            backgroundColor = Color(0xFFEFF8FF),
+
+            isComingSoon = true
+        ),
+
+        CuratedPolicy(
+
+            id = "cv",
+
+            title = "CV",
+
+            iconRes = R.drawable.ic_cv,
+
+            backgroundColor = Color(0xFFEFF8FF),
+
+            isComingSoon = true
+        ),
+
+        CuratedPolicy(
+
+            id = "health",
+
+            title = "Health",
+
+            iconRes = R.drawable.ic_health,
+
+            backgroundColor = Color(0xFFEFF8FF),
+
+            isComingSoon = true
+        ),
+
+        CuratedPolicy(
+
+            id = "life",
+
+            title = "Life",
+
+            iconRes = R.drawable.ic_life,
+
+            backgroundColor = Color(0xFFFDECEC),
+
+            isComingSoon = true
+        ),
+
+        CuratedPolicy(
+
+            id = "travel",
+
+            title = "Travel",
+
+            iconRes = R.drawable.ic_travel,
+
+            backgroundColor = Color(0xFFEFF3FF),
+
+            isComingSoon = true
+        ),
+
+        CuratedPolicy(
+
+            id = "smeline",
+
+            title = "SMELINE",
+
+            iconRes = R.drawable.ic_smeline,
+
+            backgroundColor = Color(0xFFFFF8E6),
+
+            isComingSoon = true
+        )
     )
 
+    //endregion
+    
+
+
+    //region promoBanners
     val promoBanners = listOf(
         PromoBanner(
             id = "renew_earn",
@@ -93,33 +191,68 @@ object HomeDummyData {
         )
 
     )
+    //endregion
 
+    //region quickActions
     val quickActions = listOf(
+
         QuickAction(
-            "renew",
-            "Renew & Earn",
-            "Become a 'Privileged user'",
+
+            id = "renew",
+
+            title = "Renew & Earn",
+
+            subtitle = "Become a 'Privileged user'",
+
             imageRes = R.drawable.ic_money,
-            isPro = true
+
+            badge = BadgeType.Pro
+
         ),
+
         QuickAction(
-            "vault",
-            "Policy Vault",
-            "All your policies in one place",
+
+            id = "vault",
+
+            title = "Policy Vault",
+
+            subtitle = "All your policies in one place",
+
             imageRes = R.drawable.ic_dashboard2,
+
+            badge = BadgeType.NewPolicy
+
         ),
+
         QuickAction(
-            "claim",
-            "Claim Support",
-            "Guided claim filing & assistance",
-            imageRes = R.drawable.ic_dashboard3,
-        ), QuickAction(
-            "bosspedia",
-            "BOSSPedia",
-            "Daily insights about insurance",
-            imageRes = R.drawable.ic_dashboard4,
+
+            id = "claim",
+
+            title = "Claim Support",
+
+            subtitle = "Guided claim filing & assistance",
+
+            imageRes = R.drawable.ic_dashboard3
+
+        ),
+
+        QuickAction(
+
+            id = "bosspedia",
+
+            title = "BOSSPedia",
+
+            subtitle = "Daily insights about insurance",
+
+            imageRes = R.drawable.ic_dashboard4
+
         )
+
     )
+
+    //endregion
+
+    //region earningBanners
     val earningBanners = listOf(
         // Make sure to replace these with your actual drawable resources
         EarningBanner("1", "Earnings instantly hit your account upon renewal", R.drawable.ic_money),
@@ -139,6 +272,9 @@ object HomeDummyData {
             R.drawable.ic_earning_banner2
         )
     )
+    //endregion
+
+    //region vaultPolicies
     val vaultPolicies = listOf(
 
         // ================= MOTOR =================
@@ -295,20 +431,132 @@ object HomeDummyData {
             expiry = "01.04.26",
 
             title = "Commercial Vehicle Cover"
+        ),
+
+
+        // ================= HEALTH =================
+
+        VaultPolicy(
+            id = "health_1",
+            tabId = VaultTabIds.HEALTH,
+            vehicleName = "Optima Secure Plan",
+            vehicleNumber = "HLT89237498",
+            vehicleImage = R.drawable.ic_health_card, // Assuming you have an icon like this
+            daysLeft = "18 days left",
+            companyLogo = R.drawable.img_tata,
+            idv = "₹10L", // Used for Sum Insured
+            premium = "₹14,500",
+            expiry = "06.07.26",
+            title = "Family Floater Cover"
+        ),
+
+        VaultPolicy(
+            id = "health_2",
+            tabId = VaultTabIds.HEALTH,
+            vehicleName = "ReAssure 2.0",
+            vehicleNumber = "HLT44556677",
+            vehicleImage = R.drawable.ic_health_card,
+            daysLeft = "90 days left",
+            companyLogo = R.drawable.img_tata, // Assuming Niva Bupa or similar
+            idv = "₹15L",
+            premium = "₹18,200",
+            expiry = "16.09.26",
+            title = "Individual Cover"
+        ),
+
+        // ================= LIFE =================
+
+        VaultPolicy(
+            id = "life_1",
+            tabId = VaultTabIds.LIFE,
+            vehicleName = "Click 2 Protect",
+            vehicleNumber = "LIF11223344",
+            vehicleImage = R.drawable.ic_life01,
+            daysLeft = "5 days left",
+            companyLogo = R.drawable.img_tata,
+            idv = "₹1Cr", // Used for Sum Assured
+            premium = "₹12,400",
+            expiry = "23.06.26",
+            title = "Term Life Insurance"
+        ),
+
+        VaultPolicy(
+            id = "life_2",
+            tabId = VaultTabIds.LIFE,
+            vehicleName = "Smart Wealth Plan",
+            vehicleNumber = "LIF99887766",
+            vehicleImage = R.drawable.ic_life01,
+            daysLeft = "120 days left",
+            companyLogo = R.drawable.img_tata, // Assuming Max Life or similar
+            idv = "₹50L",
+            premium = "₹45,000",
+            expiry = "16.10.26",
+            title = "ULIP Plan"
+        ),
+
+        // ================= TRAVEL =================
+
+        VaultPolicy(
+            id = "travel_1",
+            tabId = VaultTabIds.TRAVEL,
+            vehicleName = "Explore Asia Plan",
+            vehicleNumber = "TRV55443322",
+            vehicleImage = R.drawable.ic_airplane,
+            daysLeft = "2 days left",
+            companyLogo = R.drawable.img_tata,
+            idv = "$100K", // Used for Coverage Amount
+            premium = "₹1,250",
+            expiry = "20.06.26",
+            title = "Single Trip Cover"
+        ),
+
+        VaultPolicy(
+            id = "travel_2",
+            tabId = VaultTabIds.TRAVEL,
+            vehicleName = "Schengen Comprehensive",
+            vehicleNumber = "TRV66778899",
+            vehicleImage = R.drawable.ic_airplane,
+            daysLeft = "60 days left",
+            companyLogo = R.drawable.img_tata,
+            idv = "$500K",
+            premium = "₹3,800",
+            expiry = "17.08.26",
+            title = "Multi-Trip Cover"
+        ),
+
+        // ================= SMELINE =================
+
+        VaultPolicy(
+            id = "sme_1",
+            tabId = VaultTabIds.SMELINE,
+            vehicleName = "Standard Fire & Special Perils",
+            vehicleNumber = "SME10293847",
+            vehicleImage = R.drawable.ic_frame,
+            daysLeft = "15 days left",
+            companyLogo = R.drawable.img_tata, // Assuming Bajaj Allianz or similar
+            idv = "₹5Cr", // Used for Total Risk Value
+            premium = "₹35,000",
+            expiry = "03.07.26",
+            title = "Property Insurance"
+        ),
+
+        VaultPolicy(
+            id = "sme_2",
+            tabId = VaultTabIds.SMELINE,
+            vehicleName = "Workmen Compensation",
+            vehicleNumber = "SME56473829",
+            vehicleImage = R.drawable.ic_frame,
+            daysLeft = "45 days left",
+            companyLogo = R.drawable.img_tata,
+            idv = "N/A", // Or appropriate limit
+            premium = "₹12,500",
+            expiry = "02.08.26",
+            title = "Liability Insurance"
         )
-
-        // Health
-
-        // Life
-
-        // Travel
-
-        // SMELINE
-
-        // intentionally empty for now
     )
+    //endregion
 
-
+    //region vaultTabs
     val vaultTabs = listOf(
 
         VaultTabItem(
@@ -353,4 +601,5 @@ object HomeDummyData {
             iconRes = R.drawable.ic_smeline01
         )
     )
+    //endregion
 }

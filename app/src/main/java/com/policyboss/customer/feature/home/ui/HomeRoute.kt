@@ -1,5 +1,7 @@
 package com.policyboss.customer.feature.home.ui
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -7,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.LaunchedEffect
 
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -17,8 +20,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 
 
-import com.policyboss.customer.feature.home.model.HomeState.HomeAction
-import com.policyboss.customer.feature.home.model.HomeState.HomeUiEvent
+import com.policyboss.customer.feature.home.model.home.HomeAction
+import com.policyboss.customer.feature.home.model.home.HomeUiEvent
+import androidx.core.net.toUri
 
 
 /*
@@ -89,6 +93,7 @@ fun HomeRoute(
     onNavigateToVault: () -> Unit,
     onNavigateToBosspedia: () -> Unit,
     onNavigateToPrivilege: () -> Unit
+   // onAssistanceClick: () -> Unit
 
 ) {
     // Safely collect state respecting the Android lifecycle
@@ -96,6 +101,7 @@ fun HomeRoute(
 
     // 1. Declare the lifecycle owner HERE
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     // Listen for one-time events from the ViewModel (e.g., API success)
     LaunchedEffect(viewModel.uiEvent, lifecycleOwner) {
@@ -103,7 +109,19 @@ fun HomeRoute(
             viewModel.uiEvent.collect { event ->
                 when (event) {
                     is HomeUiEvent.NavigateToPrivilegeSuccess -> onNavigateToPrivilege()
+
                     is HomeUiEvent.ShowSnackbar -> { /* Handle Snackbar */ }
+
+                    is HomeUiEvent.OpenDialer -> {
+                        val intent = Intent(
+                            Intent.ACTION_DIAL,
+                            "tel:${event.phoneNumber}".toUri()
+                        )
+
+                        context.startActivity(intent)
+
+
+                    }
                     else -> {
 
                     }
@@ -124,6 +142,7 @@ fun HomeRoute(
                 is HomeAction.OnProfileClick -> onNavigateToProfile()
                 is HomeAction.OnViewAllVaultClick -> onNavigateToVault()
                 is HomeAction.OnExploreBosspediaClick -> onNavigateToBosspedia()
+               // is HomeAction.OnAssistanceClick -> onNavigateToBosspedia()
               //  is HomeAction.OnPrivilegeBannerClick -> onNavigateToPrivilege()
 
                 // 2. Pass business-related actions to the ViewModel

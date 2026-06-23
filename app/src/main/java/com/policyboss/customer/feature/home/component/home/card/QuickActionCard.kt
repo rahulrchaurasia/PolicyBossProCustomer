@@ -37,139 +37,191 @@ import androidx.compose.material3.Surface
 
 
 import com.policyboss.customer.R
+import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.home.model.BadgeType
+import com.policyboss.customer.feature.home.model.QuickAction
+
+import com.policyboss.customer.ui.components.badge.ActionBadge
+import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.captionSmall
 
 @Composable
 fun QuickActionCard(
+
+    action: QuickAction,
+
     modifier: Modifier = Modifier,
-    title: String,
-    subtitle: String,
-    imageRes: Int,
-    isPro: Boolean = false,
-    isNew: Boolean = false,
+
     onClick: () -> Unit
+
 ) {
-    // Determine card styling based on isPro
-    val cardBackground = if (isPro) Color.White else Color(0xFFF9F9F9) // Adjust to your AppColors
-    val cardBorder = if (isPro) BorderStroke(1.5.dp, Color(0xFFFFD54F)) else null // WarningYellow
+
+    val shape = RoundedCornerShape(24.dp)
+
+    val borderModifier =
+
+        if (action.badge == BadgeType.Pro)
+
+            Modifier.border(
+
+                width = 0.7.dp,
+
+                color = AppColors.ProCardBorder,
+
+                shape = shape
+
+            )
+
+        else
+
+            Modifier
 
     Box(
+
         modifier = modifier
-            .fillMaxWidth()
-            .height(180.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .background(cardBackground)
-            .then(if (cardBorder != null) Modifier.border(cardBorder, RoundedCornerShape(20.dp)) else Modifier)
-            .clickable { onClick() }
+
+            .height(205.dp)
+
+            .clip(shape)
+
+            .background(AppColors.CardBackground)
+
+            .then(borderModifier)
+
+            //region comment : if we keep border Pro and New
+//            .then(
+//
+//                action.badge?.let {
+//
+//                    Modifier.border(
+//                        width = 0.7.dp,
+//                        color = it.borderColor,
+//                        shape = shape
+//                    )
+//
+//                } ?: Modifier
+//
+//            )
+            //endregion
+
+            .clickable {
+
+                onClick()
+
+            }
+
     ) {
-        // --- MAIN CONTENT ---
+
         Column(
+
             modifier = Modifier
+
                 .fillMaxSize()
-                .padding(16.dp)
+
+                .padding(top = 26.dp)
+                .padding(horizontal = 24.dp)
+                .padding(bottom = 12.dp)
+
+
         ) {
-            // Replaced Placeholder with actual Image from ViewModel
+
             Image(
-                painter = painterResource(id = imageRes),
-                contentDescription = title,
-                modifier = Modifier.size(58.dp)
+
+                painter = painterResource(action.imageRes),
+
+                contentDescription = action.title,
+
+                modifier = Modifier.size(62.dp)
+
             )
 
-            Spacer(modifier = Modifier.weight(1f)) // Pushes text to the bottom
+            Spacer(
 
-            // 1. Update Title to use your new custom property
-            Text(
-                text = title.uppercase(),
-                style = MaterialTheme.typography.captionSmall.copy(
-                    color = Color.Gray // Or whatever color Figma specifies for this
-                )
+                modifier = Modifier.height(20.dp)
+
             )
-            Spacer(modifier = Modifier.height(4.dp))
+
             Text(
-                text = subtitle,
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.SemiBold // Overrides the Normal weight to match Figma 600
-                )
+
+                text = action.title.uppercase(),
+
+                style = MaterialTheme.typography.captionSmall,
+
+                color = AppColors.TextSecondary
+
+            )
+
+            Spacer(
+
+                modifier = Modifier.height(8.dp)
+
+            )
+
+            Text(
+
+                text = action.subtitle,
+
+                style = MaterialTheme.typography.headlineSmall,
+
+                color = AppColors.TextPrimary
+
             )
         }
 
-        // --- TOP RIGHT BADGES ---
-        if (isPro) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
+        action.badge?.let {
+
+            ActionBadge(
+
+                badge = it,
+
                 modifier = Modifier
+
                     .align(Alignment.TopEnd)
-                    .padding(end = 16.dp)
-                    .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
-                    .background(Color(0xFFFFB300)) // WarningYellow
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Star,
-                    contentDescription = null,
-                    tint = Color.White, // Adjust to your gold/inner color
-                    modifier = Modifier.size(14.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = "Pro mode",
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        color = Color(0xFF5D4037) // WarningText
-                    )
-                )
-            }
-        } else if (isNew) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(end = 16.dp)
-                    .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp))
-                    .background(Color(0xFFE0F2F1)) // Light Mint Green
-                    .padding(horizontal = 10.dp, vertical = 6.dp)
-            ) {
-                Text(
-                    text = "New policy",
-                    style = MaterialTheme.typography.labelSmall.copy(
-                        color = Color(0xFF00796B) // Dark Teal
-                    )
-                )
-            }
+
+                    .padding(end = 18.dp)
+
+            )
         }
     }
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, widthDp = 400)
-@Composable
-fun QuickActionCardPreview() {
-    // Wrap in your app's theme so the Geist font applies in the preview!
-    MaterialTheme(
-        // typography = AppTypography // Uncomment if your theme is set up this way
-    ) {
-        Surface(modifier = Modifier.padding(16.dp)) {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // 1. The Pro Mode Card
-                QuickActionCard(
-                    modifier = Modifier.weight(1f),
-                    title = "Renew & Earn",
-                    subtitle = "Become a 'Privileged user'",
-                    imageRes = R.drawable.ic_money, // Using your existing drawable
-                    isPro = true,
-                    isNew = false,
-                    onClick = {}
-                )
 
-                // 2. The New Policy Card
-                QuickActionCard(
-                    modifier = Modifier.weight(1f),
-                    title = "Policy Vault",
-                    subtitle = "All your policies in one place",
-                    imageRes = R.drawable.ic_dashboard2, // Using your existing drawable
-                    isPro = false,
-                    isNew = true,
-                    onClick = {}
-                )
+
+
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFFFFFFF,
+    widthDp = 400
+)
+@Composable
+private fun QuickActionCardPreview() {
+
+    MaterialTheme {
+
+        Surface(
+            modifier = Modifier.padding(16.dp)
+        ) {
+
+            Row(
+
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+
+            ) {
+
+                HomeDummyData.quickActions
+                    .take(2)
+                    .forEach { action ->
+
+                        QuickActionCard(
+
+                            modifier = Modifier.weight(1f),
+
+                            action = action,
+
+                            onClick = {}
+
+                        )
+                    }
             }
         }
     }
