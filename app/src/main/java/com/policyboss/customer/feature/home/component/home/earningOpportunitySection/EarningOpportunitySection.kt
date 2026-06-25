@@ -49,7 +49,7 @@ fun EarningOpportunitySection(
 
             text = "Start earning from insurance",
 
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.headlineMedium,
 
         )
 

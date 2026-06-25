@@ -43,6 +43,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.ui.layout.layout
 import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
 import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryGrid
+import com.policyboss.customer.feature.home.component.home.footer.TrustedPartnersSection.TrustedPartnersSection
+import com.policyboss.customer.feature.home.component.home.heroSection.HeroWithQuickActions
+import com.policyboss.customer.feature.home.component.home.videoSection.VideoSliderSection
 
 
 //The golden rule of UDF is: State flows down, Actions flow up.
@@ -125,6 +128,65 @@ fun HomeScreen(
         )
         {
 
+            //region Merge HeroWithQuickActions
+
+//            item {
+//
+//                HeroWithQuickActions(
+//
+//                    userName = uiState.userName,
+//
+//                    initials = uiState.userInitials,
+//
+//                    promoBanners = uiState.promoBanners,
+//
+//                    quickActions = uiState.quickActions,
+//
+//
+//
+//                    onProfileClick = {
+//
+//                        onAction(
+//
+//                            HomeAction.OnProfileClick
+//
+//                        )
+//
+//                    },
+//
+//
+//
+//                    onBannerClick = { banner ->
+//
+//                        onAction(
+//
+//                            HomeAction.OnPromoBannerClick(
+//
+//                                banner.id
+//
+//                            )
+//
+//                        )
+//
+//                    },
+//
+//
+//
+//                    onQuickActionClick = {
+//
+//                        onAction(
+//
+//                            HomeAction.OnQuickActionClick(it)
+//
+//                        )
+//
+//                    }
+//
+//                )
+//            }
+
+            //endregion
+
             item {
 
                 // =====================================================
@@ -164,16 +226,6 @@ fun HomeScreen(
                 // =====================================================
                 // 2. QUICK ACTIONS GRID (Half Width)
                 // =====================================================
-//                QuickActionsGrid(
-//
-//                    actions = uiState.quickActions,
-//
-//                    onClick = {
-//                        onAction(HomeAction.OnQuickActionClick(it))
-//                    },
-//
-//                    modifier = Modifier.padding(horizontal = 24.dp)
-//                )
 
                 QuickActionsGrid(
                     actions = uiState.quickActions,
@@ -295,7 +347,7 @@ fun HomeScreen(
             item {
                 Text(
                     text = "Curated Policies - Just for you",
-                    style = MaterialTheme.typography.headlineSmall,
+                    style = MaterialTheme.typography.headlineMedium,
 
                     modifier = Modifier.padding(
                         horizontal = 24.dp
@@ -326,18 +378,49 @@ fun HomeScreen(
 
                 //region BOSSPEDIA
                 BosspediaSection(
-                    modifier = Modifier.padding(
-                        horizontal = 24.dp
-                    ),
+                    modifier = Modifier.padding(horizontal = 24.dp),
+
+                    // 1. Pass the data from uiState
+                    stories = uiState.bosspediaStories,
+                    articles = uiState.bosspediaArticles,
+
+                    // 2. Map the actions
                     onExploreMoreClick = {
-                        onAction(
-                            HomeAction.OnExploreBosspediaClick
-                        )
+                        onAction(HomeAction.OnExploreBosspediaClick)
+                    },
+                    onArticleClick = { articleId ->
+                       // onAction(HomeAction.OnBosspediaArticleClick(articleId))
+                    },
+                    onStoryClick = { storyId ->
+                       // onAction(HomeAction.OnBosspediaStoryClick(storyId))
                     }
                 )
                 //endregion
             }
 
+            // =====================================================
+            // VIDEOS SECTION (Placed right before the footer)
+            // =====================================================
+            item {
+
+                // Only render the section if there are videos available
+                if (uiState.videos.isNotEmpty()) {
+                    VideoSliderSection(
+
+                        modifier = Modifier.padding(horizontal = 24.dp),
+                        videos = uiState.videos,
+
+                        onViewMoreClick = {
+                            onAction(HomeAction.OnVideoViewMoreClick)
+                        },
+
+                        onVideoClick = { video ->
+                            // Passing only the ID back to the ViewModel!
+                            onAction(HomeAction.OnVideoClick(video.id))
+                        }
+                    )
+                }
+            }
 
             // =====================================================
             // FOOTER
@@ -345,9 +428,17 @@ fun HomeScreen(
 
             item {
 
-                FooterTrustSection()
+                FooterTrustSection(  modifier = Modifier.padding(horizontal = 24.dp))
             }
 
+            // =====================================================
+            // FOOTER TRUSTED PARTNERS
+            // =====================================================
+            item {
+                TrustedPartnersSection(
+                    modifier = Modifier.padding(horizontal = 24.dp)
+                )
+            }
 
         }
 

@@ -43,6 +43,8 @@ import com.policyboss.customer.feature.home.model.QuickAction
 
 import com.policyboss.customer.ui.components.badge.ActionBadge
 import com.policyboss.customer.ui.theme.AppColors
+import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
+import com.policyboss.customer.ui.theme.bodyMediumSemiBold
 import com.policyboss.customer.ui.theme.captionSmall
 
 @Composable
@@ -119,7 +121,7 @@ fun QuickActionCard(
                 .fillMaxSize()
 
                 .padding(top = 26.dp)
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 12.dp)
                 .padding(bottom = 12.dp)
 
 
@@ -161,7 +163,7 @@ fun QuickActionCard(
 
                 text = action.subtitle,
 
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.bodyMediumSemiBold,
 
                 color = AppColors.TextPrimary
 
@@ -196,7 +198,7 @@ fun QuickActionCard(
 @Composable
 private fun QuickActionCardPreview() {
 
-    MaterialTheme {
+    PolicyBossCustomerTheme {
 
         Surface(
             modifier = Modifier.padding(16.dp)

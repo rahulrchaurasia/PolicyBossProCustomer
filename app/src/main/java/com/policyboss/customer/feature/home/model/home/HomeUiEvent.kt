@@ -73,11 +73,14 @@ sealed interface HomeUiEvent {
     data class ShowSnackbar(val message: String) : HomeUiEvent
 
 
+    //Mark : For Call Dialer Open
     data class OpenDialer(
         val phoneNumber: String
     ) : HomeUiEvent
 
-    
+
+    //Mark : For Video Open
+    data class OpenUrl(val url: String) : HomeUiEvent
     // Example of future events you might need:
     // object NavigateToLogin : HomeUiEvent (e.g., if token expires)
     // object ShowRateAppDialog : HomeUiEvent

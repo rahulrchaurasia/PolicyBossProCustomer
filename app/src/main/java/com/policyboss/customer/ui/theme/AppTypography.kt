@@ -125,7 +125,7 @@ val AppTypography = Typography(
     // ===================================================
 
     displayLarge = TextStyle(
-        fontSize = 18.sp,
+        fontSize = 28.sp,
         lineHeight = 24.sp,
         fontWeight = FontWeight.Bold,
         fontFamily = GeistFontFamily
@@ -144,21 +144,21 @@ val AppTypography = Typography(
     // ===================================================
 
     headlineLarge = TextStyle(
-        fontSize = 28.sp,
-        lineHeight = 36.sp,
+        fontSize = 22.sp,
+        lineHeight = 24.sp,
         fontWeight = FontWeight.SemiBold,
         fontFamily = GeistFontFamily
     ),
 
     headlineMedium = TextStyle(
-        fontSize = 20.sp,
-        lineHeight = 28.sp,
+        fontSize = 18.sp,
+        lineHeight = 24.sp,
         fontWeight = FontWeight.SemiBold,
         fontFamily = GeistFontFamily
     ),
 
     headlineSmall = TextStyle(
-        fontSize = 14.sp,
+        fontSize = 16.sp,
         lineHeight = 21.sp,
         fontWeight = FontWeight.SemiBold,
         fontFamily = GeistFontFamily

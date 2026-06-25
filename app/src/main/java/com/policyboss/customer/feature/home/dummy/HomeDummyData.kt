@@ -12,7 +12,12 @@ import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.home.model.BadgeType
+import com.policyboss.customer.feature.home.model.PartnerLogoModel
+import com.policyboss.customer.feature.home.model.bossepidia.BosspediaArticle
+import com.policyboss.customer.feature.home.model.bossepidia.BosspediaStory
+import com.policyboss.customer.feature.home.model.video.VideoModel
 
 /*
 HomeDummyData
@@ -602,4 +607,104 @@ object HomeDummyData {
         )
     )
     //endregion
+
+
+    //region Bosspedia
+    val bosspediaStories = listOf(
+        BosspediaStory("1", hasUnseenContent = true),
+        BosspediaStory("2", hasUnseenContent = true),
+        BosspediaStory("3", hasUnseenContent = false),
+        BosspediaStory("4", hasUnseenContent = false),
+        BosspediaStory("5", hasUnseenContent = true),
+        BosspediaStory("6", hasUnseenContent = false),
+        BosspediaStory("7", hasUnseenContent = false),
+        BosspediaStory("8", hasUnseenContent = true)
+    )
+
+    val bosspediaArticles = listOf(
+        BosspediaArticle(
+            id = "a1",
+            title = "How to Sell Insurance to Millennials",
+            readTime = "5min"
+        ),
+        BosspediaArticle(
+            id = "a2",
+            title = "Understanding Health Insurance Claims",
+            readTime = "4min"
+        ),
+        BosspediaArticle(
+            id = "a3",
+            title = "Top 5 Benefits of Term Life Insurance",
+            readTime = "6min"
+        ),
+        BosspediaArticle(
+            id = "a4",
+            title = "Pitching Motor Renewals Effectively",
+            readTime = "3min"
+        ),
+        BosspediaArticle(
+            id = "a5",
+            title = "Tax Benefits of Life Insurance in 2026",
+            readTime = "7min"
+        ),
+        BosspediaArticle(
+            id = "a6",
+            title = "Handling Customer Objections Like a Pro",
+            readTime = "5min"
+        ),
+        BosspediaArticle(
+            id = "a7",
+            title = "Why Comprehensive Car Insurance is a Must",
+            readTime = "4min"
+        ),
+        BosspediaArticle(
+            id = "a8",
+            title = "Navigating Corporate SME Policies",
+            readTime = "8min"
+        ),
+        BosspediaArticle(
+            id = "a9",
+            title = "Travel Insurance: The Upsell You're Missing",
+            readTime = "3min"
+        ),
+        BosspediaArticle(
+            id = "a10",
+            title = "Building Trust in the Digital Insurance Age",
+            readTime = "6min"
+        )
+    )
+    //endregion
+
+    //region Videos
+    val dummyVideos = listOf(
+        VideoModel(
+            id = "1",
+            title = "Health Insurance Coverage Explained",
+            youtubeVideoId = "iXl8iH-Vu8M" // Replace with real PolicyBoss video IDs
+        ),
+        VideoModel(
+            id = "2",
+            title = "How to Claim Motor Insurance",
+            youtubeVideoId = "k1Dovo96MHs"
+        ),
+        VideoModel(
+            id = "3",
+            title = "Understanding Term Life Insurance",
+            youtubeVideoId = "ZNi93U2O3SM"
+        )
+
+    )
+    //endregion
+
+    //region Trusted Partners
+    val partnerLogos = listOf(
+        PartnerLogoModel(R.drawable.ic_footer1, 0.dp),
+        PartnerLogoModel(R.drawable.ic_footer2, 24.dp),  // Right column drops down
+        PartnerLogoModel(R.drawable.ic_footer3, 0.dp),
+        PartnerLogoModel(R.drawable.ic_footer4, 24.dp),
+        PartnerLogoModel(R.drawable.ic_footer5, 0.dp),
+        PartnerLogoModel(R.drawable.ic_footer6, 24.dp),
+    )
+    //endregion
+
 }

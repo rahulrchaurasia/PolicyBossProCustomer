@@ -145,7 +145,7 @@ private fun AppLoadingOverlayPreview() {
 
                 Text(
                     text = "Create Account Screen",
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.headlineMedium
                 )
             }
         }

@@ -122,7 +122,17 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                         HomeDummyData.curatedPolicies,
 
                     vaultPolicies =
-                        HomeDummyData.vaultPolicies
+                        HomeDummyData.vaultPolicies,
+
+                    bosspediaStories =
+                        HomeDummyData.bosspediaStories,
+
+                    bosspediaArticles =
+                        HomeDummyData.bosspediaArticles,
+
+                    videos =
+                        HomeDummyData.dummyVideos
+
                 )
             }
         }
@@ -153,6 +163,9 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
             is HomeAction.OnAssistanceClick ->
                 handleOnAssistanceClick()
+
+            is HomeAction.OnVideoClick ->
+                handleVideoClick(action.videoId)
 
             else -> {
 
@@ -197,6 +210,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
+
+
 
     private fun handleDismiss() {
         _uiState.update {
@@ -250,6 +265,26 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 )
             }
         }
+    }
+
+
+    private fun handleVideoClick(videoId: String){
+
+        // 1. Find the video in your current state
+        val clickedVideo = _uiState.value.videos.find { it.id == videoId }
+
+        clickedVideo?.let { video ->
+            viewModelScope.launch {
+                // OPTIONAL: Add analytics tracking here later!
+                // e.g., analytics.track("Watched Video", video.title)
+
+                // 2. Send the event to the UI to open the URL
+                _uiEvent.send(
+                    HomeUiEvent.OpenUrl(url = video.videoUrl)
+                )
+            }
+        }
+
     }
 
     //endregion

@@ -107,4 +107,11 @@ sealed interface HomeAction {
         val index: Int
     ) : HomeAction
     //endregion
+
+
+    // Mark: video Action
+    //region  video Action
+    data object OnVideoViewMoreClick : HomeAction
+    data class OnVideoClick(val videoId: String) : HomeAction
+    //endregion
 }

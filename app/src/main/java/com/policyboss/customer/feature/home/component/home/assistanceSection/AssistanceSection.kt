@@ -37,7 +37,7 @@ fun AssistanceSection(
 
         Text(
             text = "Still having doubts?",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.labelLarge,
 
             fontWeight = FontWeight.SemiBold
         )

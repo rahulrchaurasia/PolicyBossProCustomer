@@ -69,6 +69,7 @@ fun TabContentHost(
                 onNavigateToProfile = {
                     globalActions.navigateTo(Dest.Profile) // Adjust based on your AppNavigator setup
                 },
+
                 onNavigateToVault = {
                     globalActions.navigateTo(Dest.Vault)
                 },

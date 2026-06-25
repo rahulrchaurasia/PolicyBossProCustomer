@@ -357,7 +357,7 @@ private fun OTPDigitBox(
 
                 Text(
                     text = value,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineLarge,
                     color = AppColors.TextPrimary
                 )
             }

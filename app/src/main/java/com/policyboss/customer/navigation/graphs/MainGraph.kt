@@ -258,6 +258,7 @@ fun NavGraphBuilder.mainGraph(
         // 2. Add Bosspedia Here!
         composable<Dest.Bosspedia> {
             //BosspediaScreen()
+            WishListScreen()
         }
 
         // Note: If you are managing tabs entirely manually inside TabContentHost using a `when`
@@ -267,9 +268,8 @@ fun NavGraphBuilder.mainGraph(
         // ✅ REGISTER ALL TABS HERE
 
         composable<Dest.Vault> {
-            EmptyVaultState(
-
-            )
+            CartScreen(
+                )
         }
 
         composable<Dest.Privilege> {

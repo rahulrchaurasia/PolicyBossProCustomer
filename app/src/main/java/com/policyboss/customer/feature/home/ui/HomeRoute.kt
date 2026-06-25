@@ -10,6 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -103,6 +104,9 @@ fun HomeRoute(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    // 1. Get the Compose URI Handler here
+    val uriHandler = LocalUriHandler.current
+
     // Listen for one-time events from the ViewModel (e.g., API success)
     LaunchedEffect(viewModel.uiEvent, lifecycleOwner) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -112,6 +116,7 @@ fun HomeRoute(
 
                     is HomeUiEvent.ShowSnackbar -> { /* Handle Snackbar */ }
 
+                    //Mark : For Open Dialler
                     is HomeUiEvent.OpenDialer -> {
                         val intent = Intent(
                             Intent.ACTION_DIAL,
@@ -122,9 +127,13 @@ fun HomeRoute(
 
 
                     }
-                    else -> {
 
+                    //Mark : For Open Video
+                    is HomeUiEvent.OpenUrl -> {
+                        // This natively opens the YouTube app if installed, or the browser if not!
+                        uriHandler.openUri(event.url)
                     }
+
                 }
             }
         }

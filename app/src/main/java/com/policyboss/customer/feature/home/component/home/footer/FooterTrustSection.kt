@@ -35,17 +35,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.policyboss.customer.ui.theme.AppColors
 
 @Composable
-fun FooterTrustSection(modifier: Modifier = Modifier) {
+fun FooterTrustSection(
+    modifier: Modifier = Modifier
+
+) {
     Column(
+
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 32.dp)
+            .padding(vertical = 16.dp)
     ) {
         Text(
-            text = "Comparison +\nConvenience +\nAdvisory = Us ❤️",
-            style = MaterialTheme.typography.titleLarge.copy(color = Color(0xFF98A1B2)),
+            text = "Comparison +\n\nConvenience +\n\nAdvisory = Us ❤️",
+            style = MaterialTheme.typography.displayLarge.copy(color = AppColors.TextPlaceholder),
             modifier = Modifier.padding(bottom = 24.dp)
         )
 
@@ -67,7 +72,10 @@ fun FooterTrustSection(modifier: Modifier = Modifier) {
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = marker, style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = marker,
+                   style = MaterialTheme.typography.bodyMedium.copy(color = AppColors.TextSecondary)
+                )
             }
         }
     }

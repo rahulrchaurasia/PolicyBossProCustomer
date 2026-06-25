@@ -3,8 +3,11 @@ package com.policyboss.customer.feature.home.model.home
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.QuickAction
+import com.policyboss.customer.feature.home.model.bossepidia.BosspediaArticle
+import com.policyboss.customer.feature.home.model.bossepidia.BosspediaStory
 import com.policyboss.customer.feature.home.model.policy.CuratedPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
+import com.policyboss.customer.feature.home.model.video.VideoModel
 
 /*
         User Click
@@ -42,18 +45,29 @@ data class HomeUiState(
     val earningBanners: List<EarningBanner> = emptyList(),
     val curatedPolicies: List<CuratedPolicy> = emptyList(),
 
+
+    //region Bosspedia
+    val bosspediaStories:  List<BosspediaStory> = emptyList(),
+    val bosspediaArticles:  List<BosspediaArticle> = emptyList(),
+    //endregion
+
+    //Mark : For Video
+    val videos: List<VideoModel> = emptyList(),
+
    // Mark: PolicyBottomSheet
     val showPolicyBottomSheet: Boolean = false,  // for   BottomSheet
 
 
     // Mark: vaultPolicies
+    //region vaultPolicies
     val selectedVaultTab: Int = 0,
     val vaultPolicies: List<VaultPolicy> = emptyList(),
     val selectedVaultPolicy: VaultPolicy? = null,
+    //endregion
 
 
 
 
 
-    
-)
+
+    )

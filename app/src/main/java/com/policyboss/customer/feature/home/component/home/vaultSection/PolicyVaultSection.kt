@@ -269,7 +269,6 @@ private fun HeaderRow(
             fontWeight = FontWeight.SemiBold
         )
 
-
         Row(
 
             modifier = Modifier
@@ -278,7 +277,8 @@ private fun HeaderRow(
                 }
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
-        ){
+        )
+        {
             Text(
 
                 text = "View All",

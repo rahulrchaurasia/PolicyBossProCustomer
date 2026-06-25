@@ -29,6 +29,7 @@ import com.policyboss.customer.R
 import androidx.compose.ui.tooling.preview.Preview
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.bodyMediumSemiBold
+import com.policyboss.customer.ui.theme.captionSmall
 
 @Composable
 fun PolicyCategoryCard(
@@ -51,8 +52,8 @@ fun PolicyCategoryCard(
                 .background(backgroundColor)
                 .clickable(onClick = onClick)
                 .padding(
-                    top = 28.dp,
-                    bottom = 24.dp
+                    top = 18.dp,
+                    bottom = 14.dp
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -126,10 +127,8 @@ fun ComingSoonBadge(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Coming soon",
-            color = Color(0xFF475467),
-            style = MaterialTheme.typography.labelSmall.copy(
-                fontWeight = FontWeight.SemiBold
-            )
+            color = AppColors.TextSecondary,
+            style = MaterialTheme.typography.captionSmall
         )
     }
 }

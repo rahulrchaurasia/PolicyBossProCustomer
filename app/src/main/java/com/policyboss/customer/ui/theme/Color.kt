@@ -263,7 +263,12 @@ object AppColors {
 
 
     val Gray500 = Color(0xFF667085)
+
+    val Gray= Color(0xFF475467)
     //  val Yellow = Color(0xFFA15C07)
+
+
+
 
     val DarkBackground = Color(0xFF0C111D)
 
@@ -293,6 +298,8 @@ object AppColors {
 
 
     val TrustBadgeBackground = Color(0xFFF0FDF9)
+
+
 
 
     val Border = Color(0xFFD0D5DD)
