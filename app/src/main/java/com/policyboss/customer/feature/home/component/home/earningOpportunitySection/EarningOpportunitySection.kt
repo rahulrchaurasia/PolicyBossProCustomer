@@ -25,11 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.home.component.home.card.EarningBannerCard
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.AppColors.WarningYellow
-import com.policyboss.customer.ui.theme.titleSmallItalic
 import com.policyboss.customer.R
 
 @Composable
@@ -174,7 +173,7 @@ private fun EarningOpportunitySectionPreview() {
 
     EarningOpportunitySection(
 
-        banners = HomeDummyData.earningBanners,
+        banners = AppDummyData.earningBanners,
 
         onBannerClick = {},
 

@@ -6,13 +6,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.policyboss.customer.feature.home.model.home.HomeAction
-import com.policyboss.customer.feature.home.model.home.HomeUiState
+import com.policyboss.customer.feature.home.model.homeState.HomeAction
+import com.policyboss.customer.feature.home.model.homeState.HomeUiState
 
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.*
 
 import androidx.compose.ui.graphics.Color
@@ -25,13 +24,11 @@ import com.policyboss.customer.feature.home.component.home.footer.FooterTrustSec
 import androidx.compose.ui.tooling.preview.Preview
 import com.policyboss.customer.feature.home.component.home.assistanceSection.AssistanceSection
 
-import com.policyboss.customer.feature.home.component.home.card.QuickActionCard
-import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryCard
 import com.policyboss.customer.feature.home.component.home.earningOpportunitySection.EarningOpportunitySection
 import com.policyboss.customer.ui.components.divider.SectionDivider
 
 import com.policyboss.customer.feature.home.component.home.heroSection.HeroSection
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.PolicyProtectedBottomSheet
 
 
@@ -40,11 +37,9 @@ import androidx.compose.foundation.layout.Box
 
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.ui.layout.layout
 import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
 import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryGrid
 import com.policyboss.customer.feature.home.component.home.footer.TrustedPartnersSection.TrustedPartnersSection
-import com.policyboss.customer.feature.home.component.home.heroSection.HeroWithQuickActions
 import com.policyboss.customer.feature.home.component.home.videoSection.VideoSliderSection
 
 
@@ -473,7 +468,7 @@ fun HomeScreenPreview() {
     val dummyState = HomeUiState(
         userName = "Alex",
         userInitials = "A",
-        curatedPolicies = HomeDummyData.curatedPolicies,
+        curatedPolicies = AppDummyData.curatedPolicies,
     )
 
     MaterialTheme @Composable {

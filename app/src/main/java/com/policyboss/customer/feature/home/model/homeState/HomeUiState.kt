@@ -1,4 +1,4 @@
-package com.policyboss.customer.feature.home.model.home
+package com.policyboss.customer.feature.home.model.homeState
 
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PromoBanner

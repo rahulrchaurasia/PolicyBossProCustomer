@@ -17,8 +17,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
-import com.policyboss.customer.feature.home.model.home.HomeUiState
+import com.policyboss.customer.feature.dummyData.AppDummyData
+import com.policyboss.customer.feature.home.model.homeState.HomeUiState
 import com.policyboss.customer.feature.home.ui.HomeScreen
 
 @Composable
@@ -76,11 +76,11 @@ object HomePreviewData {
 
         userInitials = "RC",
 
-        promoBanners = HomeDummyData.promoBanners,
+        promoBanners = AppDummyData.promoBanners,
 
-        earningBanners = HomeDummyData.earningBanners ,
+        earningBanners = AppDummyData.earningBanners ,
 
-        curatedPolicies = HomeDummyData.curatedPolicies
+        curatedPolicies = AppDummyData.curatedPolicies
     )
 }
 

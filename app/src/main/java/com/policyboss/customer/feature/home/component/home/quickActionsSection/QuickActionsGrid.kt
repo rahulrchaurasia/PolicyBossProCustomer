@@ -15,7 +15,7 @@ import com.policyboss.customer.feature.home.component.home.card.QuickActionCard
 import com.policyboss.customer.feature.home.model.QuickAction
 
 import androidx.compose.ui.tooling.preview.Preview
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.dummyData.AppDummyData
 
 
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
@@ -107,7 +107,7 @@ private fun QuickActionsGridPreview() {
 
         QuickActionsGrid(
 
-            actions = HomeDummyData.quickActions,
+            actions = AppDummyData.quickActions,
 
             onClick = {}
         )

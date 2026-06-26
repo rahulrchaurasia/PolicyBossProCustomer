@@ -4,11 +4,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
-import com.policyboss.customer.feature.home.model.home.HomeAction
-import com.policyboss.customer.feature.home.model.home.HomeExperience
-import com.policyboss.customer.feature.home.model.home.HomeUiEvent
-import com.policyboss.customer.feature.home.model.home.HomeUiState
+import com.policyboss.customer.feature.dummyData.AppDummyData
+import com.policyboss.customer.feature.home.model.homeState.HomeAction
+import com.policyboss.customer.feature.home.model.homeState.HomeExperience
+import com.policyboss.customer.feature.home.model.homeState.HomeUiEvent
+import com.policyboss.customer.feature.home.model.homeState.HomeUiState
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 
@@ -110,28 +110,28 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     isLoading = false,
 
                     promoBanners =
-                        HomeDummyData.promoBanners,
+                        AppDummyData.promoBanners,
 
                     quickActions =
-                        HomeDummyData.quickActions,
+                        AppDummyData.quickActions,
 
                     earningBanners =
-                        HomeDummyData.earningBanners,
+                        AppDummyData.earningBanners,
 
                     curatedPolicies =
-                        HomeDummyData.curatedPolicies,
+                        AppDummyData.curatedPolicies,
 
                     vaultPolicies =
-                        HomeDummyData.vaultPolicies,
+                        AppDummyData.vaultPolicies,
 
                     bosspediaStories =
-                        HomeDummyData.bosspediaStories,
+                        AppDummyData.bosspediaStories,
 
                     bosspediaArticles =
-                        HomeDummyData.bosspediaArticles,
+                        AppDummyData.bosspediaArticles,
 
                     videos =
-                        HomeDummyData.dummyVideos
+                        AppDummyData.dummyVideos
 
                 )
             }

@@ -1,4 +1,4 @@
-package com.policyboss.customer.feature.home.dummy
+package com.policyboss.customer.feature.dummyData
 
 import com.policyboss.customer.R
 import com.policyboss.customer.feature.home.model.EarningBanner
@@ -34,7 +34,7 @@ HomeScreen
         ▼
 PolicyVaultSection
  */
-object HomeDummyData {
+object AppDummyData {
 
 
 
@@ -306,7 +306,8 @@ object HomeDummyData {
 
             expiry = "21.02.26",
 
-            title = "Comprehensive Cover"
+            title = "Your ‘Honda Amaze’ is now protected! Access your policy by syncing your email"
+
         ),
 
         VaultPolicy(
@@ -331,7 +332,7 @@ object HomeDummyData {
 
             expiry = "05.03.26",
 
-            title = "Zero Dep Cover"
+            title = "Your ‘Hyundai i20’ is now protected! Access your policy by syncing your email"
         ),
 
         VaultPolicy(
@@ -356,7 +357,7 @@ object HomeDummyData {
 
             expiry = "15.04.26",
 
-            title = "Third Party Cover"
+            title = "Your ‘Tata Nexon’ is now protected! Access your policy by syncing your email"
         ),
 
         // ================= BIKE =================

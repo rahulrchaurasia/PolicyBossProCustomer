@@ -175,6 +175,10 @@ object AppColors {
     val BlueGradientDark = Color(0xFF1887FF)
     val BlueGradientLight = Color(0xFF7FBCFF)
 
+    val Transparent = Color.Transparent
+
+    val TransparentCustom = Color(0x00000000)
+
     val GradientLight = Color(0xFFCBF4DF)
 
     // ===================================================

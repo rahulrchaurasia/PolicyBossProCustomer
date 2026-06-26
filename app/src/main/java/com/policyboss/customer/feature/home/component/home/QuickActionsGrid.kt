@@ -4,30 +4,22 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 
-import androidx.compose.material3.MaterialTheme
-
 import androidx.compose.ui.unit.dp
 
 
 // ---------------------------- IMPORTS ----------------------------
 
-import androidx.compose.foundation.layout.*
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.policyboss.customer.R
 import com.policyboss.customer.feature.home.component.home.card.QuickActionCard
 import com.policyboss.customer.feature.home.model.QuickAction
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 
@@ -84,7 +76,7 @@ private fun QuickActionsGridPreview() {
                     .fillMaxWidth()
                     .background(AppColors.Background)
                     .padding(horizontal = 24.dp),
-                actions = HomeDummyData.quickActions,
+                actions = AppDummyData.quickActions,
                 onClick = {}
             )
         }

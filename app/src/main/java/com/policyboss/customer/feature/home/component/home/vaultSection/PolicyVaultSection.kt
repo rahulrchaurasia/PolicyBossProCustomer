@@ -65,23 +65,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
-import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.policyboss.customer.feature.home.component.home.vaultSection.component.EmptyVaultState
 import com.policyboss.customer.feature.home.component.home.vaultSection.component.MotorPolicyCard
 import com.policyboss.customer.feature.home.component.home.vaultSection.component.VaultTabBar
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.ui.components.pageIndicator.PagerIndicator
@@ -124,7 +120,7 @@ fun PolicyVaultSection(
         VaultTabBar(
 
             //tabs = vaultTabs,
-            tabs = HomeDummyData.vaultTabs,
+            tabs = AppDummyData.vaultTabs,
             selectedTab = selectedTab,
 
             onTabSelected = onTabSelected
@@ -323,7 +319,7 @@ private fun PolicyVaultSectionPreview() {
 
     PolicyVaultSection(
 
-        policies = HomeDummyData.vaultPolicies,
+        policies = AppDummyData.vaultPolicies,
 
         selectedTab = VaultTabIds.MOTOR,
 

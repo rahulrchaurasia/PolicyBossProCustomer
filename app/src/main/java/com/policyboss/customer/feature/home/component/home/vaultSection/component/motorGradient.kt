@@ -24,8 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import com.policyboss.customer.R
-import com.policyboss.customer.feature.home.dummy.HomeDummyData
+import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.ui.components.card.PolicyDetailsCard
 
 
@@ -176,7 +175,7 @@ private fun MotorPolicyCardPreview() {
 
     MotorPolicyCard(
 
-        policy = HomeDummyData.vaultPolicies.first(),
+        policy = AppDummyData.vaultPolicies.first(),
 
         onRenewClick = {},
 

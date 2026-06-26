@@ -1,7 +1,6 @@
 package com.policyboss.customer.feature.home.ui
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -21,8 +20,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.repeatOnLifecycle
 
 
-import com.policyboss.customer.feature.home.model.home.HomeAction
-import com.policyboss.customer.feature.home.model.home.HomeUiEvent
+import com.policyboss.customer.feature.home.model.homeState.HomeAction
+import com.policyboss.customer.feature.home.model.homeState.HomeUiEvent
 import androidx.core.net.toUri
 
 
