@@ -1,12 +1,8 @@
 package com.policyboss.customer.feature.mainScreen
 
-// 8. Main Home Screen with Bottom Navigation
-import androidx.compose.ui.platform.LocalContext
-import com.policyboss.customer.navigation.AppNavigator
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -18,15 +14,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.policyboss.customer.R
+import com.policyboss.customer.feature.mainScreen.customBottomNavBar.CustomBottomNavigationBar
+import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
-
 import kotlin.system.exitProcess
 
+// 8. Main Home Screen with Bottom Navigation
 
-import androidx.compose.ui.unit.Dp
-import com.policyboss.customer.feature.mainScreen.customBottomNavBar.CustomBottomNavigationBar
 
 //import com.interstellar.rahulpihujetpackdemo.rootGraph.graph.route
 
@@ -148,41 +148,90 @@ MainScreen (Scaffold)
  * =========================================================
  */
 
+
+
+/*
+AppNavHost
+│
+├── AuthGraph
+│
+├── SplashGraph
+│
+│
+└── MainGraph
+      │
+      └── MainScreen
+             │
+             ├── Scaffold
+             │
+             ├── BottomBar
+             │
+             └── NavHost
+                     │
+                     ├── HomeGraph
+                     │      ├── Home
+                     │      ├── Profile
+                     │      └── Bosspedia
+                     │
+                     ├── ClaimGraph
+                     │      ├── Claim List
+                     │      └── Claim Detail
+                     │
+                     ├── VaultGraph
+                     │      ├── Vault
+                     │      └── Policy Detail
+                     │
+                     └── PrivilegeGraph
+                            ├── Privilege
+                            ├── JoinPrivilege
+                            ├── Quiz
+                            └── RewardDetail
+// */
 @Composable
 fun MainScreen(
-    globalActions: AppNavigator
+    appNavigator: AppNavigator
 ) {
 
-    val context = LocalContext.current
+    /**
+     * =====================================================
+     * TAB NAV CONTROLLER
+     * =====================================================
+     */
+    val tabNavController = rememberNavController()
 
-    var showExitDialog by remember {
-        mutableStateOf(false)
+    /**
+     * =====================================================
+     * TAB NAVIGATOR
+     * =====================================================
+     */
+    val tabNavigator = remember(tabNavController) {
+        AppNavigator(tabNavController)
     }
 
     /**
      * =====================================================
-     * SINGLE SOURCE OF TRUTH
+     * CURRENT DESTINATION
      * =====================================================
      */
-    var selectedTab by remember {
-        mutableStateOf<Dest>(Dest.Home)
-    }
+    val currentBackStackEntry by tabNavController.currentBackStackEntryAsState()
+
+    val currentDestination = currentBackStackEntry?.destination
 
     /**
      * =====================================================
      * BOTTOM NAV ITEMS
      * =====================================================
      */
-    val navItems = remember {
+    val bottomNavItems = remember {
 
-        listOf(
+                listOf(
 
             BottomNavItem(
                 icon =  R.drawable.ic_explore,
                 title = "Explore",
                 destination = Dest.Home,
 
-            ),
+                ),
 
             BottomNavItem(
                 icon = R.drawable.ic_claim,
@@ -204,34 +253,7 @@ fun MainScreen(
                 iconSize = 28.dp
             )
         )
-    }
 
-    val selectedIndex = navItems.indexOfFirst {
-        it.destination == selectedTab
-    }
-
-    /**
-     * =====================================================
-     * BACK HANDLER
-     * =====================================================
-     *
-     * IF USER IS NOT ON HOME:
-     * -> RETURN TO HOME
-     *
-     * IF USER IS ALREADY ON HOME:
-     * -> SHOW EXIT DIALOG
-     *
-     */
-    BackHandler {
-
-        if (selectedTab != Dest.Home) {
-
-            selectedTab = Dest.Home
-
-        } else {
-
-            showExitDialog = true
-        }
     }
 
     /**
@@ -239,6 +261,20 @@ fun MainScreen(
      * EXIT DIALOG
      * =====================================================
      */
+    val context = LocalContext.current
+
+    var showExitDialog by remember {
+
+        mutableStateOf(false)
+
+    }
+
+    BackHandler {
+
+        showExitDialog = true
+
+    }
+
     if (showExitDialog) {
 
         ExitConfirmationDialog(
@@ -247,18 +283,22 @@ fun MainScreen(
 
                 (context as? Activity)?.finish()
                     ?: exitProcess(0)
+
             },
 
             onDismiss = {
 
                 showExitDialog = false
+
             }
+
         )
+
     }
 
     /**
      * =====================================================
-     * MAIN SCAFFOLD
+     * UI
      * =====================================================
      */
     Scaffold(
@@ -267,41 +307,194 @@ fun MainScreen(
 
             CustomBottomNavigationBar(
 
-                items = navItems,
+                items = bottomNavItems,
 
-                selectedIndex = selectedIndex,
+                currentDestination = currentDestination,
 
-                onItemSelected = { index ->
+                onTabSelected = { destination ->
 
-                    if (index != selectedIndex) {
+                    tabNavigator.navigateToTab(destination)
 
-                        selectedTab = navItems[index].destination
-                    }
                 }
+
             )
+
         }
 
     ) { padding ->
 
-        /**
-         * =================================================
-         * TAB CONTENT HOST
-         * =================================================
-         */
-        TabContentHost(
+        MainTabNavHost(
 
-            selectedTab = selectedTab,
+            navController = tabNavController,
 
-            globalActions = globalActions,
+            appNavigator = appNavigator,
 
             padding = padding
+
         )
+
     }
+
 }
 
 
+//******************************************************************
+  //region Comment Old
+//@Composable
+//fun MainScreen(
+//    appNavigator: AppNavigator
+//) {
+//
+//    val context = LocalContext.current
+//
+//    var showExitDialog by remember {
+//        mutableStateOf(false)
+//    }
+//
+//    /**
+//     * =====================================================
+//     * SINGLE SOURCE OF TRUTH
+//     * =====================================================
+//     */
+//    var selectedTab by remember {
+//        mutableStateOf<Dest>(Dest.Home)
+//    }
+//
+//    /**
+//     * =====================================================
+//     * BOTTOM NAV ITEMS
+//     * =====================================================
+//     */
+//    val navItems = remember {
+//
+//        listOf(
+//
+//            BottomNavItem(
+//                icon =  R.drawable.ic_explore,
+//                title = "Explore",
+//                destination = Dest.Home,
+//
+//                ),
+//
+//            BottomNavItem(
+//                icon = R.drawable.ic_claim,
+//                title = "Claim Support",
+//                destination = Dest.ClaimSupport
+//            ),
+//
+//            BottomNavItem(
+//                icon = R.drawable.ic_security,
+//                title = "Policy Vault",
+//                destination = Dest.PolicyVault
+//            ),
+//
+//            BottomNavItem(
+//                icon = R.drawable.ic_privilege,
+//                title = "Privilege",
+//                destination = Dest.Privilege,
+//                preserveOriginalColor = true,
+//                iconSize = 28.dp
+//            )
+//        )
+//    }
+//
+//    val selectedIndex = navItems.indexOfFirst {
+//        it.destination == selectedTab
+//    }
+//
+//    /**
+//     * =====================================================
+//     * BACK HANDLER
+//     * =====================================================
+//     *
+//     * IF USER IS NOT ON HOME:
+//     * -> RETURN TO HOME
+//     *
+//     * IF USER IS ALREADY ON HOME:
+//     * -> SHOW EXIT DIALOG
+//     *
+//     */
+//    BackHandler {
+//
+//        if (selectedTab != Dest.Home) {
+//
+//            selectedTab = Dest.Home
+//
+//        } else {
+//
+//            showExitDialog = true
+//        }
+//    }
+//
+//    /**
+//     * =====================================================
+//     * EXIT DIALOG
+//     * =====================================================
+//     */
+//    if (showExitDialog) {
+//
+//        ExitConfirmationDialog(
+//
+//            onConfirm = {
+//
+//                (context as? Activity)?.finish()
+//                    ?: exitProcess(0)
+//            },
+//
+//            onDismiss = {
+//
+//                showExitDialog = false
+//            }
+//        )
+//    }
+//
+//    /**
+//     * =====================================================
+//     * MAIN SCAFFOLD
+//     * =====================================================
+//     */
+//    Scaffold(
+//
+//        bottomBar = {
+//
+//            CustomBottomNavigationBar(
+//
+//                items = navItems,
+//
+//                selectedIndex = selectedIndex,
+//
+//                onItemSelected = { index ->
+//
+//                    if (index != selectedIndex) {
+//
+//                        selectedTab = navItems[index].destination
+//                    }
+//                }
+//            )
+//        }
+//
+//    ) { padding ->
+//
+//        /**
+//         * =================================================
+//         * TAB CONTENT HOST
+//         * =================================================
+//         */
+//        TabContentHost(
+//
+//            selectedTab = selectedTab,
+//
+//            appNavigator = appNavigator,
+//            padding = padding,
+//
+//            )
+//    }
+//}
 
-/**
+//endregion
+
+
+/*
  * =========================================================
  * EXIT CONFIRMATION DIALOG
  * =========================================================
@@ -372,9 +565,9 @@ fun ExitConfirmationDialog(
 
 data class BottomNavItem(
 
-    val icon: Int,
-
     val title: String,
+
+    val icon: Int,
 
     val destination: Dest,
 
@@ -382,4 +575,5 @@ data class BottomNavItem(
 
     val iconSize: Dp = 24.dp
 )
+// val destination: KClass<out Dest>,
 

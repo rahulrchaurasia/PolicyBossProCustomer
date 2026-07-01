@@ -1,12 +1,16 @@
 package com.policyboss.customer.feature.privilege.ui
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
 import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
+import com.policyboss.customer.ui.components.toolbarHeader.AppTopBar
+import com.policyboss.customer.ui.theme.AppColors
 
 @Composable
 fun PrivilegeScreen(
@@ -16,16 +20,36 @@ fun PrivilegeScreen(
     onAction: (PrivilegeAction) -> Unit
 ) {
     // We use Box or Column at the root, applying the Scaffold padding from MainScreen
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(contentPadding)
+
+    Column(
+        modifier = modifier.fillMaxSize()
+            .background(AppColors.Background)
+            .padding(contentPadding),
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            // Add extra bottom padding if you want spacing above the nav bar
-            contentPadding = PaddingValues(bottom = 24.dp)
-        ) {
+
+        AppTopBar(
+            title = "Join Privilege",
+            onBackClick = {}
+        )
+
+//        Box(
+//        modifier = modifier
+//            .fillMaxSize()
+//            .padding(contentPadding)
+//    ) {
+//        LazyColumn(
+//            modifier = Modifier.fillMaxSize(),
+//            // Add extra bottom padding if you want spacing above the nav bar
+//            contentPadding = PaddingValues(bottom = 24.dp)
+//        ) {
+
+
+
+//            AppTopBar(
+//                title = "Join Privilege",
+//                onBackClick = onBackClick
+//            )
+
 
 //            // 1. Hero Section (Yellow Banner)
 //            item {
@@ -64,6 +88,6 @@ fun PrivilegeScreen(
 //            item {
 //                PrivilegeTrustBadgesSection()
 //            }
-        }
+//        }
     }
 }

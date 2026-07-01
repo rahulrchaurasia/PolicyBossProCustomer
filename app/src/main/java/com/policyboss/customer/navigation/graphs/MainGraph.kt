@@ -1,19 +1,13 @@
 package com.policyboss.customer.navigation.graphs
 
-import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.policyboss.customer.feature.home.component.home.vaultSection.component.EmptyVaultState
-import com.policyboss.customer.feature.home.ui.HomeRoute
-import com.policyboss.customer.feature.home.ui.tabScreen.CartScreen
-import com.policyboss.customer.feature.home.ui.tabScreen.ProfileScreen
 import com.policyboss.customer.feature.home.ui.tabScreen.WishListScreen
 import com.policyboss.customer.feature.joinPrivilege.ui.JoinPrivilegeScreen
+import com.policyboss.customer.feature.mainScreen.MainScreen
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
-import com.policyboss.customer.feature.mainScreen.MainScreen
 
 //import com.interstellar.rahulpihujetpackdemo.rootGraph.graph.route
 
@@ -244,7 +238,7 @@ fun NavGraphBuilder.mainGraph(
         // ✅ Main shell (NO currentRoute, NO tab navigation)
         composable<Dest.MainScreen> {
             MainScreen(
-                globalActions = navigator
+                appNavigator = navigator,
             )
         }
 
@@ -267,16 +261,12 @@ fun NavGraphBuilder.mainGraph(
         // 🟢 Tabs (MANDATORY)
         // ✅ REGISTER ALL TABS HERE
 
-        composable<Dest.Vault> {
-            CartScreen(
-                )
-        }
+//        composable<Dest.Vault> {
+//            CartScreen(
+//                )
+//        }
 
-        composable<Dest.Privilege> {
-            ProfileScreen(
 
-            )
-        }
 //
     }
 }

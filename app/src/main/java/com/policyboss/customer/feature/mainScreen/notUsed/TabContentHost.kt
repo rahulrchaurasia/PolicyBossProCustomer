@@ -1,17 +1,13 @@
-package com.policyboss.customer.feature.mainScreen
-
-import com.policyboss.customer.navigation.AppNavigator
+package com.policyboss.customer.feature.mainScreen.notUsed
 
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.OutlinedTextFieldDefaults.contentPadding
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import com.policyboss.customer.feature.home.ui.HomeRoute
 import com.policyboss.customer.feature.home.ui.tabScreen.CartScreen
-import com.policyboss.customer.feature.home.ui.tabScreen.ProfileScreen
 import com.policyboss.customer.feature.home.ui.tabScreen.WishListScreen
+import com.policyboss.customer.feature.privilege.ui.PrivilegeRoute
+import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
 
 /**
@@ -28,7 +24,7 @@ import com.policyboss.customer.navigation.Dest
 @Composable
 fun TabContentHost(
     selectedTab: Dest,
-    globalActions: AppNavigator,
+    appNavigator: AppNavigator,
     padding: PaddingValues
 ) {
 
@@ -67,17 +63,17 @@ fun TabContentHost(
 
                 // --- PASS THE NAVIGATION CALLBACKS HERE ---
                 onNavigateToProfile = {
-                    globalActions.navigateTo(Dest.Profile) // Adjust based on your AppNavigator setup
+                    appNavigator.navigateTo(Dest.Profile) // Adjust based on your AppNavigator setup
                 },
 
                 onNavigateToVault = {
-                    globalActions.navigateTo(Dest.Vault)
+                    appNavigator.navigateTo(Dest.Vault)
                 },
                 onNavigateToBosspedia = {
-                    globalActions.navigateTo(Dest.Bosspedia)
+                    appNavigator.navigateTo(Dest.Bosspedia)
                 },
                 onNavigateToPrivilege = {
-                    globalActions.navigateTo( Dest.JoinPrivilege)
+                    appNavigator.navigateTo( Dest.JoinPrivilege)
                 }
             )
         }
@@ -110,16 +106,16 @@ fun TabContentHost(
 
         /**
          * =================================================
-         * PROFILE
+         * Privilege
          * =================================================
          */
         Dest.Privilege -> {
 
-            ProfileScreen(
-                modifier = Modifier,
-                onLogout = {
+            PrivilegeRoute(
+                contentPadding = padding,
+                onNavigateToQuiz = {
 
-                    globalActions.navigateToLoginAndClear()
+                    appNavigator.navigateTo(Dest.JoinPrivilege)
                 }
             )
         }

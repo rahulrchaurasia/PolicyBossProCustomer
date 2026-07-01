@@ -4,15 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -101,6 +94,43 @@ com.example.myapp
 │
 ├── di/
 │   ├── AppModule.kt
+ */
+
+
+//.............................................................................
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//                  Graph Architecture
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/*
+AppNavGraph
+│
+├── SplashGraph
+│
+├── AuthGraph
+│
+└── MainGraph
+      │
+      ├── MainScreen          <-- only Scaffold + BottomBar
+      │
+      ├── HomeGraph
+      │      ├── Home
+      │      ├── Profile
+      │      ├── Bosspedia
+      │      └── Details
+      │
+      ├── ClaimGraph
+      │      ├── ClaimHome
+      │      └── ClaimDetails
+      │
+      ├── VaultGraph
+      │      ├── Vault
+      │      └── PolicyDetails
+      │
+      └── PrivilegeGraph
+             ├── Privilege
+             ├── JoinPrivilege
+             └── Rewards
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
