@@ -11,7 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.policyboss.customer.core.LocalNavController
-import com.policyboss.customer.navigation.AppNavGraph
+import com.policyboss.customer.navigation.graphs.AppRoot
 import com.policyboss.customer.root.RootViewModel
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -161,8 +161,11 @@ class MainActivity : ComponentActivity() {
                     CompositionLocalProvider(
                         LocalNavController provides navController
                     ) {
-
-                        AppNavGraph(
+//                        AppNavGraph(
+//                            navController = navController,
+//                            startDestination = startDestination
+//                        )
+                        AppRoot(
                             navController = navController,
                             startDestination = startDestination
                         )

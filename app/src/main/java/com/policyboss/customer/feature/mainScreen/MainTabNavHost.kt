@@ -1,18 +1,11 @@
 package com.policyboss.customer.feature.mainScreen
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-
-import com.policyboss.customer.navigation.AppNavigator
-import com.policyboss.customer.navigation.Dest
-import com.policyboss.customer.navigation.graphs.moduleGraph.claimGraph
-import com.policyboss.customer.navigation.graphs.moduleGraph.homeGraph
-import com.policyboss.customer.navigation.graphs.moduleGraph.privilegeGraph
-import com.policyboss.customer.navigation.graphs.moduleGraph.vaultGraph
-
-
+/*
+Why putting it in AppRoot or NavGraph causes issues
+If you define the navigation logic (the navController) inside a child graph,
+ the parent (the Scaffold which holds the Bottom Bar) cannot see it.
+  This is why you get an "issue with no controller."
+ */
 /*
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -23,29 +16,41 @@ CustomBottomNavigationBar to the four feature graphs.
 
  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  */
-@Composable
-fun MainTabNavHost(
-    navController: NavHostController,
-    appNavigator: AppNavigator,
-    padding: PaddingValues
-) {
-
-    NavHost(
-
-        navController = navController,
-
-        startDestination = Dest.HomeGraph
-
-    ) {
-
-        homeGraph(appNavigator, padding)
-
-        claimGraph(appNavigator, padding)
-
-        vaultGraph(appNavigator, padding)
-
-        privilegeGraph(appNavigator, padding)
-
-    }
-
-}
+//@Composable
+//fun MainTabNavHost(
+//    navController: NavHostController, // This is your inner tab NavController!
+//    appNavigator: AppNavigator,// This is your inner tab NavController!
+//    padding: PaddingValues
+//) {
+//
+//    NavHost(
+//        navController = navController,
+//        startDestination = Dest.HomeGraph
+//    ) {
+//
+//        homeGraph(
+//            navController = navController,
+//            appNavigator = appNavigator,
+//            padding = padding,
+//
+//        )
+//
+//        claimGraph(
+//            navController = navController,
+//            navigator = appNavigator,
+//            padding = padding
+//        )
+//
+//        vaultGraph(
+//            navController = navController,
+//            navigator = appNavigator,
+//            padding = padding
+//        )
+//
+//        privilegeGraph(
+//            navController = navController,
+//            appNavigator = appNavigator,
+//            padding = padding
+//        )
+//    }
+//}

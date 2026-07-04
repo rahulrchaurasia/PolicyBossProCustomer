@@ -75,6 +75,8 @@ dependencies {
 
     implementation(libs.androidx.compose.foundation)
 
+    implementation(libs.androidx.material.icons.extended)
+
     // Core
 
     implementation(libs.androidx.material3)
@@ -130,6 +132,11 @@ dependencies {
     implementation(libs.kotlinx.serialization)
 
     implementation(libs.retrofit.serialization)
+
+
+    //video Player
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui)
 
     // DataStore
     implementation(libs.datastore.preferences)

@@ -11,9 +11,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiEvent
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
-import com.policyboss.customer.feature.privilege.viewmodel.PrivilegeViewModel
+import com.policyboss.customer.feature.claimSupport.model.claimSupportState.ClaimSupportAction
+import com.policyboss.customer.feature.claimSupport.model.claimSupportState.ClaimSupportUiEvent
+import com.policyboss.customer.feature.claimSupport.model.claimSupportState.ClaimSupportUiState
+import com.policyboss.customer.feature.claimSupport.viewmodel.ClaimSupportViewModel
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 
 
@@ -21,7 +22,7 @@ import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 fun ClaimSupportRoute(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues, // Passed from MainScreen Scaffold
-    viewModel: PrivilegeViewModel = hiltViewModel(),
+    viewModel: ClaimSupportViewModel = hiltViewModel(),
     onNavigateToQuiz: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -35,15 +36,12 @@ fun ClaimSupportRoute(
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             viewModel.uiEvent.collect { event ->
                 when (event) {
-                    is PrivilegeUiEvent.NavigateToQuiz -> onNavigateToQuiz()
-//                    is PrivilegeUiEvent.OpenDialer -> {
-//                        val intent = Intent(
-//                            Intent.ACTION_DIAL,
-//                            "tel:${event.phoneNumber}".toUri()
-//                        )
-//                        context.startActivity(intent)
-//                    }
-                    is PrivilegeUiEvent.ShowSnackbar -> { /* Handle Snackbar */ }
+                    is ClaimSupportUiEvent.ShowSnackbar -> {
+
+                    }
+                    is ClaimSupportUiEvent.event1 -> {
+
+                    }
                 }
             }
         }
@@ -58,7 +56,8 @@ fun ClaimSupportRoute(
             when (action) {
                 // If it's pure navigation that doesn't need VM logic, you can intercept here.
                 // Otherwise, pass it to the ViewModel:
-                else -> viewModel.onAction(action)
+                ClaimSupportAction.firstClick -> {}
+                ClaimSupportAction.secondClick -> {}
             }
         }
     )
@@ -77,7 +76,7 @@ private fun ClaimSupportScreenPreview() {
         ClaimSupportScreen(
             modifier = Modifier,
             contentPadding = PaddingValues(),
-            uiState = PrivilegeUiState(),
+            uiState = ClaimSupportUiState(),
             onAction = {}
         )
     }

@@ -13,12 +13,17 @@ activityCompose = "1.9.3"
 lifecycleRuntimeCompose = "2.8.7"
 lifecycleRuntimeKtx = "2.8.7"
 
+
+media3 = "1.8.0"
+
 navigationCompose = "2.8.2"
 
 hiltAndroid = "2.52"
 hiltNavigationCompose = "1.2.0"
 
 coilCompose = "2.6.0"
+
+materialIcons = "1.7.5" # Or match it to your compose version
 
 constraintlayoutCompose = "1.1.0"
 constraintlayout = "2.2.1"
@@ -45,6 +50,8 @@ appcompat = "1.7.0"
 [libraries]
 
 # Core
+
+
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -63,6 +70,11 @@ androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = 
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeCompose" }
 
 #androidx-ui = { module = "androidx.compose.ui:ui" }
+
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIcons" }
+
+androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3" }
+androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3" }
 
 androidx-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 

@@ -1,29 +1,9 @@
 package com.policyboss.customer.feature.mainScreen
 
 
-import android.app.Activity
-import androidx.activity.compose.BackHandler
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import com.policyboss.customer.R
-import com.policyboss.customer.feature.mainScreen.customBottomNavBar.CustomBottomNavigationBar
-import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
-import kotlin.system.exitProcess
 
 // 8. Main Home Screen with Bottom Navigation
 
@@ -187,187 +167,52 @@ AppNavHost
                             ├── Quiz
                             └── RewardDetail
 // */
-@Composable
-fun MainScreen(
-    appNavigator: AppNavigator
-) {
 
-    /**
-     * =====================================================
-     * TAB NAV CONTROLLER
-     * =====================================================
-     */
-    val tabNavController = rememberNavController()
-
-    /**
-     * =====================================================
-     * TAB NAVIGATOR
-     * =====================================================
-     */
-    val tabNavigator = remember(tabNavController) {
-        AppNavigator(tabNavController)
-    }
-
-    /**
-     * =====================================================
-     * CURRENT DESTINATION
-     * =====================================================
-     */
-    val currentBackStackEntry by tabNavController.currentBackStackEntryAsState()
-
-    val currentDestination = currentBackStackEntry?.destination
-
-    /**
-     * =====================================================
-     * BOTTOM NAV ITEMS
-     * =====================================================
-     */
-    val bottomNavItems = remember {
-
-                listOf(
-
-            BottomNavItem(
-                icon =  R.drawable.ic_explore,
-                title = "Explore",
-                destination = Dest.Home,
-
-                ),
-
-            BottomNavItem(
-                icon = R.drawable.ic_claim,
-                title = "Claim Support",
-                destination = Dest.ClaimSupport
-            ),
-
-            BottomNavItem(
-                icon = R.drawable.ic_security,
-                title = "Policy Vault",
-                destination = Dest.PolicyVault
-            ),
-
-            BottomNavItem(
-                icon = R.drawable.ic_privilege,
-                title = "Privilege",
-                destination = Dest.Privilege,
-                preserveOriginalColor = true,
-                iconSize = 28.dp
-            )
-        )
-
-    }
-
-    /**
-     * =====================================================
-     * EXIT DIALOG
-     * =====================================================
-     */
-    val context = LocalContext.current
-
-    var showExitDialog by remember {
-
-        mutableStateOf(false)
-
-    }
-
-    BackHandler {
-
-        showExitDialog = true
-
-    }
-
-    if (showExitDialog) {
-
-        ExitConfirmationDialog(
-
-            onConfirm = {
-
-                (context as? Activity)?.finish()
-                    ?: exitProcess(0)
-
-            },
-
-            onDismiss = {
-
-                showExitDialog = false
-
-            }
-
-        )
-
-    }
-
-    /**
-     * =====================================================
-     * UI
-     * =====================================================
-     */
-    Scaffold(
-
-        bottomBar = {
-
-            CustomBottomNavigationBar(
-
-                items = bottomNavItems,
-
-                currentDestination = currentDestination,
-
-                onTabSelected = { destination ->
-
-                    tabNavigator.navigateToTab(destination)
-
-                }
-
-            )
-
-        }
-
-    ) { padding ->
-
-        MainTabNavHost(
-
-            navController = tabNavController,
-
-            appNavigator = appNavigator,
-
-            padding = padding
-
-        )
-
-    }
-
-}
-
-
-//******************************************************************
-  //region Comment Old
+/*
+Don't put BottomNavItem in the Graph: It's just configuration data.Don't put NavController in the Graph:
+ Always inject it from the MainScreen (the parent) into the child graph functions as a parameter.
+  The Tab Bar needs the controller: The onItemSelected lambda in your CustomBottomNavigationBar must
+   call navController.navigate(...) to actually perform the action.  By passing the navController as an argument to homeGraph, claimGraph, etc.,
+you ensure every screen has a handle on the same "engine" without creating new ones.
+ */
 //@Composable
 //fun MainScreen(
 //    appNavigator: AppNavigator
 //) {
 //
-//    val context = LocalContext.current
+//    /**
+//     * =====================================================
+//     * TAB NAV CONTROLLER
+//     * =====================================================
+//     */
+//    val tabNavController = rememberNavController()
 //
-//    var showExitDialog by remember {
-//        mutableStateOf(false)
+//    /**
+//     * =====================================================
+//     * TAB NAVIGATOR
+//     * =====================================================
+//     */
+//    val tabNavigator = remember(tabNavController) {
+//        AppNavigator(tabNavController)
 //    }
 //
 //    /**
 //     * =====================================================
-//     * SINGLE SOURCE OF TRUTH
+//     * CURRENT DESTINATION
 //     * =====================================================
 //     */
-//    var selectedTab by remember {
-//        mutableStateOf<Dest>(Dest.Home)
-//    }
+//    val currentBackStackEntry by tabNavController.currentBackStackEntryAsState()
+//
+//    val currentDestination = currentBackStackEntry?.destination
 //
 //    /**
 //     * =====================================================
 //     * BOTTOM NAV ITEMS
 //     * =====================================================
 //     */
-//    val navItems = remember {
+//    val bottomNavItems = remember {
 //
-//        listOf(
+//                listOf(
 //
 //            BottomNavItem(
 //                icon =  R.drawable.ic_explore,
@@ -396,34 +241,7 @@ fun MainScreen(
 //                iconSize = 28.dp
 //            )
 //        )
-//    }
 //
-//    val selectedIndex = navItems.indexOfFirst {
-//        it.destination == selectedTab
-//    }
-//
-//    /**
-//     * =====================================================
-//     * BACK HANDLER
-//     * =====================================================
-//     *
-//     * IF USER IS NOT ON HOME:
-//     * -> RETURN TO HOME
-//     *
-//     * IF USER IS ALREADY ON HOME:
-//     * -> SHOW EXIT DIALOG
-//     *
-//     */
-//    BackHandler {
-//
-//        if (selectedTab != Dest.Home) {
-//
-//            selectedTab = Dest.Home
-//
-//        } else {
-//
-//            showExitDialog = true
-//        }
 //    }
 //
 //    /**
@@ -431,6 +249,20 @@ fun MainScreen(
 //     * EXIT DIALOG
 //     * =====================================================
 //     */
+//    val context = LocalContext.current
+//
+//    var showExitDialog by remember {
+//
+//        mutableStateOf(false)
+//
+//    }
+//
+//    BackHandler {
+//
+//        showExitDialog = true
+//
+//    }
+//
 //    if (showExitDialog) {
 //
 //        ExitConfirmationDialog(
@@ -439,18 +271,22 @@ fun MainScreen(
 //
 //                (context as? Activity)?.finish()
 //                    ?: exitProcess(0)
+//
 //            },
 //
 //            onDismiss = {
 //
 //                showExitDialog = false
+//
 //            }
+//
 //        )
+//
 //    }
 //
 //    /**
 //     * =====================================================
-//     * MAIN SCAFFOLD
+//     * UI
 //     * =====================================================
 //     */
 //    Scaffold(
@@ -459,103 +295,100 @@ fun MainScreen(
 //
 //            CustomBottomNavigationBar(
 //
-//                items = navItems,
+//                items = bottomNavItems,
 //
-//                selectedIndex = selectedIndex,
+//                currentDestination = currentDestination,
 //
-//                onItemSelected = { index ->
+//                onTabSelected = { destination ->
 //
-//                    if (index != selectedIndex) {
+//                    tabNavigator.navigateToTab(destination)
 //
-//                        selectedTab = navItems[index].destination
-//                    }
 //                }
+//
 //            )
+//
 //        }
 //
 //    ) { padding ->
 //
-//        /**
-//         * =================================================
-//         * TAB CONTENT HOST
-//         * =================================================
-//         */
-//        TabContentHost(
+//        MainTabNavHost(
 //
-//            selectedTab = selectedTab,
+//            navController = tabNavController,
 //
 //            appNavigator = appNavigator,
-//            padding = padding,
 //
-//            )
+//            padding = padding
+//
+//        )
+//
 //    }
+//
 //}
-
-//endregion
-
-
-/*
- * =========================================================
- * EXIT CONFIRMATION DIALOG
- * =========================================================
- */
-
-@Composable
-fun ExitConfirmationDialog(
-    onConfirm: () -> Unit,
-    onDismiss: () -> Unit
-) {
-
-    AlertDialog(
-
-        onDismissRequest = onDismiss,
-
-        title = {
-
-            Text(
-                text = "Exit App",
-                style = MaterialTheme.typography.titleLarge
-            )
-        },
-
-        text = {
-
-            Text(
-                text = "Are you sure you want to exit?",
-                style = MaterialTheme.typography.bodyMedium
-            )
-        },
-
-        confirmButton = {
-
-            TextButton(
-
-                onClick = onConfirm,
-
-                colors = ButtonDefaults.textButtonColors(
-                    contentColor = MaterialTheme.colorScheme.error
-                )
-            ) {
-
-                Text("Yes")
-            }
-        },
-
-        dismissButton = {
-
-            TextButton(
-                onClick = onDismiss
-            ) {
-
-                Text("No")
-            }
-        },
-
-        containerColor = MaterialTheme.colorScheme.surface,
-
-        tonalElevation = 6.dp
-    )
-}
+//
+//
+//
+///*
+// * =========================================================
+// * EXIT CONFIRMATION DIALOG
+// * =========================================================
+// */
+//
+//@Composable
+//fun ExitConfirmationDialog(
+//    onConfirm: () -> Unit,
+//    onDismiss: () -> Unit
+//) {
+//
+//    AlertDialog(
+//
+//        onDismissRequest = onDismiss,
+//
+//        title = {
+//
+//            Text(
+//                text = "Exit App",
+//                style = MaterialTheme.typography.titleLarge
+//            )
+//        },
+//
+//        text = {
+//
+//            Text(
+//                text = "Are you sure you want to exit?",
+//                style = MaterialTheme.typography.bodyMedium
+//            )
+//        },
+//
+//        confirmButton = {
+//
+//            TextButton(
+//
+//                onClick = onConfirm,
+//
+//                colors = ButtonDefaults.textButtonColors(
+//                    contentColor = MaterialTheme.colorScheme.error
+//                )
+//            ) {
+//
+//                Text("Yes")
+//            }
+//        },
+//
+//        dismissButton = {
+//
+//            TextButton(
+//                onClick = onDismiss
+//            ) {
+//
+//                Text("No")
+//            }
+//        },
+//
+//        containerColor = MaterialTheme.colorScheme.surface,
+//
+//        tonalElevation = 6.dp
+//    )
+//}
 
 /**
  * =========================================================

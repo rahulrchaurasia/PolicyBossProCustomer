@@ -1,86 +1,87 @@
 package com.policyboss.customer.feature.privilege.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
 import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiEvent
 import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class PrivilegeViewModel @Inject constructor(
-    // TODO: Inject your Repositories or UseCases here later
-    // private val privilegeRepository: PrivilegeRepository
+    val player: ExoPlayer
 ) : ViewModel() {
 
     // 1. UI STATE: Holds the data the screen needs to draw itself.
     private val _uiState = MutableStateFlow(PrivilegeUiState())
     val uiState: StateFlow<PrivilegeUiState> = _uiState.asStateFlow()
 
-    // 2. UI EVENTS: A Channel for fire-and-forget events (Navigation, Toasts, Intents)
-    // We use a Channel because events should only be consumed once.
     private val _uiEvent = Channel<PrivilegeUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    // 3. ACTIONS: The single entry point for all UI interactions
+    init {
+        // Automatically set up the video when the screen is opened
+        initializeVideo()
+    }
+
+    private fun initializeVideo() {
+        // Use a remote URL. Do not package large videos in the APK.
+        // This is a standard Google test video URL.
+        val remoteVideoUrl = "https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4"
+        val mediaItem = MediaItem.fromUri(Uri.parse(remoteVideoUrl))
+
+        player.setMediaItem(mediaItem)
+        player.prepare()
+
+        // Start playing automatically
+        player.playWhenReady = true
+
+        // Show the floating video player in the UI
+        _uiState.update { it.copy(isFloatingVideoVisible = true) }
+    }
+
+    // Inside PrivilegeViewModel...
+
     fun onAction(action: PrivilegeAction) {
         when (action) {
-            is PrivilegeAction.OnSetupAccountClick -> {
-                // Example: Trigger navigation event
-               // sendEvent(PrivilegeUiEvent.NavigateToSetupSteps)
+            is PrivilegeAction.CloseFloatingVideo -> {
+                _uiState.update { it.copy(isFloatingVideoVisible = false) }
+                player.pause()
             }
-            
-            is PrivilegeAction.OnJoinPrivilegeClick -> {
-                // Example: Call an API, show loading, then handle result
-                joinPrivilege()
+            is PrivilegeAction.OnVideoClick -> {
+                // 1. Pause the floating video so audio doesn't overlap
+                player.pause()
+
+                // 2. Hide the floating player (optional, depends on your desired UX)
+                _uiState.update { it.copy(isFloatingVideoVisible = false) }
+
+                // 3. Tell the Route to navigate to the full screen video
+                viewModelScope.launch {
+                    //Event trigger
+                    _uiEvent.send(PrivilegeUiEvent.NavigateToFullScreenVideo)
+                }
             }
-            
-//            is PrivilegeAction.OnGetAssistanceClick -> {
-//                // Example: Trigger the dialer intent event
-//                // (Replace with actual RM phone number from your data)
-//                sendEvent(PrivilegeUiEvent.OpenDialer(phoneNumber = "+919876543210"))
-//            }
-        }
-    }
-
-    // --- Private Helper Methods ---
-
-    private fun joinPrivilege() {
-        viewModelScope.launch {
-            // Update state to show a loading spinner
-            _uiState.value = _uiState.value.copy(isLoading = true)
-
-            try {
-                // TODO: Make your API call here
-                // val result = privilegeRepository.joinPrivilege()
-                
-                // On Success:
-                _uiState.value = _uiState.value.copy(isLoading = false)
-                sendEvent(PrivilegeUiEvent.ShowSnackbar("Successfully joined Privilege!"))
-                
-            } catch (e: Exception) {
-                // On Error:
-                _uiState.value = _uiState.value.copy(isLoading = false)
-                sendEvent(PrivilegeUiEvent.ShowSnackbar(e.message ?: "An error occurred"))
+            is PrivilegeAction.SetupAccountClicked -> {
+                // Setup logic
             }
         }
     }
 
-    /**
-     * Helper function to send one-time events cleanly.
-     */
-    private fun sendEvent(event: PrivilegeUiEvent) {
-        viewModelScope.launch {
-            _uiEvent.send(event)
-        }
+    override fun onCleared() {
+        super.onCleared()
+        // CRITICAL: Always release the player to prevent severe memory leaks
+        player.release()
     }
+
 }

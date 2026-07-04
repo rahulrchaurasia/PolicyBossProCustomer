@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
+import com.policyboss.customer.feature.policyVault.model.policyVaultState.PolicyVaultAction
+import com.policyboss.customer.feature.policyVault.model.policyVaultState.PolicyVaultUiState
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 
@@ -22,8 +22,8 @@ import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 fun PolicyVaultScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    uiState: PrivilegeUiState, // Your data class from ViewModel
-    onAction: (PrivilegeAction) -> Unit
+    uiState: PolicyVaultUiState, // Your data class from ViewModel
+    onAction: (PolicyVaultAction) -> Unit
 
 ) {
 
@@ -41,7 +41,7 @@ fun PolicyVaultScreen(
         ) {
 
             Text(
-                text = "Claim Support ",
+                text = "PolicyVault ",
                 style = MaterialTheme.typography.headlineMedium
             )
         }
@@ -61,7 +61,7 @@ private fun PolicyVaultScreenPreview() {
         PolicyVaultScreen(
             modifier = Modifier,
             contentPadding = PaddingValues(),
-            uiState = PrivilegeUiState(),
+            uiState = PolicyVaultUiState(),
             onAction = {}
         )
     }

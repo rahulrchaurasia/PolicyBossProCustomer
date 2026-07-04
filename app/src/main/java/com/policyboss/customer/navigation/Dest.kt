@@ -27,8 +27,9 @@ sealed class Dest {
     @Serializable data object AuthGraph : Dest()
     @Serializable data object MainGraph : Dest()
 
-// Bottom Graphs
+  //  Bottom Graphs
 
+    //region  Graphs
     @Serializable
     data object HomeGraph : Dest()
 
@@ -43,10 +44,13 @@ sealed class Dest {
     @Serializable
     data object PrivilegeGraph : Dest()
 
+    //endregion
+
     // =====================================
     // AUTH DESTINATIONS
     // =====================================
 
+     // region AUTH DESTINATIONS
     @Serializable
     data object Welcome : Dest()
 
@@ -63,10 +67,14 @@ sealed class Dest {
         val source: VerifyOtpSource
     ) : Dest()
 
+    //endregion
+
+
     // =====================================
     // MAIN APP DESTINATIONS
     // =====================================
 
+    // region MAIN APP DESTINATIONS
     @Serializable
     data object MainScreen : Dest()
 
@@ -80,6 +88,8 @@ sealed class Dest {
 
     @Serializable
     data object Vault : Dest()
+
+    //endregion
 
     // --- Bottom Navigation Destinations Tabs ---
     // region Bottom Navigation
@@ -98,13 +108,15 @@ sealed class Dest {
     data object Privilege : Dest()
     //endregion
 
-
-
-
-
+    // region  Privilege Journey
     @Serializable
     data object JoinPrivilege : Dest()
 
+
+    @Serializable
+    data object PrivilegeStories : Dest()
+
+    //endregion
 
 }
 

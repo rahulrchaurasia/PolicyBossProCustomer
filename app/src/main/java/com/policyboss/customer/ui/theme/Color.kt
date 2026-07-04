@@ -189,6 +189,17 @@ object AppColors {
 
     val SupportCardBackground = Color(0xFFF1F7FF)
 
+
+
+     val DarkBackground1 = Color(0xFF131722)
+
+    val DarkBackground = Color(0xFF0C111D)
+
+
+    val DarkCardBackground = Color(0xFF1E2330)
+     val PrimaryYellow = Color(0xFFFDB833)
+     val TextGray = Color(0xFFA0AAB9)
+
     // ===================================================
     // TEXT
     // ===================================================
@@ -274,7 +285,7 @@ object AppColors {
 
 
 
-    val DarkBackground = Color(0xFF0C111D)
+
 
     // =====================================================
     // BRAND COLORS

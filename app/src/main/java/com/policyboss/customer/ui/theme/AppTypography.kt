@@ -105,6 +105,11 @@ val GeistFontFamily = FontFamily(
     Font(R.font.geist_medium, FontWeight.Medium),
     Font(R.font.geist_semibold, FontWeight.SemiBold),
 
+    Font(R.font.geist_bold, FontWeight.Bold),
+    Font(R.font.geist_extrabold, FontWeight.ExtraBold),
+
+
+
     Font(R.font.geist_regular_italic, FontWeight.Normal),
     Font(R.font.geist_medium_italic, FontWeight.Medium),
     Font(R.font.geist_semibold_italic, FontWeight.SemiBold)
@@ -288,6 +293,14 @@ val Typography.bodyMediumSemiBold: TextStyle
         fontFamily = GeistFontFamily
     )
 
+val Typography.headlineLargeExtraBold: TextStyle
+    get() = TextStyle(
+        fontSize = 20.sp,
+        lineHeight = 24.sp,
+        fontWeight = FontWeight.ExtraBold,
+        fontFamily = GeistFontFamily
+    )
+
 val Typography.titleSmallItalic: TextStyle
     get() = titleSmall.copy(
         fontStyle = FontStyle.Italic
@@ -297,4 +310,10 @@ val Typography.bottomNavLabelSelected: TextStyle
     get() = labelSmall.copy(
         fontWeight = FontWeight.SemiBold
     )
+
+val Typography.labelSmallBold: TextStyle
+    get() = labelSmall.copy(
+        fontWeight = FontWeight.Bold
+    )
+
 

@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
+import com.policyboss.customer.feature.claimSupport.model.claimSupportState.ClaimSupportAction
+import com.policyboss.customer.feature.claimSupport.model.claimSupportState.ClaimSupportUiState
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 
@@ -23,8 +23,8 @@ import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 fun ClaimSupportScreen(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
-    uiState: PrivilegeUiState, // Your data class from ViewModel
-    onAction: (PrivilegeAction) -> Unit
+    uiState: ClaimSupportUiState, // Your data class from ViewModel
+    onAction: (ClaimSupportAction) -> Unit
 
 ) {
 
@@ -62,7 +62,7 @@ private fun ClaimSupportScreenPreview() {
         ClaimSupportScreen(
             modifier = Modifier,
             contentPadding = PaddingValues(),
-            uiState = PrivilegeUiState(),
+            uiState = ClaimSupportUiState(),
             onAction = {}
         )
     }

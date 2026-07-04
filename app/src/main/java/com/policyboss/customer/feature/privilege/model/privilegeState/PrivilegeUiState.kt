@@ -3,7 +3,8 @@ package com.policyboss.customer.feature.privilege.model.privilegeState// Privile
 // 1. What the screen displays
 data class PrivilegeUiState(
     val isLoading: Boolean = false,
-    val currentSetupStep: Int = 1
+    val currentSetupStep: Int = 1,
+    val isFloatingVideoVisible: Boolean = false // New flag for the PiP video
 )
 
 

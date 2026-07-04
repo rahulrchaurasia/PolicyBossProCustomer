@@ -2,13 +2,14 @@ package com.policyboss.customer.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavDestination
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 // ✅ Note: Centralized Navigation Logic - 100% Type-Safe version
-class AppNavigator(private val navController: NavController) {
+class AppNavigator( val navController: NavController) {
 
 
     // =====================================
@@ -36,15 +37,25 @@ class AppNavigator(private val navController: NavController) {
     // 2. TAB NAVIGATION (Industrial Standard)
     // ─────────────────────────────────────
 
+    // ✅ FIXED: Explicitly popUpTo Dest.MainGraph so we don't accidentally pop back to Splash!
     fun navigateToTab(destination: Any) {
         navController.navigate(destination) {
-            popUpTo(navController.graph.findStartDestination().id) {
+            popUpTo<Dest.MainGraph> {
                 saveState = true
             }
             launchSingleTop = true
             restoreState = true
         }
     }
+//    fun navigateToTab(destination: Any) {
+//        navController.navigate(destination) {
+//            popUpTo(navController.graph.findStartDestination().id) {
+//                saveState = true
+//            }
+//            launchSingleTop = true
+//            restoreState = true
+//        }
+//    }
 
     // ─────────────────────────────────────
     // 3. STACK CONTROL (Fixed to remove .route())
@@ -127,5 +138,14 @@ class AppNavigator(private val navController: NavController) {
     }
 
 
+    @Composable
+    fun currentDestination(): NavDestination? {
+        val entry by navController.currentBackStackEntryAsState()
+        return entry?.destination
+    }
 
+    // ✅ Made public so privilegeGraph can use it for Hilt parent-scoping without needing the raw navController!
+    inline fun <reified T : Any> getBackStackEntry(): NavBackStackEntry {
+        return navController.getBackStackEntry<T>()
+    }
 }

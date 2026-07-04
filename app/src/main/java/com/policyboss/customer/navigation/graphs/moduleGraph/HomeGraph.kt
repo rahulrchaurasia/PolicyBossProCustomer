@@ -2,6 +2,7 @@ package com.policyboss.customer.navigation.graphs.moduleGraph
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
@@ -12,6 +13,8 @@ import com.policyboss.customer.navigation.Dest
 
 
 fun NavGraphBuilder.homeGraph(
+
+
     appNavigator: AppNavigator,
     padding: PaddingValues
 ) {
@@ -24,7 +27,7 @@ fun NavGraphBuilder.homeGraph(
 
             HomeRoute(
                 modifier = Modifier,
-                contentPadding = padding,
+                contentPadding = PaddingValues(0.dp),
 
                 // --- PASS THE NAVIGATION CALLBACKS HERE ---
                 onNavigateToProfile = {

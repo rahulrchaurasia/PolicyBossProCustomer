@@ -1,46 +1,38 @@
 package com.policyboss.customer.feature.home.ui
 
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.policyboss.customer.feature.home.model.homeState.HomeAction
-import com.policyboss.customer.feature.home.model.homeState.HomeUiState
-
-
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-
 import androidx.compose.ui.graphics.Color
-
-import com.policyboss.customer.feature.home.component.home.vaultSection.PolicyVaultSection
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.policyboss.customer.feature.dummyData.AppDummyData
+import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
+import com.policyboss.customer.feature.home.component.home.assistanceSection.AssistanceSection
+import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryGrid
+import com.policyboss.customer.feature.home.component.home.earningOpportunitySection.EarningOpportunitySection
 import com.policyboss.customer.feature.home.component.home.footer.BosspediaSection
 import com.policyboss.customer.feature.home.component.home.footer.FooterTrustSection
-
-
-import androidx.compose.ui.tooling.preview.Preview
-import com.policyboss.customer.feature.home.component.home.assistanceSection.AssistanceSection
-
-import com.policyboss.customer.feature.home.component.home.earningOpportunitySection.EarningOpportunitySection
-import com.policyboss.customer.ui.components.divider.SectionDivider
-
-import com.policyboss.customer.feature.home.component.home.heroSection.HeroSection
-import com.policyboss.customer.feature.dummyData.AppDummyData
-import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.PolicyProtectedBottomSheet
-
-
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-
-
-import androidx.compose.foundation.lazy.LazyColumn
-import com.policyboss.customer.feature.home.component.home.QuickActionsGrid
-import com.policyboss.customer.feature.home.component.home.currentPolicySection.PolicyCategoryGrid
 import com.policyboss.customer.feature.home.component.home.footer.TrustedPartnersSection.TrustedPartnersSection
+import com.policyboss.customer.feature.home.component.home.heroSection.HeroSection
+import com.policyboss.customer.feature.home.component.home.vaultSection.PolicyVaultSection
 import com.policyboss.customer.feature.home.component.home.videoSection.VideoSliderSection
+import com.policyboss.customer.feature.home.model.homeState.HomeAction
+import com.policyboss.customer.feature.home.model.homeState.HomeUiState
+import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.PolicyProtectedBottomSheet
+import com.policyboss.customer.ui.components.divider.SectionDivider
 
 
 //The golden rule of UDF is: State flows down, Actions flow up.
@@ -110,11 +102,12 @@ fun HomeScreen(
                 .background(Color.White),
 
             contentPadding = PaddingValues(
-                top = contentPadding.calculateTopPadding(),
+                //top = contentPadding.calculateTopPadding(),
+                top = 0.dp,
                 bottom = contentPadding.calculateBottomPadding() + 32.dp,
 
-//            start = 16.dp, // Assuming you want side padding on the grid
-//            end = 16.dp
+                //  start = 16.dp, // Assuming you want side padding on the grid
+                // end = 16.dp
 
             ),
             // horizontalArrangement = Arrangement.spacedBy(16.dp),
