@@ -46,9 +46,12 @@ fun PrivilegeScreen(
 
             // 3. Child starts fresh with capital-M 'Modifier'
             //ex. Modifier.fillMaxSize()
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = 0.dp, // Force 0 top padding
+                bottom = contentPadding.calculateBottomPadding()
+            )
 
-                .padding(contentPadding),
         )
         {
             item {

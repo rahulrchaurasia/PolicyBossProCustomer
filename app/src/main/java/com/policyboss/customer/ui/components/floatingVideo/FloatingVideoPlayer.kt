@@ -9,7 +9,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -103,19 +103,24 @@ fun FloatingVideoPlayer(
             onClick = onCloseClick,
             modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(4.dp)
-                .size(24.dp)
-                .background(
-                    Color.Black.copy(alpha = 0.5f),
-                    CircleShape
-                )
+                .size(48.dp)   // 48dp touch target
         ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Close",
-                tint = Color.White,
-                modifier = Modifier.size(16.dp)
-            )
+            Surface(
+                modifier = Modifier.size(24.dp),
+                shape = CircleShape,
+                color = Color.Black.copy(alpha = 0.5f)
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+            }
         }
     }
 }
