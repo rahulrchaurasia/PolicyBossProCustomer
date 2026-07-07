@@ -6,20 +6,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.policyboss.customer.R
 import com.policyboss.customer.ui.theme.AppColors
+import com.policyboss.customer.ui.theme.bodyMediumSemiBold
+
 @Composable
  fun PrivilegeBenefitItem(text: String) {
     Row(
@@ -28,21 +29,24 @@ import com.policyboss.customer.ui.theme.AppColors
     ) {
         Surface(
             shape = CircleShape,
-            color = Color.Black.copy(alpha = 0.2f),
+            color = AppColors.GoldText,
             modifier = Modifier.size(16.dp)
         ) {
+
             Icon(
-                imageVector = Icons.Default.Check,
+
+                painter = painterResource(id = R.drawable.ic_check),
                 contentDescription = null,
-                tint = Color.Black,
+                tint = AppColors.White,
                 modifier = Modifier.padding(2.dp)
+
             )
         }
         Spacer(modifier = Modifier.width(12.dp))
         Text(
             text = text,
-            color = Color.Black.copy(alpha = 0.8f),
-            fontWeight = FontWeight.SemiBold,
+            color = AppColors.GoldText,
+            style = MaterialTheme.typography.bodyMediumSemiBold,
             fontSize = 13.sp,
             lineHeight = 18.sp
         )

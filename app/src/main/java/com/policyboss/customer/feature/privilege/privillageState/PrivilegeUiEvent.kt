@@ -1,4 +1,4 @@
-package com.policyboss.customer.feature.privilege.model.privilegeState
+package com.policyboss.customer.feature.privilege.privillageState
 
 
 

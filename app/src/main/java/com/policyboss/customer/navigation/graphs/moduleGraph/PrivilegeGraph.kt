@@ -3,7 +3,6 @@ package com.policyboss.customer.navigation.graphs.moduleGraph
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -34,7 +33,7 @@ fun NavGraphBuilder.privilegeGraph(
 
   //  navController: NavHostController, // Global navigator (use only for logging out or going to root screens)
     appNavigator: AppNavigator,
-    padding: PaddingValues
+    padding: PaddingValues  //<--- 1. This comes from the Scaffold
 ) {
 
     navigation<Dest.PrivilegeGraph>(
@@ -53,7 +52,7 @@ fun NavGraphBuilder.privilegeGraph(
 
             PrivilegeRoute(
                 modifier = Modifier,
-                contentPadding = PaddingValues(0.dp),
+                contentPadding = padding, // <--- 2. FIX: Pass the scaffold padding here! Not PaddingValues(0.dp)
                 viewModel = viewModel,
                 onNavigateToStories = {
                     appNavigator.navigateTo(Dest.PrivilegeStories)

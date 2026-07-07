@@ -216,6 +216,8 @@ val AppTypography = Typography(
         fontFamily = GeistFontFamily
     ),
 
+
+
     bodySmall = TextStyle(
         fontSize = 12.sp,
         lineHeight = 16.sp,
@@ -293,6 +295,14 @@ val Typography.bodyMediumSemiBold: TextStyle
         fontFamily = GeistFontFamily
     )
 
+val Typography.bodyMediumNormal: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        fontWeight = FontWeight.Normal,
+        fontFamily = GeistFontFamily
+    )
+
 val Typography.headlineLargeExtraBold: TextStyle
     get() = TextStyle(
         fontSize = 20.sp,
@@ -317,3 +327,10 @@ val Typography.labelSmallBold: TextStyle
     )
 
 
+val Typography.labelSmallSemiBold: TextStyle
+    get() = TextStyle(
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        fontWeight = FontWeight.SemiBold,
+        fontFamily = GeistFontFamily
+    )

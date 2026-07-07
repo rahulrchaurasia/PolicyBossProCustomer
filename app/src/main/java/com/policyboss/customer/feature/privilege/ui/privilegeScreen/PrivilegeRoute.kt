@@ -13,7 +13,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiEvent
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeUiEvent
 import com.policyboss.customer.feature.privilege.viewmodel.PrivilegeViewModel
 
 @Composable

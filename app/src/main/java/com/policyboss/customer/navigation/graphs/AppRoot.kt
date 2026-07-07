@@ -79,7 +79,11 @@ fun AppRoot(
 
     val bottomNavItems = remember {
         listOf(
-            BottomNavItem(icon = R.drawable.ic_explore, title = "Explore", destination = Dest.Home),
+            BottomNavItem(icon = R.drawable.ic_explore,
+                title = "Explore",
+                destination = Dest.Home
+                ),
+
             BottomNavItem(
                 icon = R.drawable.ic_claim,
                 title = "Claim Support",
@@ -93,7 +97,9 @@ fun AppRoot(
             BottomNavItem(
                 icon = R.drawable.ic_privilege,
                 title = "Privilege",
-                destination = Dest.Privilege
+                destination = Dest.Privilege,
+                preserveOriginalColor = true,
+                iconSize = 28.dp
             )
         )
     }

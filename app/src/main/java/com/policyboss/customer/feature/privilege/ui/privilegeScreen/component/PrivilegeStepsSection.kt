@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,24 +12,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.policyboss.customer.core.extension.gradientBorder
 import com.policyboss.customer.ui.theme.AppColors
 
 
+//Note : we have gradientBorder : for half border and hald transparent
 @Composable
  fun PrivilegeStepsSection(currentStep: Int) {
     Column(modifier = Modifier.padding(horizontal = 20.dp)) {
         Text(
             text = "Earning on renewals is just few steps away!",
+            style = MaterialTheme.typography.titleSmall,
             color = Color.White,
-            fontSize = 14.sp,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
+        //Mark : Border with Customized
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = AppColors.CardBackground,
+            color = AppColors.DarkLightBackground,
             modifier = Modifier.fillMaxWidth()
+                .gradientBorder(strokeWidth = 1.dp, shape = RoundedCornerShape(16.dp))
         ) {
             Column(
                 modifier = Modifier.padding(20.dp)

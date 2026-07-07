@@ -14,8 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.media3.exoplayer.ExoPlayer
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeAction
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeUiState
 import com.policyboss.customer.feature.privilege.ui.privilegeScreen.component.PrivilegeAssistanceSection
 import com.policyboss.customer.feature.privilege.ui.privilegeScreen.component.PrivilegeBenefitsSection
 import com.policyboss.customer.feature.privilege.ui.privilegeScreen.component.PrivilegeHeaderSection
@@ -35,6 +35,7 @@ fun PrivilegeScreen(
     onAction: (PrivilegeAction) -> Unit
 ) {
 
+    // 2. Applied ONLY to the root element
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -42,8 +43,10 @@ fun PrivilegeScreen(
     ) {
 
         LazyColumn(
-            modifier = modifier
-                .fillMaxSize()
+
+            // 3. Child starts fresh with capital-M 'Modifier'
+            //ex. Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize()
 
                 .padding(contentPadding),
         )

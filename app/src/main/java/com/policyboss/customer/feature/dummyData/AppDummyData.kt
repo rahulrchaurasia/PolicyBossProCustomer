@@ -1,22 +1,21 @@
 package com.policyboss.customer.feature.dummyData
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
+import com.policyboss.customer.feature.home.model.BadgeType
 import com.policyboss.customer.feature.home.model.EarningBanner
+import com.policyboss.customer.feature.home.model.PartnerLogoModel
 import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.QuickAction
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
+import com.policyboss.customer.feature.home.model.bossepidia.BosspediaArticle
+import com.policyboss.customer.feature.home.model.bossepidia.BosspediaStory
 import com.policyboss.customer.feature.home.model.policy.CuratedPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.feature.home.model.vault.VaultTabItem
-
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.policyboss.customer.feature.home.model.BadgeType
-import com.policyboss.customer.feature.home.model.PartnerLogoModel
-import com.policyboss.customer.feature.home.model.bossepidia.BosspediaArticle
-import com.policyboss.customer.feature.home.model.bossepidia.BosspediaStory
 import com.policyboss.customer.feature.home.model.video.VideoModel
 
 /*
@@ -708,4 +707,15 @@ object AppDummyData {
     )
     //endregion
 
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    // Privilege Data
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+
+    //endregion
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -28,10 +29,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeAction
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.AppColors.PrimaryYellow
+import com.policyboss.customer.ui.theme.gradients.AppGradients
 import com.policyboss.customer.ui.theme.headlineLargeExtraBold
 import com.policyboss.customer.ui.theme.labelSmallBold
 
@@ -62,13 +64,44 @@ import com.policyboss.customer.ui.theme.labelSmallBold
                 )
 
                 Spacer(modifier = Modifier.height(8.dp))
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_star_oval),
-                    contentDescription = null,
-                    tint = Color.Black.copy(alpha = 0.5f),
-                    modifier = Modifier.width(15.62.dp)
-                        .height(18.35.dp)
-                )
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_star_oval),
+//                    contentDescription = null,
+//                    tint = Color.Black.copy(alpha = 0.5f),
+//                    modifier = Modifier.width(15.62.dp)
+//                        .height(18.35.dp)
+//                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth().padding(top = 8.dp)
+                ) {
+                    // LEFT SIDE: The line needs to fade from Transparent (far left) to Color (near icon)
+                    // So we use fadeToLeft
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .height(1.dp)
+                            .drawBehind { drawRect(AppGradients.fadeToLeft(AppColors.GoldText)) }
+                    )
+
+                    // Icon (Center)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_star_oval),
+                        contentDescription = null,
+                        tint = AppColors.GoldText, // Match your gold theme
+                        modifier = Modifier.padding(horizontal = 12.dp).size(18.dp)
+                    )
+
+                    // RIGHT SIDE: The line needs to fade from Color (near icon) to Transparent (far right)
+                    // So we use fadeToRight
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .height(1.dp)
+                            .drawBehind { drawRect(AppGradients.fadeToRight(AppColors.GoldText)) }
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
 
 

@@ -35,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="2cff2e" />
-                            <entry key="outputName" value="ic_star_oval" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_star_oval.svg" />
+                            <entry key="outputName" value="ic_lock" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/lock.svg" />
                           </map>
                         </option>
                       </PersistentState>

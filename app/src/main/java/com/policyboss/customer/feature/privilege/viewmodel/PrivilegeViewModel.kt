@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiEvent
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeUiState
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeAction
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeUiEvent
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

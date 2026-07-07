@@ -1,7 +1,7 @@
 package com.policyboss.customer.feature.privilege.ui.privilegeScreen.privillegeStory
 
 import androidx.compose.runtime.Composable
-import com.policyboss.customer.feature.privilege.model.privilegeState.PrivilegeAction
+import com.policyboss.customer.feature.privilege.privillageState.PrivilegeAction
 import com.policyboss.customer.feature.privilege.viewmodel.PrivilegeViewModel
 
 @Composable
