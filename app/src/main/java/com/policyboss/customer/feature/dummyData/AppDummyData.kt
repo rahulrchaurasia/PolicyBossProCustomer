@@ -17,6 +17,11 @@ import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 import com.policyboss.customer.feature.home.model.video.VideoModel
+import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyCategory
+import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicySource
+import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyStatus
+import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultPolicy
+import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultTabItem
 
 /*
 HomeDummyData
@@ -506,7 +511,7 @@ object AppDummyData {
             tabId = VaultTabIds.TRAVEL,
             vehicleName = "Explore Asia Plan",
             vehicleNumber = "TRV55443322",
-            vehicleImage = R.drawable.ic_airplane,
+            vehicleImage = R.drawable.ic_car_protect,
             daysLeft = "2 days left",
             companyLogo = R.drawable.img_tata,
             idv = "$100K", // Used for Coverage Amount
@@ -520,7 +525,7 @@ object AppDummyData {
             tabId = VaultTabIds.TRAVEL,
             vehicleName = "Schengen Comprehensive",
             vehicleNumber = "TRV66778899",
-            vehicleImage = R.drawable.ic_airplane,
+            vehicleImage = R.drawable.ic_car_protect,
             daysLeft = "60 days left",
             companyLogo = R.drawable.img_tata,
             idv = "$500K",
@@ -536,7 +541,7 @@ object AppDummyData {
             tabId = VaultTabIds.SMELINE,
             vehicleName = "Standard Fire & Special Perils",
             vehicleNumber = "SME10293847",
-            vehicleImage = R.drawable.ic_frame,
+            vehicleImage = R.drawable.ic_car_protect,
             daysLeft = "15 days left",
             companyLogo = R.drawable.img_tata, // Assuming Bajaj Allianz or similar
             idv = "₹5Cr", // Used for Total Risk Value
@@ -550,7 +555,7 @@ object AppDummyData {
             tabId = VaultTabIds.SMELINE,
             vehicleName = "Workmen Compensation",
             vehicleNumber = "SME56473829",
-            vehicleImage = R.drawable.ic_frame,
+            vehicleImage = R.drawable.ic_car_protect,
             daysLeft = "45 days left",
             companyLogo = R.drawable.img_tata,
             idv = "N/A", // Or appropriate limit
@@ -714,8 +719,206 @@ object AppDummyData {
     // Privilege Data
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    val policyVaultTabs = listOf(
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.ALL
+        ),
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.MOTOR,
+            iconRes = R.drawable.ic_car
+        ),
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.BIKE,
+            iconRes = R.drawable.ic_bike
+        ),
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.CV,
+            iconRes = R.drawable.ic_cv
+        ),
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.HEALTH,
+            iconRes = R.drawable.ic_health
+        ),
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.LIFE,
+            iconRes = R.drawable.ic_life
+        ),
+
+        PolicyVaultTabItem(
+            category = PolicyCategory.TRAVEL,
+            iconRes = R.drawable.ic_travel
+        )
+    )
 
 
+
+
+
+    val mockPolicies = listOf(
+
+        // 1. MOTOR - Active
+        PolicyVaultPolicy(
+            id = "PV_1001",
+            category = PolicyCategory.MOTOR,
+            source = PolicySource.MAIL_SYNC,
+            status = PolicyStatus.ACTIVE,
+            title = "Comprehensive Private Car",
+            vehicleName = "Kia Sonet HTX",
+            vehicleNumber = "MH-12-AB-3456",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹7.5L",
+            premium = "₹18,500",
+            expiry = "15.05.27",
+            daysLeft = 310,
+            premiumAmount = 18500,
+            issueDateMillis = 1715731200000L
+        ),
+
+        // 2. BIKE - Expiring Soon
+        PolicyVaultPolicy(
+            id = "PV_1002",
+            category = PolicyCategory.BIKE,
+            source = PolicySource.MANUAL,
+            status = PolicyStatus.EXPIRING_SOON,
+            title = "Two Wheeler Package",
+            vehicleName = "Honda Activa 6G",
+            vehicleNumber = "MH-02-XY-9876",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹65K",
+            premium = "₹1,850",
+            expiry = "30.07.26",
+            daysLeft = 21,
+            premiumAmount = 1850,
+            issueDateMillis = 1690675200000L
+        ),
+
+        // 3. HEALTH - Active (High Premium)
+        PolicyVaultPolicy(
+            id = "PV_1003",
+            category = PolicyCategory.HEALTH,
+            source = PolicySource.MAIL_SYNC,
+            status = PolicyStatus.ACTIVE,
+            title = "Optima Restore Floater",
+            vehicleName = "Family Health (2A + 1C)",
+            vehicleNumber = "-",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹10L",
+            premium = "₹24,300",
+            expiry = "10.02.27",
+            daysLeft = 216,
+            premiumAmount = 24300,
+            issueDateMillis = 1707523200000L
+        ),
+
+        // 4. HEALTH :---->  LIFE - Active
+        PolicyVaultPolicy(
+            id = "PV_1004",
+            category = PolicyCategory.HEALTH,
+            source = PolicySource.MICROSITE,
+            status = PolicyStatus.ACTIVE,
+            title = "Smart Term Edge",
+            vehicleName = "Life Cover",
+            vehicleNumber = "-",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹1 Cr",
+            premium = "₹12,400", // Annualized flat amount
+            expiry = "18.11.26",
+            daysLeft = 132,
+            premiumAmount = 12400,
+            issueDateMillis = 1699920000000L
+        ),
+
+        // 5. COMMERCIAL VEHICLE (CV) - Active
+        PolicyVaultPolicy(
+            id = "PV_1005",
+            category = PolicyCategory.CV, // Assuming you added CV to your enum
+            source = PolicySource.MAIL_SYNC,
+            status = PolicyStatus.ACTIVE,
+            title = "Goods Carrying Vehicle",
+            vehicleName = "Tata Ace Gold",
+            vehicleNumber = "MH-47-TR-1122",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹3.2L",
+            premium = "₹15,800",
+            expiry = "05.12.26",
+            daysLeft = 149,
+            premiumAmount = 15800,
+            issueDateMillis = 1701734400000L
+        ),
+
+        // 6. TRAVEL - Expired
+        PolicyVaultPolicy(
+            id = "PV_1006",
+            category = PolicyCategory.TRAVEL,
+            source = PolicySource.MANUAL,
+            status = PolicyStatus.EXPIRED,
+            title = "Schengen Travel Protect",
+            vehicleName = "Europe Trip",
+            vehicleNumber = "-",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹40L",
+            premium = "₹3,200",
+            expiry = "01.06.26",
+            daysLeft = -38,
+            premiumAmount = 3200,
+            issueDateMillis = 1714521600000L
+        ),
+
+        // 7. MOTOR - Expiring Soon (High priority)
+        PolicyVaultPolicy(
+            id = "PV_1007",
+            category = PolicyCategory.MOTOR,
+            source = PolicySource.MAIL_SYNC,
+            status = PolicyStatus.EXPIRING_SOON,
+            title = "Standalone Own Damage",
+            vehicleName = "Maruti Suzuki Swift",
+            vehicleNumber = "MH-14-AA-2211",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹4.8L",
+            premium = "₹8,450",
+            expiry = "18.07.26",
+            daysLeft = 9,
+            premiumAmount = 8450,
+            issueDateMillis = 1689638400000L
+        ),
+
+        // 8. HEALTH - Active (Low Premium / Base Cover)
+        PolicyVaultPolicy(
+            id = "PV_1008",
+            category = PolicyCategory.HEALTH,
+            source = PolicySource.MANUAL,
+            status = PolicyStatus.ACTIVE,
+            title = "Arogya Sanjeevani",
+            vehicleName = "Individual Cover",
+            vehicleNumber = "-",
+            vehicleImage = R.drawable.ic_car_protect,
+            companyLogo = R.drawable.img_tata,
+            idv = "₹3L",
+            premium = "₹5,600",
+            expiry = "22.03.27",
+            daysLeft = 256,
+            premiumAmount = 5600,
+            issueDateMillis = 1711065600000L
+        )
+    )
+//    val emptyPolicies = emptyList<PolicyVaultPolicy>()
+//
+//    val onePolicy = listOf(/*...*/)
+//
+//    val multiplePolicies = listOf(/*...*/)
 
     //endregion
 }

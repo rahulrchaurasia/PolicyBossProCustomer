@@ -1,31 +1,26 @@
 package com.policyboss.customer.feature.home.component.home.vaultSection.component
 
-import androidx.compose.foundation.layout.Box
-import com.policyboss.customer.feature.home.model.vault.VaultPolicy
-
-import com.policyboss.customer.ui.components.button.PrimaryCTAButton
-
 
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.dummyData.AppDummyData
+import com.policyboss.customer.feature.home.model.vault.VaultPolicy
+import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.ui.components.card.PolicyDetailsCard
+import com.policyboss.customer.ui.theme.gradients.AppGradients
 
 
 //private val motorCardGradient = Brush.horizontalGradient(
@@ -40,15 +35,7 @@ import com.policyboss.customer.ui.components.card.PolicyDetailsCard
 //    )
 //)
 
-private val motorCardGradient = Brush.linearGradient(
-    colors = listOf(
-        Color(0xFF7FBCFF), // Lighter blue at the top-left
-        Color(0xFF1887FF)  // Deeper blue at the bottom-right
-    ),
-    // This creates the diagonal angle (Top-Left to Bottom-Right)
-    start = Offset(0f, 0f),
-    end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
-)
+
 
 @Composable
 fun MotorPolicyCard(
@@ -62,7 +49,7 @@ fun MotorPolicyCard(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(brush = motorCardGradient)
+            .background(brush = AppGradients.PolicyCardGradient)
     ) {
 
         // 2. The Badge goes here, outside the inner padding, pinned to the absolute top-right
@@ -80,7 +67,7 @@ fun MotorPolicyCard(
         ) {
 
             // Note: We pass the policy down, but the badge logic is removed from here
-            PolicyVaultTopContent(
+            HomeVaultTopContent(
                 policy = policy,
                 onViewDetailsClick = onViewDetailsClick
             )

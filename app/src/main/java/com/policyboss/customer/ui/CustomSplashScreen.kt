@@ -4,32 +4,36 @@ package com.policyboss.customer.ui
 
 import android.view.LayoutInflater
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-
-
-import androidx.compose.foundation.Image
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.draw.scale
-
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.policyboss.customer.R
 import com.policyboss.customer.ui.components.card.CategoryCard
-
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
-
 import kotlinx.coroutines.delay
-
-
-import androidx.constraintlayout.compose.ConstraintLayout
+import kotlin.time.Duration.Companion.milliseconds
 
 
 //🔴 Case 3 — TRUE Fullscreen Screen (No padding at all)
@@ -103,12 +107,12 @@ fun CustomSplashScreen(
 
         repeat(icons.size) {
 
-            delay(1000)
+            delay(1000.milliseconds)
 
             currentIndex = (currentIndex + 1) % icons.size
         }
 
-        delay(700)
+       // delay(700)
 
          onTimeout()
     }
@@ -147,7 +151,7 @@ fun CustomSplashScreen(
 
                 centerHorizontallyTo(parent)
 
-                // slightly upper than center
+
                 verticalBias = 0.46f
             }
         ) {

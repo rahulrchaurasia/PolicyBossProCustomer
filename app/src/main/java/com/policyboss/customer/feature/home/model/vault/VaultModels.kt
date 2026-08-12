@@ -9,7 +9,8 @@ data class VaultTabItem(
 
     val title: String,
 
-    val iconRes: Int
+    @DrawableRes
+    val iconRes: Int? = null
 )
 
 object VaultTabIds {

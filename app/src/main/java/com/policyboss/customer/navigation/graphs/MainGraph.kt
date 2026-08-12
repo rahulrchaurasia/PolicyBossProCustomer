@@ -4,12 +4,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.policyboss.customer.feature.home.ui.tabScreen.WishListScreen
+import com.policyboss.customer.feature.claimSupport.graphNavigation.claimGraph
 import com.policyboss.customer.feature.joinPrivilege.ui.JoinPrivilegeScreen
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
-import com.policyboss.customer.navigation.graphs.moduleGraph.claimGraph
-import com.policyboss.customer.navigation.graphs.moduleGraph.homeGraph
+import com.policyboss.customer.feature.home.graph.homeGraph
 import com.policyboss.customer.navigation.graphs.moduleGraph.privilegeGraph
 import com.policyboss.customer.navigation.graphs.moduleGraph.vaultGraph
 
@@ -245,57 +244,6 @@ fun NavGraphBuilder.mainGraph(
         composable<Dest.JoinPrivilege> {
             JoinPrivilegeScreen(onBackClick = { navigator.navigateBack() })
         }
-        composable<Dest.Bosspedia> {
-            WishListScreen()
-        }
+
     }
 }
-//fun NavGraphBuilder.mainGraph(
-//    navigator: AppNavigator
-//) {
-//    // ✅ Nested Graph using the Object as the Route
-//    navigation<Dest.MainGraph>(
-//        startDestination = Dest.MainScreen
-//    ) {
-//
-//
-//        // ✅ Main shell (NO currentRoute, NO tab navigation)
-//        composable<Dest.MainScreen> {
-//            MainScreen(
-//                appNavigator = navigator,
-//            )
-//        }
-//
-//
-//
-//        // Note: If you are managing tabs entirely manually inside TabContentHost using a `when`
-//        // statement, you actually MIGHT NOT need to declare the tabs here.
-//        // BUT, if you use `globalActions.navigateTo(Dest.Privilege)`, it must be registered.
-//        // 🟢 Tabs (MANDATORY)
-//        // ✅ REGISTER ALL TABS HERE
-//
-////        composable<Dest.Vault> {
-////            CartScreen(
-////                )
-////        }
-//
-//
-////
-//    }
-//}
-
-
-
-
-// ✅ Register your NEW Full Screen here!
-//composable<Dest.JoinPrivilege> {
-//    JoinPrivilegeScreen(
-//        onBackClick = { navigator.navigateBack() }
-//    )
-//}
-//
-//// 2. Add Bosspedia Here!
-//composable<Dest.Bosspedia> {
-//    //BosspediaScreen()
-//    WishListScreen()
-//}

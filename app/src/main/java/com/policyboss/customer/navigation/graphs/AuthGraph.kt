@@ -5,15 +5,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.policyboss.customer.anim.NavigationAnimations
-import com.policyboss.customer.feature.login.model.verifyAccount.VerifyOtpSource
 import com.policyboss.customer.feature.login.ui.CreateAccountScreen
-import com.policyboss.customer.navigation.AppNavigator
-
-import com.policyboss.customer.navigation.Dest
-import com.policyboss.customer.feature.onboarding.ui.OnboardingPagerScreen
-
 import com.policyboss.customer.feature.login.ui.LoginScreen
 import com.policyboss.customer.feature.login.ui.VerifyAccountScreen
+import com.policyboss.customer.feature.onboarding.ui.OnboardingPagerScreen
+import com.policyboss.customer.navigation.AppNavigator
+import com.policyboss.customer.navigation.Dest
 
 /*
 Current Navigation Architecture
@@ -91,16 +88,7 @@ fun NavGraphBuilder.authGraph(
             exitTransition = { NavigationAnimations.slideOutLeft }
         ) {
 
-//            CreateAccountScreen(
-//                onLoginClick =  {
-//
-//                    navigator.navigateBack()
-//                },
-//                onSendOtpClick = {
-//
-//                    navigator.navigateTo(Dest.VerifyAccount)
-//                }
-//            )
+
 
             CreateAccountScreen(
 

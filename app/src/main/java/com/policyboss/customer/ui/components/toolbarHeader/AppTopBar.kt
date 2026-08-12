@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,8 +26,8 @@ import com.policyboss.customer.ui.theme.AppColors
 @Composable
 fun AppTopBar(
     title: String,
-    onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onBackClick: (() -> Unit)? = null,
     trailingIcon: Painter? = null,
     onTrailingClick: (() -> Unit)? = null
 ) {
@@ -34,6 +35,7 @@ fun AppTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .statusBarsPadding() // <-- This pushes the content below the time/battery
             .padding(
                 horizontal = 16.dp,
                 vertical = 12.dp
@@ -42,13 +44,19 @@ fun AppTopBar(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        OutlinedIconButton(
-            icon = painterResource(
-                id = R.drawable.ic_chevron_left
-            ),
-            contentDescription = "Back",
-            onClick = onBackClick
-        )
+        // Left
+        if (onBackClick != null) {
+            OutlinedIconButton(
+                icon = painterResource(id = R.drawable.ic_chevron_left),
+                contentDescription = "Back",
+                onClick = onBackClick,
+                iconTint = AppColors.White,
+                modifier = Modifier.size(38.dp)
+            )
+        } else {
+            // Reserve the same space to keep the title centered
+            Spacer(modifier = Modifier.size(38.dp))
+        }
 
         Spacer(modifier = Modifier.width(12.dp))
 
@@ -68,7 +76,8 @@ fun AppTopBar(
             OutlinedIconButton(
                 icon = trailingIcon,
                 contentDescription = "Action",
-                onClick = onTrailingClick
+                onClick = onTrailingClick,
+                modifier = Modifier.size(38.dp)
             )
 
         } else {

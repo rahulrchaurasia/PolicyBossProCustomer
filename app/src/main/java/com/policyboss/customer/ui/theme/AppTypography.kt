@@ -288,22 +288,28 @@ val Typography.labelMediumSemiBold: TextStyle
     )
 
 val Typography.bodyMediumSemiBold: TextStyle
-    get() = TextStyle(
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = GeistFontFamily
+
+    get() = bodyMedium.copy(
+        fontWeight = FontWeight.SemiBold
     )
+
+
+val Typography.bodyMediumBold: TextStyle
+
+    get() = bodyMedium.copy(
+        fontWeight = FontWeight.Bold
+    )
+
 
 val Typography.bodyMediumNormal: TextStyle
-    get() = TextStyle(
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        fontWeight = FontWeight.Normal,
-        fontFamily = GeistFontFamily
+
+    get() = bodyMedium.copy(
+        fontWeight = FontWeight.Normal
     )
 
+
 val Typography.headlineLargeExtraBold: TextStyle
+
     get() = TextStyle(
         fontSize = 20.sp,
         lineHeight = 24.sp,
@@ -316,8 +322,12 @@ val Typography.titleSmallItalic: TextStyle
         fontStyle = FontStyle.Italic
     )
 
+val Typography.bottomNavLabelUnSelected: TextStyle
+    get() = captionSmall.copy(
+        fontWeight = FontWeight.Medium
+    )
 val Typography.bottomNavLabelSelected: TextStyle
-    get() = labelSmall.copy(
+    get() = captionSmall.copy(
         fontWeight = FontWeight.SemiBold
     )
 
@@ -325,6 +335,12 @@ val Typography.labelSmallBold: TextStyle
     get() = labelSmall.copy(
         fontWeight = FontWeight.Bold
     )
+
+val Typography.labelSmallNormal: TextStyle
+    get() = labelSmall.copy(
+        fontWeight = FontWeight.Normal
+    )
+
 
 
 val Typography.labelSmallSemiBold: TextStyle
@@ -334,3 +350,9 @@ val Typography.labelSmallSemiBold: TextStyle
         fontWeight = FontWeight.SemiBold,
         fontFamily = GeistFontFamily
     )
+
+val Typography.headlineMediumBold: TextStyle
+    get() = headlineMedium.copy(
+        fontWeight = FontWeight.Bold
+    )
+

@@ -112,9 +112,30 @@ class AppNavigator( val navController: NavController) {
         }
     }
 
+    // 📁 AppNavigator.kt
+
+    fun navigateToLoginAfterLogout() {
+        // 1. Wipe out the entire MainGraph history and drop the user at Welcome
+        navController.navigate(Dest.Welcome) {
+            // popUpTo(0) means "clear absolutely everything in the backstack"
+            popUpTo(0) { inclusive = true }
+
+            // 2. Prevent double-instantiation if they double-click
+            launchSingleTop = true
+        }
+
+        // 2. Instantly push the Login screen on top of Welcome
+        navController.navigate(Dest.Login)
+    }
     // =====================================
     // MAIN
     // =====================================
+
+    // ✅ Use this to gracefully close out of sub-flows (like Claim Filing)
+    // and return the user to the existing Main Dashboard state.
+    fun navigateBackToMainGraph() {
+        popBackToRoute(Dest.MainGraph, inclusive = false)
+    }
 
     fun navigateToMainAndClear() {
 

@@ -21,7 +21,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.policyboss.customer.R
-import com.policyboss.customer.feature.mainScreen.BottomNavItem
+import com.policyboss.customer.feature.mainScreen.customBottomNavBar.BottomNavItem
 import com.policyboss.customer.feature.mainScreen.customBottomNavBar.CustomBottomNavigationBar
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
@@ -77,36 +77,71 @@ fun AppRoot(
 
     val currentDestination = appNavigator.currentDestination()
 
+
+
+
+
+    // 1. Single Source of Truth for Tab Data
     val bottomNavItems = remember {
         listOf(
-            BottomNavItem(icon = R.drawable.ic_explore,
+            BottomNavItem(
+                icon = R.drawable.ic_explore,
                 title = "Explore",
-                destination = Dest.Home
-                ),
-
+                graphDestination = Dest.HomeGraph,
+                rootScreen = Dest.Home::class
+            ),
             BottomNavItem(
                 icon = R.drawable.ic_claim,
                 title = "Claim Support",
-                destination = Dest.ClaimSupport
+                graphDestination = Dest.ClaimGraph,
+                rootScreen = Dest.ClaimSupport::class
             ),
             BottomNavItem(
                 icon = R.drawable.ic_security,
                 title = "Policy Vault",
-                destination = Dest.PolicyVault
+                graphDestination = Dest.VaultGraph,
+                rootScreen = Dest.PolicyVault::class
             ),
             BottomNavItem(
                 icon = R.drawable.ic_privilege,
                 title = "Privilege",
-                destination = Dest.Privilege,
+                graphDestination = Dest.PrivilegeGraph,
+                rootScreen = Dest.Privilege::class,
                 preserveOriginalColor = true,
                 iconSize = 28.dp
             )
         )
     }
 
+//    val shouldShowBottomBar = bottomNavItems.any { item ->
+//        currentDestination?.hasRoute(item.destination::class) == true
+//    }
+
+    // 2. VISIBILITY LOGIC (Leaf Match Only)
+    // Checks if the current leaf destination exactly matches any of our root screens.
+    // E.g., If we are on Dest.AddManualPolicy, this returns false.
+
+
+
+    /**
+     * Show BottomBar only on the root screen of each tab.
+     *
+     * Visible:
+     * Home
+     * ClaimSupport
+     * PolicyVault
+     * Privilege
+     *
+     * Hidden:
+     * Profile
+     * AddManualPolicy
+     * PrivilegeStories
+     * JoinPrivilege
+     */
     val shouldShowBottomBar = bottomNavItems.any { item ->
-        currentDestination?.hasRoute(item.destination::class) == true
+        currentDestination?.route == item.rootScreen.qualifiedName
     }
+
 
     val context = LocalContext.current
     var showExitDialog by remember { mutableStateOf(false) }

@@ -44,6 +44,7 @@ fun NavGraphBuilder.privilegeGraph(
 
         composable<Dest.Privilege> { backStackEntry ->
          // 1. Fetch the BackStackEntry of the parent graph
+          //  Get the SHARED Parent ViewModel (Scoped to Dest.PrivilegeGraph)
             val parentEntry = remember(backStackEntry) {
                 appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
             }

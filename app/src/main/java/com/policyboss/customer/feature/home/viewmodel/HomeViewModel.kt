@@ -1,28 +1,23 @@
 package com.policyboss.customer.feature.home.viewmodel
 
-import dagger.hilt.android.lifecycle.HiltViewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.policyboss.customer.core.datastore.AppDataManager
 import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.feature.home.model.homeState.HomeAction
 import com.policyboss.customer.feature.home.model.homeState.HomeExperience
 import com.policyboss.customer.feature.home.model.homeState.HomeUiEvent
 import com.policyboss.customer.feature.home.model.homeState.HomeUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-
-
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-
-import kotlinx.coroutines.launch
-
-
 import kotlinx.coroutines.flow.receiveAsFlow
-
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -46,7 +41,10 @@ Navigation / Snackbar
 
 //Mark : HomeViewModel decides which experience to show.
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    // 🚀 1. Inject AppDataManager to get the saved user profile data
+    private val appDataManager: AppDataManager
+) : ViewModel() {
 
 
     //region Declaration
@@ -62,7 +60,49 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     //endregion
 
     init {
+        observeUserData()
         fetchHomeData()
+    }
+
+    // =========================================================
+    // DATA OBSERVATION & FETCHING
+    // =========================================================
+    // 🚀 2. Automatically listen to DataStore changes for the user's name
+    private fun observeUserData() {
+        viewModelScope.launch {
+            appDataManager.userName.collect { name ->
+
+                val displayName = name.ifBlank { "Guest User" }
+
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        userName = displayName,
+                        // 🚀 3. Generate initials dynamically based on the name
+                        userInitials = extractInitials(displayName)
+                    )
+                }
+            }
+        }
+    }
+
+    // =========================================================
+    // HELPERS
+    // =========================================================
+
+    // 🚀 5. Helper function to extract initials (e.g., "Rahul Chaurasia" -> "RC")
+    private fun extractInitials(name: String): String {
+        if (name.isBlank()) return "U"
+
+        // Split the name by whitespace
+        val parts = name.trim().split("\\s+".toRegex())
+
+        return when (parts.size) {
+            0 -> "U"
+            // If only one name is provided (e.g., "Rahul"), return "R"
+            1 -> parts[0].take(1).uppercase()
+            // If two or more names (e.g., "Rahul Chaurasia"), return "RC"
+            else -> "${parts[0].take(1)}${parts[1].take(1)}".uppercase()
+        }
     }
 
     // region Determine User Category
@@ -94,6 +134,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
         viewModelScope.launch {
 
+
+
             _uiState.update {
 
                 it.copy(
@@ -108,6 +150,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 it.copy(
 
                     isLoading = false,
+
+
 
                     promoBanners =
                         AppDummyData.promoBanners,

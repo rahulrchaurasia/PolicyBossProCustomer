@@ -18,14 +18,15 @@ class AppDataManager @Inject constructor(
 
     companion object {
 
-        private val KEY_AUTH_TOKEN =
-            stringPreferencesKey("key_auth_token")
+        private val KEY_AUTH_TOKEN = stringPreferencesKey("key_auth_token")
 
-        private val KEY_USER_MOBILE =
-            stringPreferencesKey("key_user_mobile")
+        private val KEY_USER_MOBILE = stringPreferencesKey("key_user_mobile")
 
-        private val KEY_IS_LOGIN =
-            booleanPreferencesKey("key_is_login")
+        private val KEY_IS_LOGIN = booleanPreferencesKey("key_is_login")
+
+        // 🚀 CHANGE 1: Add Keys for Name and Email
+        private val KEY_USER_NAME = stringPreferencesKey("key_user_name")
+        private val KEY_USER_EMAIL = stringPreferencesKey("key_user_email")
     }
 
     // =========================================
@@ -56,6 +57,16 @@ class AppDataManager @Inject constructor(
         }
     }
 
+    // 🚀 CHANGE 2: Add Save methods for Name and Email
+    suspend fun saveUserName(name: String) {
+        dataStore.edit { pref -> pref[KEY_USER_NAME] = name }
+    }
+
+    suspend fun saveUserEmail(email: String) {
+        dataStore.edit { pref -> pref[KEY_USER_EMAIL] = email }
+    }
+
+
     // =========================================
     // GET
     // =========================================
@@ -80,6 +91,15 @@ class AppDataManager @Inject constructor(
 
             pref[KEY_IS_LOGIN] ?: false
         }
+
+    // 🚀 CHANGE 3: Expose Flows for Name and Email
+    val userName: Flow<String> = dataStore.data.map { pref ->
+        pref[KEY_USER_NAME] ?: "Guest User"
+    }
+
+    val userEmail: Flow<String> = dataStore.data.map { pref ->
+        pref[KEY_USER_EMAIL] ?: ""
+    }
 
     // =========================================
     // CLEAR

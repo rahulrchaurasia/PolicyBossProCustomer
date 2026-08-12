@@ -6,6 +6,7 @@ package com.policyboss.customer.navigation
 
 
 import com.policyboss.customer.feature.login.model.verifyAccount.VerifyOtpSource
+import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -102,6 +103,13 @@ sealed class Dest {
     @Serializable
     data object PolicyVault : Dest()
 
+    @Serializable
+    data class AddManualPolicy(
+
+        val policyType: AddPolicyType
+    ) : Dest()
+
+
 
 
     @Serializable
@@ -118,5 +126,28 @@ sealed class Dest {
 
     //endregion
 
-}
+    // 🚀 NEW: Add this specifically for the Home "View All" flow
+    // region  HOME Journey
+    @Serializable
+    data object HomeAllVault : Dest()
+
+    //endregion
+
+    // region  Claim Journey
+
+    // 🚀 NEW: Target Destinations taking an argument
+
+
+
+    @Serializable
+    data class ClaimGuide(val productType: AddPolicyType) : Dest()
+
+
+    @Serializable
+    data class FileClaim(val productType: AddPolicyType) : Dest()
+
+
+
+    //endregion
+    }
 
