@@ -37,6 +37,8 @@ object AppColors {
     val BlueGradientDark = Color(0xFF1887FF)
     val BlueGradientLight = Color(0xFF7FBCFF)
     val SkyBlue = Color(0xFFA5CDFF)
+
+    val AppBarBlue = Color(0xFFBCDEFE)
     val PaleCyan = Color(0xFFEBFFFC)
 
 

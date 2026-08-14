@@ -1,9 +1,17 @@
 package com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.FloatingCloseButton
-
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.PolicyHeaderImage
 import com.policyboss.customer.ui.components.bottomSheet.policyProtectedBottomSheet.component.PolicyTitle
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
@@ -106,6 +113,8 @@ fun PolicyProtectedBottomSheet(
         dragHandle = null,
 
         containerColor = Color.Transparent,
+
+        scrimColor = Color.Black.copy(alpha = 0.6f),
 
         modifier = modifier
     ) {

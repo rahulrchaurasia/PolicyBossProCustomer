@@ -98,6 +98,8 @@ fun AddPolicyBottomSheet(
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
         containerColor = Color.Transparent, // Allows the floating 'X'
+        // Add this line to make the background noticeably darker
+        scrimColor = Color.Black.copy(alpha = 0.6f),
         dragHandle = null
     ) {
         Box(

@@ -16,7 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -138,6 +137,7 @@ fun AppRoot(
      * PrivilegeStories
      * JoinPrivilege
      */
+    // 2. VISIBILITY LOGIC (Leaf Match Only)
     val shouldShowBottomBar = bottomNavItems.any { item ->
         currentDestination?.route == item.rootScreen.qualifiedName
     }
@@ -146,13 +146,31 @@ fun AppRoot(
     val context = LocalContext.current
     var showExitDialog by remember { mutableStateOf(false) }
 
-    BackHandler {
-        if (currentDestination?.hasRoute<Dest.Home>() == true) {
+    // ==========================================
+    // 3 & 4. NEW SMART BACK HANDLER LOGIC HERE
+    // ==========================================
+    val currentRoute = currentDestination?.route
+
+    // Check if we are on the Home screen
+    val isHomeRoot = currentRoute == Dest.Home::class.qualifiedName
+
+    // Check if we are on the Root screen of ANY OTHER tab (Claim, Vault, Privilege)
+    val isOtherTabRoot = bottomNavItems.any { item ->
+        item.rootScreen.qualifiedName == currentRoute && item.rootScreen != Dest.Home::class
+    }
+
+    // ONLY intercept the back button if we are on a Tab's root screen.
+
+    BackHandler(enabled = isHomeRoot || isOtherTabRoot) {
+        if (isHomeRoot) {
+            // We are on Home -> Show exit dialog
             showExitDialog = true
         } else {
-            appNavigator.navigateBack()
+            // We are on Claim, Vault, or Privilege -> Navigate back to Home Tab
+            appNavigator.navigateToTab(Dest.HomeGraph)
         }
     }
+
 
     if (showExitDialog) {
         ExitConfirmationDialog(
@@ -218,7 +236,9 @@ fun ExitConfirmationDialog(
 
             Text(
                 text = "Exit App",
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
+                        // Force it to use your defined onSurface color
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
 
@@ -226,7 +246,9 @@ fun ExitConfirmationDialog(
 
             Text(
                 text = "Are you sure you want to exit?",
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                // Force it to use your defined onSurface color to avoid the purple tint
+                color = MaterialTheme.colorScheme.onSurface
             )
         },
 
@@ -248,9 +270,11 @@ fun ExitConfirmationDialog(
         dismissButton = {
 
             TextButton(
-                onClick = onDismiss
+                onClick = onDismiss,
+                colors = ButtonDefaults.textButtonColors(
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
             ) {
-
                 Text("No")
             }
         },

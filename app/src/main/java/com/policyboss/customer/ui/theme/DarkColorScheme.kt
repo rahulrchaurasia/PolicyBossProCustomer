@@ -2,7 +2,6 @@ package com.policyboss.customer.ui.theme
 
 
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
 val DarkColorScheme = darkColorScheme(
@@ -23,7 +22,9 @@ val DarkColorScheme = darkColorScheme(
 //
 //    surface = Color(0xFF161B26),
 
-
+// Add these to prevent default M3 purple colors from bleeding through
+    surfaceVariant = AppColors.DarkMediumBackground,
+    onSurfaceVariant = Color.White,
 
 
     onPrimary = Color.White,

@@ -1,62 +1,66 @@
 package com.policyboss.customer.feature.home.component.home.heroSection
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-
-import androidx.compose.ui.tooling.preview.Preview
-
-import com.policyboss.customer.feature.home.component.home.PromoBannersRow
-import com.policyboss.customer.feature.home.component.home.header.HeaderSection
 
 import androidx.compose.foundation.Image
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-
-import com.policyboss.customer.R
-
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.policyboss.customer.R
+import com.policyboss.customer.feature.home.component.home.PromoBannersRow
+import com.policyboss.customer.feature.home.component.home.header.HeaderSection
 import com.policyboss.customer.feature.home.model.PromoBanner
 import com.policyboss.customer.feature.home.model.banner.BannerAction
 import com.policyboss.customer.feature.home.model.banner.BannerDestination
 
+/*
+1. It Draws First (The Layering): Because the HeroSection is written first inside the scaffold's box, it becomes the bottom layer (Layer 1). When the LazyColumn draws after it, the list is placed on the layer above it (Layer 2). This means your cards naturally slide over the white curve instead of getting trapped underneath it.
 
-private val HeroHeight = 380.dp
+2. The Scaffold Controls the Math: Instead of the HeroSection trying to guess its own height (and missing the status bar gap), the CollapsingScaffold acts as the single source of truth. It calculates the exact, pixel-perfect height (currentHeaderHeight) and forces the HeroSection to match it perfectly on every single frame of the scroll.
 
+Because the HeroSection obeys the exact height given by the Scaffold, and because it sits on the bottom layer, everything aligns completely flush and the clipping bug is physically impossible!
+ */
 @Composable
 fun HeroSection(
     userName: String,
     initials: String,
-    promoBanners: List<PromoBanner>, // Add this
+    promoBanners: List<PromoBanner>,
     onProfileClick: () -> Unit,
-    onBannerClick: (PromoBanner) -> Unit
+    onBannerClick: (PromoBanner) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        // 🚀 We use the modifier passed from the Scaffold so the height tracks perfectly.
+        modifier = modifier
             .fillMaxWidth()
-            .height(HeroHeight) // 380.dp
+            .clipToBounds() // ✅ Safely clips contents as the parent height shrinks during scroll
     ) {
-        // =====================================
-        // LAYER 1: GRADIENT BACKGROUND (Absolute Back)
-        // =====================================
+
+        // =====================================================
+        // LAYER 1: GRADIENT BACKGROUND
+        // =====================================================
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -70,14 +74,13 @@ fun HeroSection(
                 )
         )
 
-        // =====================================
-        // LAYER 2: HEADER & BANNERS (Middle Back)
-        // Moved up! This ensures the banners are drawn BEFORE the clouds.
-        // =====================================
+        // =====================================================
+        // LAYER 2: HEADER + PROMO BANNERS
+        // =====================================================
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             HeaderSection(
                 userName = userName,
@@ -85,7 +88,7 @@ fun HeroSection(
                 onProfileClick = onProfileClick
             )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             PromoBannersRow(
                 banners = promoBanners,
@@ -93,13 +96,9 @@ fun HeroSection(
             )
         }
 
-        // =====================================
-        // LAYER 3: CLOUDS (Middle Front)
-        // Drawn AFTER the banners, so their tops overlap the yellow banner bottom.
-        // Updated with exact Figma aspect ratios.
-        // =====================================
-
-        // Left Cloud (ic_claude)
+        // =====================================================
+        // LAYER 3: CLOUDS
+        // =====================================================
         Image(
             painter = painterResource(R.drawable.ic_claude),
             contentDescription = null,
@@ -108,11 +107,10 @@ fun HeroSection(
                 .aspectRatio(371.79f / 154f) // Exact Figma ratio
                 .align(Alignment.BottomStart)
                 .offset(x = (-55).dp)
-                .graphicsLayer { rotationZ = 6f }, // Match Figma rotation
+                .graphicsLayer { rotationZ = 6f },
             contentScale = ContentScale.FillWidth
         )
 
-        // Right Cloud (ic_claude1)
         Image(
             painter = painterResource(R.drawable.ic_claude1),
             contentDescription = null,
@@ -125,14 +123,15 @@ fun HeroSection(
             contentScale = ContentScale.FillWidth
         )
 
-        // =====================================
-        // LAYER 4: WHITE CURVE OVERLAY (Absolute Front)
-        // Drawn very last so it cleanly cuts off the flat bottoms of the clouds.
-        // =====================================
+        // =====================================================
+        // LAYER 4: WHITE CURVE
+        // ✅ Locked to the bottom of the container.
+        // Sized exactly at 56.dp to cover the flat bottoms of the clouds.
+        // =====================================================
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .height(56.dp)
                 .align(Alignment.BottomCenter)
                 .clip(
                     RoundedCornerShape(

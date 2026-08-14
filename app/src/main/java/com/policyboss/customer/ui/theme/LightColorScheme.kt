@@ -1,10 +1,9 @@
 package com.policyboss.customer.ui.theme
 
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
- val LightColorScheme = lightColorScheme(
+val LightColorScheme = lightColorScheme(
 
     primary = AppColors.BrandDark,
 
@@ -18,7 +17,9 @@ import androidx.compose.ui.graphics.Color
     background = AppColors.Background,
     surface = AppColors.Background, // Background of cards, sheets, etc.
 
-
+// Add these so the dialog body text matches your normal text color
+    surfaceVariant = AppColors.Surface,
+    onSurfaceVariant = AppColors.TextPrimary,
 
 // 👇 THIS is what makes BrandDark your default text color
     onBackground = AppColors.TextPrimary,

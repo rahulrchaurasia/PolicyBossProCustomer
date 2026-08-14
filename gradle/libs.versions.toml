@@ -45,6 +45,7 @@ espressoCore = "3.6.1"
 junitVersion = "1.2.1"
 
 appcompat = "1.7.0"
+material3 = "1.4.0"
 
 
 [libraries]
@@ -136,6 +137,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 #androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 #androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
