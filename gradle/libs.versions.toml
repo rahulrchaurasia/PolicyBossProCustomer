@@ -6,7 +6,9 @@ kotlin = "2.0.21"
 
 ksp = "2.0.21-1.0.25"
 
-composeBom = "2024.10.01"
+# Compose BOM manages all Compose UI, Foundation, and Material versions
+#composeBom = "2024.10.01"
+composeBom = "2026.02.00"
 
 activityCompose = "1.9.3"
 
@@ -46,6 +48,8 @@ junitVersion = "1.2.1"
 
 appcompat = "1.7.0"
 material3 = "1.4.0"
+uiGraphics = "1.12.0"
+#foundationLayout = "1.12.0"
 
 
 [libraries]
@@ -65,6 +69,7 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 
 # Compose
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+
 
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 
@@ -139,9 +144,11 @@ androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
-#androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
-#androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
-#androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+
+androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
+
+
 
 [plugins]
 

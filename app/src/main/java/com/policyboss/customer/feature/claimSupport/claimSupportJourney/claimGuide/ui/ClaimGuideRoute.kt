@@ -3,13 +3,11 @@ package com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimGu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimGuide.viewmodel.ClaimGuideViewModel
-import com.policyboss.customer.feature.claimSupport.claimSupportScreen.viewmodel.ClaimViewModel
 import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
 
 @Composable
 fun ClaimGuideRoute(
     productType: AddPolicyType, // E.g., "Motor", "Health", "Travel"// // Passed in from your NavGraph (FileClaim -> ClaimGuide)
-    sharedViewModel: ClaimViewModel, //Share ViewModl, Parent ViewModel
     viewModel: ClaimGuideViewModel, // Personal ViewModel for this screen
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier

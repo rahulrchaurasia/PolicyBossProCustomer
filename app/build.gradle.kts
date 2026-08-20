@@ -61,11 +61,13 @@ dependencies {
 
 
     // Compose
-
+  // ⭐ Use enforcedPlatform from sneaking in
+    implementation(enforcedPlatform(libs.androidx.compose.bom))
     //Preferred compose bom
     implementation(platform(libs.androidx.compose.bom))
 
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.material3)
 
     // implementation(libs.androidx.ui)
@@ -75,6 +77,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)
 
     implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.ui.graphics)
 
     implementation(libs.androidx.material.icons.extended)
 
@@ -143,9 +146,14 @@ dependencies {
     implementation(libs.datastore.preferences)
 
   //Facebook-style shimmering
-    implementation(platform("androidx.compose:compose-bom:2026.02.00"))
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.foundation:foundation")
+//    implementation(platform("androidx.compose:compose-bom:2026.02.00"))
+//    implementation("androidx.compose.material3:material3")
+//    implementation("androidx.compose.foundation:foundation")
+
+   // implementation(platform(libs.androidx.compose.bom))
+
+//    implementation(libs.androidx.compose.material3)
+//    implementation(libs.androidx.compose.foundation)
 
     // Tests
     testImplementation(libs.junit)

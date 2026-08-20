@@ -34,7 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
 import com.policyboss.customer.feature.policyVault.model.AddPolicyState.AddPolicyAction
-import com.policyboss.customer.feature.policyVault.model.addPolicyState.AddPolicyUiState
+import com.policyboss.customer.feature.policyVault.model.AddPolicyState.AddPolicyUiState
+
 import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.ui.components.divider.OrDivider
@@ -73,7 +74,10 @@ fun AddManualPolicyScreen(
                 AppTopBar(
                     title = "",
                     onBackClick = onBackClick,
+                    backIconTint = AppColors.TextPrimary,
+
                     trailingIcon = painterResource(id = R.drawable.ic_close),
+                    trailingIconTint = AppColors.TextPrimary,
                     onTrailingClick = onCloseClick
                 )
             }

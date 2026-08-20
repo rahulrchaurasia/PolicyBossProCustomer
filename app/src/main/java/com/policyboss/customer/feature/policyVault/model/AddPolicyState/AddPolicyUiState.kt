@@ -1,4 +1,4 @@
-package com.policyboss.customer.feature.policyVault.model.addPolicyState
+package com.policyboss.customer.feature.policyVault.model.AddPolicyState
 
 import androidx.compose.runtime.Immutable
 

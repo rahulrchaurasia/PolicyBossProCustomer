@@ -29,59 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.labelMediumSemiBold
 
-//@Composable
-//fun PrimaryCTAButton(
-//    text: String,
-//    onClick: () -> Unit,
-//    modifier: Modifier = Modifier,
-//    showArrow: Boolean = true,
-//    enabled: Boolean = true
-//) {
-//    Button(
-//        onClick = onClick,
-//        enabled = enabled,
-//        modifier = modifier
-//            .fillMaxWidth()
-//            .height(56.dp),
-//        shape = RoundedCornerShape(999.dp),
-//        colors = ButtonDefaults.buttonColors(
-//            containerColor = Color(0xFF101828),
-//            contentColor = Color.White,
-//            disabledContainerColor = Color(0xFF98A2B3)
-//        ),
-//        contentPadding = PaddingValues(horizontal = 16.dp)
-//    ) {
-//
-//        Box(modifier = Modifier.fillMaxWidth()) {
-//
-//            // Center Text
-//            Text(
-//                text = text,
-//                fontSize = 16.sp,
-//                fontWeight = FontWeight.Normal,
-//                modifier = Modifier.align(Alignment.Center)
-//            )
-//
-//            // Right Circular Arrow
-//            if (showArrow) {
-//                Box(
-//                    modifier = Modifier
-//                        .size(40.dp)
-//                        .background(Color.White, CircleShape)
-//                        .align(Alignment.CenterEnd),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-//                        contentDescription = "Next",
-//                        tint = Color(0xFF101828),
-//                        modifier = Modifier.size(22.dp)
-//                    )
-//                }
-//            }
-//        }
-//    }
-//}
+
 
 
 @Composable

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.customer.feature.policyVault.model.AddPolicyState.AddPolicyAction
 import com.policyboss.customer.feature.policyVault.model.AddPolicyState.AddPolicyEvent
-import com.policyboss.customer.feature.policyVault.model.addPolicyState.AddPolicyUiState
+import com.policyboss.customer.feature.policyVault.model.AddPolicyState.AddPolicyUiState
 import com.policyboss.customer.utils.AppValidator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

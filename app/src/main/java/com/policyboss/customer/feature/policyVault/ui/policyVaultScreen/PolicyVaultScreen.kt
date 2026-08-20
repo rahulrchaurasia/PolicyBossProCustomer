@@ -175,6 +175,7 @@ fun PolicyVaultScreen(
                         onAction(PolicyVaultAction.OnCategorySelected(category))
                     }
                 )
+
             }
 
             // 3. Total Policies Count

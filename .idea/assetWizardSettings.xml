@@ -35,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="2cff2e" />
-                            <entry key="outputName" value="ic_plus_fill" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_plus_fill.svg" />
+                            <entry key="outputName" value="ic_chevron_down" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/app/src/main/res/drawable/ic_chevron_down.svg" />
                           </map>
                         </option>
                       </PersistentState>

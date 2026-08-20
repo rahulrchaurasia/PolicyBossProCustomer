@@ -146,6 +146,12 @@ sealed class Dest {
     @Serializable
     data class FileClaim(val productType: AddPolicyType) : Dest()
 
+    @Serializable
+    object AccidentDetails : Dest()
+
+
+    @Serializable
+    object ThirdPartyDetails : Dest()
 
 
     //endregion

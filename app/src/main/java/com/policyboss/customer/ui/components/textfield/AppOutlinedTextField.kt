@@ -3,9 +3,11 @@ package com.policyboss.customer.ui.components.textfield
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,13 +19,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +35,7 @@ import com.policyboss.customer.ui.theme.placeholder
 import com.policyboss.customer.ui.theme.textPrimary
 import com.policyboss.customer.ui.theme.textSecondary
 
+
 @Composable
 fun AppOutlinedTextField(
     value: String,
@@ -40,15 +43,22 @@ fun AppOutlinedTextField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null, // ⭐ ADDED: Trailing Icon Support
 
-    // Legacy support: Keeps old screens working without changes
+    // ⭐ ADDED: Controls the background color, defaults to transparent
+    containerColor: Color = Color.Transparent,
+
     keyboardType: KeyboardType = KeyboardType.Text,
 
-    // New parameters for advanced keyboard control
-    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+    // ⭐ ADDED: ImeAction.Next prevents accidental new lines when singleLine = true
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = keyboardType,
+        imeAction = ImeAction.Next
+    ),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
 
     singleLine: Boolean = true,
+    minLines: Int = 1, // ⭐ ADDED: Allows the field to start larger for multi-line inputs
 
     // =========================================
     // VALIDATION
@@ -67,15 +77,16 @@ fun AppOutlinedTextField(
             onValueChange = onValueChange,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(64.dp),
+                .defaultMinSize(minHeight = 64.dp), // ⭐ CHANGED: .height(64.dp) to defaultMinSize so it can grow
             enabled = enabled,
             singleLine = singleLine,
+            minLines = minLines, // ⭐ APPLIED
             isError = isError,
 
             textStyle = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.textPrimary
+                color = MaterialTheme.colorScheme.textPrimary // RESTORED YOUR CUSTOM COLOR
             ),
 
             placeholder = {
@@ -83,20 +94,21 @@ fun AppOutlinedTextField(
                     text = placeholder,
                     style = TextStyle(
                         fontSize = 16.sp,
-                        color = MaterialTheme.colorScheme.placeholder
+                        color = MaterialTheme.colorScheme.placeholder // RESTORED YOUR CUSTOM COLOR
                     )
                 )
             },
 
             leadingIcon = leadingContent,
+            trailingIcon = trailingContent, // ⭐ APPLIED
 
-            // Replaced the hardcoded KeyboardOptions with our parameters
             keyboardOptions = keyboardOptions,
             keyboardActions = keyboardActions,
 
             shape = RoundedCornerShape(16.dp),
-            colors = OutlinedTextFieldDefaults.colors(
 
+            // ⭐ RESTORED YOUR ENTIRE ORIGINAL COLORS BLOCK
+            colors = OutlinedTextFieldDefaults.colors(
                 // =====================================
                 // BORDER
                 // =====================================
@@ -115,9 +127,13 @@ fun AppOutlinedTextField(
                 // =====================================
                 // CONTAINER
                 // =====================================
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-                disabledContainerColor = MaterialTheme.colorScheme.surface,
+//                focusedContainerColor = MaterialTheme.colorScheme.surface,
+//                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+//                disabledContainerColor = MaterialTheme.colorScheme.surface,
+
+                focusedContainerColor = containerColor,
+                unfocusedContainerColor = containerColor,
+                disabledContainerColor = containerColor,
 
                 // =====================================
                 // CURSOR
@@ -164,266 +180,72 @@ fun AppOutlinedTextField(
     }
 }
 
-//@Composable
-//fun AppOutlinedTextField(
-//
-//    value: String,
-//
-//    onValueChange: (String) -> Unit,
-//
-//    modifier: Modifier = Modifier,
-//
-//    placeholder: String = "",
-//
-//    leadingContent: (@Composable () -> Unit)? = null,
-//
-//    keyboardType: KeyboardType = KeyboardType.Text,
-//
-//    singleLine: Boolean = true,
-//
-//    // =========================================
-//    // VALIDATION
-//    // =========================================
-//
-//    isError: Boolean = false,
-//
-//    errorMessage: String? = null,
-//
-//    enabled: Boolean = true
-//) {
-//
-//    Column(
-//        modifier = modifier.fillMaxWidth()
-//    ) {
-//
-//        OutlinedTextField(
-//
-//            value = value,
-//
-//            onValueChange = onValueChange,
-//
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(64.dp),
-//
-//            enabled = enabled,
-//
-//            singleLine = singleLine,
-//
-//            isError = isError,
-//
-//            textStyle = TextStyle(
-//                fontSize = 18.sp,
-//                fontWeight = FontWeight.Medium,
-//                color = MaterialTheme.colorScheme.textPrimary
-//            ),
-//
-//            placeholder = {
-//
-//                Text(
-//                    text = placeholder,
-//
-//                    style = TextStyle(
-//                        fontSize = 16.sp,
-//                        color = MaterialTheme.colorScheme.placeholder
-//                    )
-//                )
-//            },
-//
-//            leadingIcon = leadingContent,
-//
-//            keyboardOptions = KeyboardOptions(
-//                keyboardType = keyboardType
-//            ),
-//
-//            shape = RoundedCornerShape(16.dp),
-//
-//            colors = OutlinedTextFieldDefaults.colors(
-//
-//                // =====================================
-//                // BORDER
-//                // =====================================
-//
-//                focusedBorderColor =
-//                if (isError) {
-//                    MaterialTheme.colorScheme.error
-//                } else {
-//                    MaterialTheme.colorScheme.border
-//                },
-//
-//                unfocusedBorderColor =
-//                if (isError) {
-//                    MaterialTheme.colorScheme.error
-//                } else {
-//                    MaterialTheme.colorScheme.border
-//                },
-//
-//                errorBorderColor =
-//                MaterialTheme.colorScheme.error,
-//
-//                // =====================================
-//                // CONTAINER
-//                // =====================================
-//
-//                focusedContainerColor =
-//                MaterialTheme.colorScheme.surface,
-//
-//                unfocusedContainerColor =
-//                MaterialTheme.colorScheme.surface,
-//
-//                disabledContainerColor =
-//                MaterialTheme.colorScheme.surface,
-//
-//                // =====================================
-//                // CURSOR
-//                // =====================================
-//
-//                cursorColor =
-//                if (isError) {
-//                    MaterialTheme.colorScheme.error
-//                } else {
-//                    MaterialTheme.colorScheme.primary
-//                },
-//
-//                errorCursorColor =
-//                MaterialTheme.colorScheme.error,
-//
-//                // =====================================
-//                // TEXT
-//                // =====================================
-//
-//                focusedTextColor =
-//                MaterialTheme.colorScheme.textPrimary,
-//
-//                unfocusedTextColor =
-//                MaterialTheme.colorScheme.textPrimary,
-//
-//                disabledTextColor =
-//                MaterialTheme.colorScheme.textSecondary,
-//
-//                // =====================================
-//                // PLACEHOLDER
-//                // =====================================
-//
-//                focusedPlaceholderColor =
-//                MaterialTheme.colorScheme.placeholder,
-//
-//                unfocusedPlaceholderColor =
-//                MaterialTheme.colorScheme.placeholder,
-//
-//                disabledPlaceholderColor =
-//                MaterialTheme.colorScheme.placeholder
-//            )
-//        )
-//
-//        // =========================================
-//        // ERROR MESSAGE
-//        // =========================================
-//
-//        AnimatedVisibility(
-//            visible =
-//            isError &&
-//                    !errorMessage.isNullOrBlank()
-//        ) {
-//
-//            Text(
-//                text = errorMessage.orEmpty(),
-//
-//                style = MaterialTheme.typography.bodySmall,
-//
-//                color = MaterialTheme.colorScheme.error,
-//
-//                modifier = Modifier.padding(
-//                    start = 16.dp,
-//                    top = 6.dp
-//                )
-//            )
-//        }
-//    }
-//}
-
-
+// ─────────────────────────────────────────────────────────────────────────
+// PREVIEWS
+// ─────────────────────────────────────────────────────────────────────────
 
 @Preview(showBackground = true)
 @Composable
 private fun AppOutlinedTextFieldPreview() {
-
     MaterialTheme {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp)
                 .background(Color.White)
         ) {
-
             AppOutlinedTextField(
-
                 value = "",
-
                 onValueChange = {},
-
                 placeholder = "Enter your mobile number"
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
             AppOutlinedTextField(
-
                 value = "9876543210",
-
                 onValueChange = {},
-
                 placeholder = "Enter your mobile number"
             )
         }
     }
 }
 
+
+
+
 @Preview(showBackground = true)
 @Composable
 private fun AppOutlinedTextFieldWithPrefixPreview() {
-
     MaterialTheme {
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp)
         ) {
-
             AppOutlinedTextField(
-
                 value = "",
-
                 onValueChange = {},
-
                 placeholder = "Enter your mobile number",
-
                 keyboardType = KeyboardType.Number,
-
                 leadingContent = {
-
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        // ⭐ THIS IS WHAT FIXED IT! ⭐
+                        modifier = Modifier.padding(start = 16.dp)
                     ) {
-
                         Text(
                             text = "+91",
-
                             fontSize = 18.sp,
-
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Medium,
+                            color = Color(0xFF101828) // Your specific color
                         )
-
                         Spacer(modifier = Modifier.width(12.dp))
 
-                        VerticalDivider(
-                            modifier = Modifier.height(24.dp),
-
-                            thickness = 1.dp,
-
-                            color = MaterialTheme.colorScheme.border
+                        // Using your Box divider (or VerticalDivider works too!)
+                        Box(
+                            modifier = Modifier
+                                .height(24.dp)
+                                .width(1.dp)
+                                .background(Color(0xFFD0D5DD))
                         )
 
                         Spacer(modifier = Modifier.width(12.dp))

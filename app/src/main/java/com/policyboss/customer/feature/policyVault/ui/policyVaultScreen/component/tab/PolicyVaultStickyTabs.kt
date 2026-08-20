@@ -43,7 +43,7 @@ fun PolicyVaultStickyTabs(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 8.dp)
+                .padding(top = 12.dp, bottom = 8.dp)
         ) {
             PolicyVaultTabBar(
                 modifier = Modifier.padding(horizontal = 8.dp),
