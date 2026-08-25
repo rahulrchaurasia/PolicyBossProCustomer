@@ -45,6 +45,7 @@ fun NavGraphBuilder.claimGraph(
          //   val viewModel: ClaimViewModel = hiltViewModel()
 
             // ⭐ GET PARENT VIEWMODEL (Graph Scoped)
+            //Give you parent : which is Dest.ClaimGraph
             val parentEntry = remember(backStackEntry) {
                 appNavigator.getBackStackEntry<Dest.ClaimGraph>()
             }
@@ -65,6 +66,7 @@ fun NavGraphBuilder.claimGraph(
                     journeyViewModel.setProductType(product)
                     // But we used pass argument  2. Navigate (No need to pass arguments in the route anymore!)
                     appNavigator.navigateTo(Dest.FileClaim(productType = product))
+                    //Navigation stores those arguments as part of the FileClaim destination's route/back-stack entry.
                 },
 
                 onNavigateToClaimGuide = { product ->
@@ -104,6 +106,12 @@ fun NavGraphBuilder.claimGraph(
             val parentEntry = remember(backStackEntry) {
                 appNavigator.getBackStackEntry<Dest.ClaimGraph>()
             }
+
+            //This line is what makes it graph-scoped:
+            //hiltViewModel(parentEntry)
+            //because parentEntry represents:
+            //Dest.ClaimGraph
+
             val journeyViewModel: ClaimJourneyViewModel = hiltViewModel(parentEntry)
 
 
@@ -176,7 +184,9 @@ fun NavGraphBuilder.claimGraph(
             popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
             // ... transitions ...
         )
+        // backStackEntry represents: Dest.AccidentDetails
         { backStackEntry ->
+
 
             // Get the SAME parent ViewModel because we are still in ClaimGraph!
             val parentEntry = remember(backStackEntry) {
