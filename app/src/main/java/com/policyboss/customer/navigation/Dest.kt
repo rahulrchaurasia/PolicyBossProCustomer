@@ -153,7 +153,20 @@ sealed class Dest {
     @Serializable
     object ThirdPartyDetails : Dest()
 
+    @Serializable
+    object DamagePhotos : Dest()
+
+    @Serializable
+    object PoliceReport : Dest()
+
+    @Serializable
+    object DriversLicense : Dest()
+
+
+
 
     //endregion
+
+
     }
 

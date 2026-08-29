@@ -14,6 +14,12 @@ import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDet
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.viewmodel.AccidentDetailsViewModel
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimGuide.ui.ClaimGuideRoute
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimGuide.viewmodel.ClaimGuideViewModel
+import com.policyboss.customer.feature.claimSupport.claimSupportJourney.damagePhotos.ui.DamagePhotosRoute
+import com.policyboss.customer.feature.claimSupport.claimSupportJourney.damagePhotos.viewmodel.DamagePhotosViewModel
+import com.policyboss.customer.feature.claimSupport.claimSupportJourney.drivingLicenseAndPolicyReport.ui.driversLicense.DriversLicenseRoute
+import com.policyboss.customer.feature.claimSupport.claimSupportJourney.drivingLicenseAndPolicyReport.ui.policyReport.PoliceReportRoute
+import com.policyboss.customer.feature.claimSupport.claimSupportJourney.drivingLicenseAndPolicyReport.viewmodel.DriversLicenseViewModel
+import com.policyboss.customer.feature.claimSupport.claimSupportJourney.drivingLicenseAndPolicyReport.viewmodel.PoliceReportViewModel
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.fileClaim.ui.FileClaimRoute
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.fileClaim.viewmodel.FileClaimViewModel
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.thirdPartyDetail.ui.ThirdPartyDetailsRoute
@@ -242,10 +248,110 @@ fun NavGraphBuilder.claimGraph(
                      journeyViewModel.saveThirdPartyDetails(thirdPartyUiState)
 
                     // 2. Navigate to Step 3 (e.g., Upload Documents)
-                    //appNavigator.navigateTo(Dest.UploadDocuments)
+
+                    appNavigator.navigateTo(Dest.DamagePhotos)
                 }
             )
         }
+
+
+        // ==========================================
+        // ⭐ Screen 6: Damage Photos (Step 3/5)
+        // ==========================================
+        composable<Dest.DamagePhotos>(
+            enterTransition = { NavigationAnimations.slideInRight },
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
+        ) { backStackEntry ->
+
+            // ⭐ GET SHARED PARENT VIEWMODEL
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.ClaimGraph>()
+            }
+            val journeyViewModel: ClaimJourneyViewModel = hiltViewModel(parentEntry)
+
+            // ⭐ GET CHILD VIEWMODEL (Screen Scoped)
+            val damagePhotosViewModel: DamagePhotosViewModel = hiltViewModel()
+
+            DamagePhotosRoute(
+                viewModel = damagePhotosViewModel,
+                onNavigateBack = { appNavigator.navigateBack() },
+                onNavigateNext = { photosList ->
+
+                    // 1. Save the list of Uris to your shared Journey ViewModel
+                     journeyViewModel.saveDamagePhotos(photosList)
+
+                    // 2. Navigate to Step 4 (e.g., Bank Details or Summary)
+                     appNavigator.navigateTo(Dest.PoliceReport)
+                }
+            )
+        }
+
+        // ==========================================
+        // ⭐ Screen 7: Police Report (Step 4/5)
+        // ==========================================
+        composable<Dest.PoliceReport>(
+            enterTransition = { NavigationAnimations.slideInRight },
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
+        ) { backStackEntry ->
+
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.ClaimGraph>()
+            }
+            val journeyViewModel: ClaimJourneyViewModel = hiltViewModel(parentEntry)
+            val policeReportViewModel: PoliceReportViewModel = hiltViewModel()
+
+            PoliceReportRoute(
+                viewModel = policeReportViewModel,
+                onNavigateBack = { appNavigator.navigateBack() },
+                onNavigateNext = { documentUri ->
+                    // 1. Save optional URI to the Journey
+                    journeyViewModel.savePoliceReport(documentUri)
+
+                    // 2. Navigate to Driver's license
+                    appNavigator.navigateTo(Dest.DriversLicense)
+                }
+            )
+        }
+
+        // ==========================================
+        // ⭐ Screen 8: Driver's license (Step 5/5)
+        // ==========================================
+        composable<Dest.DriversLicense>(
+            enterTransition = { NavigationAnimations.slideInRight },
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
+        ) { backStackEntry ->
+
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.ClaimGraph>()
+            }
+            val journeyViewModel: ClaimJourneyViewModel = hiltViewModel(parentEntry)
+            val driversLicenseViewModel: DriversLicenseViewModel = hiltViewModel()
+
+
+            DriversLicenseRoute(
+                viewModel = driversLicenseViewModel,
+                journeyViewModel = journeyViewModel, // 🚀 Pass it in here
+                onNavigateBack = { appNavigator.navigateBack() },
+                onNavigateToSuccess = {
+
+                    // 1. Wipe the draft so the next claim starts fresh
+                    journeyViewModel.clearJourney()
+
+
+
+                    // 2. Pop all the way back to the root Claims screen
+                    // inclusive = false means we DESTROY the form screens, but KEEP ClaimSupport
+                    appNavigator.popBackToRoute(Dest.ClaimSupport, inclusive = false)
+                }
+            )
+        }
+
 
     }
 }

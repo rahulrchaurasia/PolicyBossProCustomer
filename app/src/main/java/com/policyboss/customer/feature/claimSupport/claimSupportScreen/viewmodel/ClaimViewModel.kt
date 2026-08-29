@@ -8,6 +8,7 @@ import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.sta
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimSupportUiEvent
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimUiState
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ProductSelectionContext
+import com.policyboss.customer.feature.claimSupport.repository.ClaimRepository
 import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,7 +22,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ClaimViewModel @Inject constructor() : ViewModel() {
+class ClaimViewModel @Inject constructor(
+    private val repository: ClaimRepository // Injected!
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ClaimUiState())
     val uiState: StateFlow<ClaimUiState> = _uiState.asStateFlow()
@@ -34,6 +37,14 @@ class ClaimViewModel @Inject constructor() : ViewModel() {
     private val _activeFlowProduct = MutableStateFlow<AddPolicyType?>(null)
     val activeFlowProduct: StateFlow<AddPolicyType?> = _activeFlowProduct.asStateFlow()
 
+    init {
+        // 🚀 Auto-updates UI when the Repository Flow changes
+        viewModelScope.launch {
+            repository.submittedClaimsFlow.collect { claimsList ->
+                _uiState.update { it.copy(myClaims = claimsList) }
+            }
+        }
+    }
     fun onAction(action: ClaimAction) {
         when (action) {
             is ClaimAction.OnTabSelected -> {

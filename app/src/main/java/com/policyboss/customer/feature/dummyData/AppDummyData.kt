@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.fileClaim.model.RequirementItem
+import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.ClaimStatus
+import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.SubmittedClaim
 import com.policyboss.customer.feature.home.model.BadgeType
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PartnerLogoModel
@@ -937,6 +939,42 @@ object AppDummyData {
             )
         }
     }
+
+
+    //region Submitted Claims (Tracking)
+    val dummySubmittedClaims = listOf(
+        SubmittedClaim(
+            id = "1",
+            productType = AddPolicyType.CAR,
+            status = ClaimStatus.UNDER_REVIEW,
+            claimNumber = "#CLM-90234711",
+            registrationNumber = "MH12AB4587",
+            insurerName = "Tata AIG Insurance",
+            createdDate = "22/01/2026",
+            subStatus = "Claim registered"
+        ),
+        SubmittedClaim(
+            id = "2",
+            productType = AddPolicyType.BIKE,
+            status = ClaimStatus.APPROVED,
+            claimNumber = "#CLM-88334455",
+            registrationNumber = "MH14XY9999",
+            insurerName = "Bajaj Allianz",
+            createdDate = "15/01/2026",
+            subStatus = "Payment processed"
+        ),
+        SubmittedClaim(
+            id = "3",
+            productType = AddPolicyType.HEALTH,
+            status = ClaimStatus.REJECTED,
+            claimNumber = "#CLM-77221100",
+            registrationNumber = "N/A",
+            insurerName = "HDFC Ergo",
+            createdDate = "10/01/2026",
+            subStatus = "Documents missing"
+        )
+    )
+    //endregion
 
 //    val emptyPolicies = emptyList<PolicyVaultPolicy>()
 //

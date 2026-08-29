@@ -7,9 +7,12 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +28,7 @@ import com.policyboss.customer.feature.mainScreen.customBottomNavBar.CustomBotto
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
 import com.policyboss.customer.ui.CustomSplashScreen
+import com.policyboss.customer.ui.components.snackBar.LocalAppSnackbar
 import kotlin.system.exitProcess
 
 // 📁 AppRoot.kt (This replaces AppNavGraph and MainScreen completely)
@@ -172,6 +176,8 @@ fun AppRoot(
     }
 
 
+    val appSnackbarHostState = remember { SnackbarHostState() }
+
     if (showExitDialog) {
         ExitConfirmationDialog(
             onConfirm = { (context as? Activity)?.finish() ?: exitProcess(0) },
@@ -179,40 +185,45 @@ fun AppRoot(
         )
     }
 
-    Scaffold(
-        bottomBar = {
-            if (shouldShowBottomBar) {
-                CustomBottomNavigationBar(
-                    items = bottomNavItems,
-                    currentDestination = currentDestination,
-                    onTabSelected = { destination -> appNavigator.navigateToTab(destination) }
-                )
+    CompositionLocalProvider(LocalAppSnackbar provides appSnackbarHostState) {
+        Scaffold(
+            // 🚀 FIX: You must mount the SnackbarHost here!
+            snackbarHost = { SnackbarHost(hostState = appSnackbarHostState) },
+
+            bottomBar = {
+                if (shouldShowBottomBar) {
+                    CustomBottomNavigationBar(
+                        items = bottomNavItems,
+                        currentDestination = currentDestination,
+                        onTabSelected = { destination -> appNavigator.navigateToTab(destination) }
+                    )
+                }
             }
-        }
-    ) { padding ->
+        ) { padding ->
 
-        NavHost(
-            navController = navController,
-            startDestination = startDestination   // dynamic — decided by RootViewModel
-        ) {
+            NavHost(
+                navController = navController,
+                startDestination = startDestination   // dynamic — decided by RootViewModel
+            ) {
 
-            composable<Dest.CustomSplash> {
-                CustomSplashScreen(
-                    onTimeout = {
-                        appNavigator.navigateTo(Dest.AuthGraph) {
-                            popUpTo<Dest.CustomSplash> { inclusive = true }
+                composable<Dest.CustomSplash> {
+                    CustomSplashScreen(
+                        onTimeout = {
+                            appNavigator.navigateTo(Dest.AuthGraph) {
+                                popUpTo<Dest.CustomSplash> { inclusive = true }
+                            }
                         }
-                    }
+                    )
+                }
+
+                authGraph(appNavigator)
+
+                mainGraph(
+                    // navController = navController,
+                    navigator = appNavigator,
+                    padding = padding
                 )
             }
-
-            authGraph(appNavigator)
-
-            mainGraph(
-               // navController = navController,
-                navigator = appNavigator,
-                padding = padding
-            )
         }
     }
 }

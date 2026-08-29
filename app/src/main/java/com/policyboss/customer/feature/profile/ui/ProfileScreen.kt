@@ -76,7 +76,8 @@ fun ProfileScreen(
         AppTopBar(
             title = "",
             trailingIcon = painterResource(id = R.drawable.ic_close),
-            onTrailingClick = onCloseClick
+            onTrailingClick = onCloseClick,
+            trailingIconTint = AppColors.TextSecondaryDark,
         )
     // 3. Wrap your inner content in another Column to apply your 20.dp horizontal padding
         // without accidentally shrinking the AppTopBar's width.

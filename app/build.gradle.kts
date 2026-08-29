@@ -84,6 +84,7 @@ dependencies {
     // Core
 
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.runtime)
 
     implementation(libs.androidx.ui.graphics)
 

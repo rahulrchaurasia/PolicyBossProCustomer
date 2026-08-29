@@ -128,7 +128,7 @@ object HomePreviewData {
 
         promoBanners = AppDummyData.promoBanners,
 
-        earningBanners = AppDummyData.earningBanners ,
+        earningBanners = AppDummyData.earningBanners,
 
         curatedPolicies = AppDummyData.curatedPolicies
     )

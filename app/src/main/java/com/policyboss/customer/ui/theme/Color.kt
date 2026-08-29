@@ -101,6 +101,9 @@ object AppColors {
 
     val White = Color(0xFFFFFFFF)
     val ErrorRed = Color(0xFFD92D20)
+
+    val RedBadges = Color(0xFFF04438)
+
     val SuccessGreen = Color(0xFF17B26A)
 
     // ===================================================

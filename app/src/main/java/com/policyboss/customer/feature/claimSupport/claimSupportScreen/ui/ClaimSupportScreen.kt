@@ -33,10 +33,12 @@ import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.ClaimTab
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimAction
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimUiState
+import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.claimListSection.MyClaimsListSection
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.ClaimSegmentedControl
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.ClaimSupportMenuSection
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.MyClaimsEmptyState
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.NeedHelpFooter
+
 import com.policyboss.customer.feature.policyVault.ui.policyVaultScreen.bottomSheet.AddPolicyBottomSheet
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
@@ -121,6 +123,7 @@ fun ClaimSupportScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
+                uiState = uiState,          // 🚀 PASS IT HERE
                 selectedTab = uiState.selectedTab,
                 onAction = onAction
             )
@@ -178,6 +181,7 @@ fun ClaimSupportScreen(
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun AnimatedClaimContent(
+    uiState: ClaimUiState, // 🚀 ADDED THIS
     selectedTab: ClaimTab,
     onAction: (ClaimAction) -> Unit,
     modifier: Modifier = Modifier
@@ -232,13 +236,30 @@ private fun AnimatedClaimContent(
 
             ClaimTab.MY_CLAIMS -> {
 
-                MyClaimsEmptyState(
-                    onFileClaimClick = {
-                        onAction(
-                            ClaimAction.OnFileClaimClick
-                        )
-                    }
-                )
+//                MyClaimsEmptyState(
+//                    onFileClaimClick = {
+//                        onAction(
+//                            ClaimAction.OnFileClaimClick
+//                        )
+//                    }
+//                )
+
+                // Check if the list is empty
+                if (uiState.myClaims.isEmpty()) {
+                    MyClaimsEmptyState(
+                        onFileClaimClick = {
+                            onAction(ClaimAction.OnFileClaimClick)
+                        }
+                    )
+                } else {
+                    // Show the populated list!
+                    MyClaimsListSection(
+                        claims = uiState.myClaims,
+                        onFileClaimClick = {
+                            onAction(ClaimAction.OnFileClaimClick)
+                        }
+                    )
+                }
             }
 
             ClaimTab.CLAIM_SUPPORT -> {
