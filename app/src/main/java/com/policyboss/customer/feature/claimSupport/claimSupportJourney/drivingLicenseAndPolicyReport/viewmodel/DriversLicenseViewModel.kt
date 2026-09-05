@@ -24,14 +24,20 @@ class DriversLicenseViewModel @Inject constructor() : ViewModel() {
 
     fun onAction(action: DriversLicenseAction) {
         when (action) {
-            is DriversLicenseAction.OnDocumentSelected -> _uiState.update { it.copy(documentUri = action.uri) }
+            is DriversLicenseAction.OnDocumentSelected -> {
+                // 🚀 1. CLEAR THE ERROR the moment the user selects a photo
+                _uiState.update { it.copy(documentUri = action.uri, errorMessage = null) }
+            }
             DriversLicenseAction.OnRemoveDocument -> _uiState.update { it.copy(documentUri = null) }
             DriversLicenseAction.OnSubmitClick -> {
                 val uri = _uiState.value.documentUri
 
                 if (uri == null) {
                     viewModelScope.launch {
-                        _uiEvent.emit(DriversLicenseUiEvent.ShowError("Please upload your Driver's License"))
+                      //  _uiEvent.emit(DriversLicenseUiEvent.ShowError("Please upload your Driver's license"))
+                        // 🚀 2. SHOW INLINE ERROR instead of emitting a Toast
+                        _uiState.update { it.copy(errorMessage = "Please upload your Driver's License") }
+
                     }
                 }
                 else {

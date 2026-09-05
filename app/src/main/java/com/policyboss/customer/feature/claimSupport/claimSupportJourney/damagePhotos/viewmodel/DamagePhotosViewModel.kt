@@ -88,9 +88,12 @@ class DamagePhotosViewModel @Inject constructor() : ViewModel() {
         val currentPhotos = _uiState.value.photos
         
         if (currentPhotos.isEmpty()) {
-            viewModelScope.launch { 
-                _uiEvent.emit(DamagePhotosUiEvent.ShowError("Please add at least one damage photo.")) 
-            }
+
+//            viewModelScope.launch {
+//                _uiEvent.emit(DamagePhotosUiEvent.ShowError("Please add at least one damage photo."))
+//            }
+            // 🚀 SHOW INLINE ERROR for empty validation
+            _uiState.update { it.copy(errorMessage = "Please add at least one damage photo.") }
             return
         }
 

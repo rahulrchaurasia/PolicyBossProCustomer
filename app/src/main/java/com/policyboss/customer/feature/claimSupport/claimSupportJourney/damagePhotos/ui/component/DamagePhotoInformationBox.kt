@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -47,8 +48,16 @@ import com.policyboss.customer.ui.theme.AppColors
 fun DamagePhotoInformationBoxPreview() {
     MaterialTheme {
         // Adding a little padding around it so it doesn't touch the preview edges
-        Box(modifier = Modifier.padding(16.dp)) {
-            DamagePhotoInformationBox()
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
+            Box(modifier = Modifier.padding(16.dp)) {
+                DamagePhotoInformationBox()
+            }
         }
+
     }
 }

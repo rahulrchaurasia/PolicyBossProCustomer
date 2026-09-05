@@ -11,12 +11,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
@@ -26,13 +28,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component1
+import androidx.compose.ui.focus.FocusRequester.Companion.FocusRequesterFactory.component2
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,8 +53,12 @@ import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDet
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsUiState
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.viewmodel.LookupType
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
+import com.policyboss.customer.ui.components.datePicker.AppDatePickerDialog
+import com.policyboss.customer.ui.components.datePicker.AppTimePickerDialog
+import com.policyboss.customer.ui.components.datePicker.DateConstraint
 import com.policyboss.customer.ui.components.progreebar.AppStepProgressBar
 import com.policyboss.customer.ui.components.text.FormLabel
+import com.policyboss.customer.ui.components.textfield.AppClickableTextField
 import com.policyboss.customer.ui.components.textfield.AppOutlinedTextField
 import com.policyboss.customer.ui.components.toolbarHeader.AppTopBar
 import com.policyboss.customer.ui.theme.AppColors
@@ -56,11 +72,33 @@ fun AccidentDetailsScreen(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    // Dialog visibility states
+    var showDatePicker by remember { mutableStateOf(false) }
+    var showTimePicker by remember { mutableStateOf(false) }
+
+    // ==========================================
+    // ⭐ KEYBOARD & FOCUS MANAGEMENT SETUP
+    // ==========================================
+    val focusManager = LocalFocusManager.current
+
+    // Create FocusRequesters only for fields that accept typing
+    val (locationFocusRequester, descriptionFocusRequester) = remember { FocusRequester.createRefs() }
+
+    // Dynamically change keyboard capitalization based on toggle
+    val lookupCapitalization = if (uiState.selectedLookupType == LookupType.VEHICLE_NUMBER) {
+        androidx.compose.ui.text.input.KeyboardCapitalization.Characters
+    } else {
+        androidx.compose.ui.text.input.KeyboardCapitalization.None
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(Color.White)
-    ) {
+
+    )
+    {
         // 1. Top Bar
         AppTopBar(
             title = "Raise a claim",
@@ -72,18 +110,7 @@ fun AccidentDetailsScreen(
             trailingIconTint = AppColors.TextPrimary
         )
 
-        // 2. Progress Bar
-//        LinearProgressIndicator(
-//            progress = { 0.2f }, // 1/5
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 20.dp)
-//                .height(4.dp)
-//                .clip(RoundedCornerShape(50)), // ⭐ 1. Add this to round the edges manually
-//            color = AppColors.PrimaryBlue,
-//            trackColor = AppColors.BorderSecondary,
-//            strokeCap = StrokeCap.Butt // ⭐ 2. Add this to disable the buggy native rounding
-//        )
+
 
         AppStepProgressBar(
             currentStep = 1,
@@ -98,7 +125,8 @@ fun AccidentDetailsScreen(
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
-        ) {
+        )
+        {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(text = "1/5", fontSize = 14.sp, color = AppColors.TextSecondary)
@@ -118,24 +146,43 @@ fun AccidentDetailsScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             // ==========================================
-            // ⭐ REFACTORED: Lookup Value Field
+            // ⭐  Lookup Value Field
             // ==========================================
             AppOutlinedTextField(
                 value = uiState.lookupValue,
                 onValueChange = { onAction(AccidentDetailsAction.OnLookupValueChanged(it)) },
-                placeholder = if (uiState.selectedLookupType == LookupType.VEHICLE_NUMBER) "MH-123456" else "Policy Number"
+                placeholder = if (uiState.selectedLookupType == LookupType.VEHICLE_NUMBER) "MH-123456" else "Policy Number",
+                isError = uiState.lookupError != null,
+                errorMessage = uiState.lookupError,
+                // ⭐ Apply dynamic capitalization and set ImeAction to Next
+                keyboardOptions = KeyboardOptions(
+                    capitalization = lookupCapitalization,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        // ⭐ Jump straight to Location, skipping Date and Time!
+                        locationFocusRequester.requestFocus()
+                    }
+                )
             )
+
             Spacer(modifier = Modifier.height(20.dp))
 
             // ==========================================
             // ⭐ REFACTORED: Date of Incident
             // ==========================================
             FormLabel("Date of incident")
-            AppOutlinedTextField(
+            AppClickableTextField(
                 value = uiState.incidentDate,
-                onValueChange = { onAction(AccidentDetailsAction.OnDateChanged(it)) },
                 placeholder = "DD/MM/YYYY",
-                trailingContent = { Icon(painterResource(id = R.drawable.ic_calendar), contentDescription = null) }
+                onClick = {
+                    focusManager.clearFocus()
+                    showDatePicker = true },
+                isError = uiState.dateError != null,
+                errorMessage = uiState.dateError,
+                trailingIcon = { Icon(painterResource(id = R.drawable.ic_calendar), contentDescription = "Select Date") }
             )
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -143,22 +190,39 @@ fun AccidentDetailsScreen(
             // ⭐ REFACTORED: Time of Incident
             // ==========================================
             FormLabel("Time of incident")
-            AppOutlinedTextField(
+            AppClickableTextField(
                 value = uiState.incidentTime,
-                onValueChange = { onAction(AccidentDetailsAction.OnTimeChanged(it)) },
                 placeholder = "HH:MM",
-                trailingContent = { Icon(painterResource(id = R.drawable.ic_calendar), contentDescription = null) }
+                onClick = {
+                    focusManager.clearFocus() // ⭐ Drop keyboard if open when dialog is clicked
+                    showTimePicker = true
+                },
+                isError = uiState.timeError != null,
+                errorMessage = uiState.timeError,
+                trailingIcon = { Icon(painterResource(id = R.drawable.ic_calendar), contentDescription = "Select Time") }
             )
             Spacer(modifier = Modifier.height(20.dp))
 
             // ==========================================
-            // ⭐ REFACTORED: Location
+            // Location (To be handled properly later)
             // ==========================================
             FormLabel("Location")
             AppOutlinedTextField(
                 value = uiState.location,
                 onValueChange = { onAction(AccidentDetailsAction.OnLocationChanged(it)) },
-                trailingContent = { Icon(painterResource(id = R.drawable.ic_chevron_left), contentDescription = null) }
+                modifier = Modifier.focusRequester(locationFocusRequester), // ⭐ Attach requester
+                trailingContent = { Icon(painterResource(id = R.drawable.ic_chevron_left), contentDescription = null) },
+
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        // ⭐ Jump to Description
+                        descriptionFocusRequester.requestFocus()
+                    }
+                )
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -188,7 +252,15 @@ fun AccidentDetailsScreen(
                 modifier = Modifier.height(100.dp), // Height applied here works perfectly now
                 singleLine = false, // Allow multi-line for description
                 minLines = 3,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done) // Shows "Done" to dismiss keyboard
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done // ⭐ Final field
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus() // ⭐ Drop the keyboard
+                    }
+                )
             )
             Spacer(modifier = Modifier.height(32.dp))
         }
@@ -198,8 +270,9 @@ fun AccidentDetailsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(AppColors.ClaimLightBg)
-                .padding(horizontal = 20.dp, vertical = 16.dp)
-                .navigationBarsPadding(),
+                .navigationBarsPadding()            // 2. Add Nav Bar space
+                .imePadding()                       // 3. Add Keyboard space
+                .padding(horizontal = 20.dp, vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             PrimaryCTAButton(
@@ -211,6 +284,34 @@ fun AccidentDetailsScreen(
             )
         }
     }
+
+    // ==========================================
+    // Dialogs
+    // ==========================================
+    if (showDatePicker) {
+        AppDatePickerDialog(
+            dateConstraint = DateConstraint.PastMonths(1), // 👈 Exactly 1 month ago until today
+
+            onDateSelected = { formattedDate ->
+                onAction(AccidentDetailsAction.OnDateChanged(formattedDate))
+                showDatePicker = false
+            },
+            onDismiss = { showDatePicker = false }
+        )
+    }
+
+    if (showTimePicker) {
+        AppTimePickerDialog(
+            onTimeSelected = { formattedTime ->
+                onAction(AccidentDetailsAction.OnTimeChanged(formattedTime))
+                showTimePicker = false
+            },
+            onDismiss = { showTimePicker = false }
+        )
+    }
+
+
+
 }
 
 // ... Segmented Controls & Previews remain the same ...

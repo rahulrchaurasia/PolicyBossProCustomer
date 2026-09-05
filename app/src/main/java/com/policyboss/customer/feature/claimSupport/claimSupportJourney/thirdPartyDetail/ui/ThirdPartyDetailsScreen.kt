@@ -65,23 +65,7 @@ fun ThirdPartyDetailsScreen(
             trailingIconTint = AppColors.TextPrimary
         )
 
-        // 2. Progress Bar (Step 2/5 = 0.4f)
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 20.dp)
-//                .height(4.dp)
-//                .clip(RoundedCornerShape(50))
-//                .background(AppColors.BorderSecondary)
-//        ) {
-//            Box(
-//                modifier = Modifier
-//                    .fillMaxWidth(fraction = 0.4f)
-//                    .fillMaxHeight()
-//                    .clip(RoundedCornerShape(50))
-//                    .background(AppColors.PrimaryBlue)
-//            )
-//        }
+
 
         AppStepProgressBar(
             currentStep = 2,
@@ -119,6 +103,8 @@ fun ThirdPartyDetailsScreen(
                 value = uiState.driverName,
                 onValueChange = { onAction(ThirdPartyDetailsAction.OnDriverNameChanged(it)) },
                 placeholder = "Enter driver's name",
+                isError = uiState.nameError != null,       // Added
+                errorMessage = uiState.nameError,          // Added
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next
@@ -133,7 +119,8 @@ fun ThirdPartyDetailsScreen(
                 value = uiState.phoneNumber,
                 onValueChange = { onAction(ThirdPartyDetailsAction.OnPhoneNumberChanged(it)) },
                 placeholder = "Enter phone number",
-                keyboardType = KeyboardType.Phone,
+                isError = uiState.phoneError != null,      // Added
+                errorMessage = uiState.phoneError,         // Added
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Phone,
                     imeAction = ImeAction.Done
@@ -153,7 +140,7 @@ fun ThirdPartyDetailsScreen(
                         VerticalDivider(
                             modifier = Modifier.height(24.dp),
                             thickness = 1.dp,
-                            color = AppColors.BorderSecondary
+                            color = AppColors.BorderPrimary
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                     }
@@ -172,8 +159,15 @@ fun ThirdPartyDetailsScreen(
                 .navigationBarsPadding(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // PRO UX TIP: Change button text dynamically!
+            val buttonText = if (uiState.driverName.isBlank() && uiState.phoneNumber.isBlank()) {
+                "Skip & Continue"
+            } else {
+                "Confirm & Continue"
+            }
+
             PrimaryCTAButton(
-                text = "Confirm and Continue",
+                text = buttonText,
                 onClick = { onAction(ThirdPartyDetailsAction.OnContinueClick) },
                 contentColor = AppColors.White,
                 arrowBackgroundColor = AppColors.White,

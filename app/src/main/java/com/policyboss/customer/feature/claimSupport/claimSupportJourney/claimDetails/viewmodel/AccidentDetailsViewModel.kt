@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsAction
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsUiEvent
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsUiState
+import com.policyboss.customer.feature.claimSupport.claimSupportScreen.viewmodel.LookupType
+import com.policyboss.customer.utils.AppValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,24 +27,84 @@ class AccidentDetailsViewModel @Inject constructor() : ViewModel() {
 
     fun onAction(action: AccidentDetailsAction) {
         when (action) {
-            is AccidentDetailsAction.OnLookupTypeChanged -> _uiState.update { it.copy(selectedLookupType = action.type) }
-            is AccidentDetailsAction.OnLookupValueChanged -> _uiState.update { it.copy(lookupValue = action.value) }
-            is AccidentDetailsAction.OnDateChanged -> _uiState.update { it.copy(incidentDate = action.date) }
-            is AccidentDetailsAction.OnTimeChanged -> _uiState.update { it.copy(incidentTime = action.time) }
-            is AccidentDetailsAction.OnLocationChanged -> _uiState.update { it.copy(location = action.location) }
-            is AccidentDetailsAction.OnDescriptionChanged -> _uiState.update { it.copy(description = action.desc) }
-            AccidentDetailsAction.OnUseCurrentLocation -> {
-                // Trigger location fetch logic here
-                _uiState.update { it.copy(location = "Fetching...") }
+            is AccidentDetailsAction.OnLookupTypeChanged -> {
+
+                // ✅ When toggling types, clear the text field and reset errors
+                _uiState.update {
+                    it.copy(
+                        selectedLookupType = action.type,
+                        lookupValue = "",
+                        lookupError = null
+                    )
+                }
             }
-            AccidentDetailsAction.OnContinueClick -> {
-                // Validate form fields here before proceeding
-//                if (_uiState.value.lookupValue.isBlank()) {
-//                    viewModelScope.launch { _uiEvent.emit(AccidentDetailsUiEvent.ShowError("Please enter vehicle/policy number")) }
-//                    return
-//                }
-                viewModelScope.launch { _uiEvent.emit(AccidentDetailsUiEvent.NavigateNext) }
+            is AccidentDetailsAction.OnLookupValueChanged -> {
+                // ✅ Force uppercase formatting belongs HERE as they type
+                val formattedValue = action.value.uppercase()
+                _uiState.update {
+                    it.copy(
+                        lookupValue = formattedValue,
+                        lookupError = null
+                    )
+                }
+                _uiState.update { it.copy(lookupValue = action.value, lookupError = null) }
             }
+            is AccidentDetailsAction.OnDateChanged -> {
+                _uiState.update { it.copy(incidentDate = action.date, dateError = null) }
+            }
+            is AccidentDetailsAction.OnTimeChanged -> {
+                _uiState.update { it.copy(incidentTime = action.time, timeError = null) }
+            }
+            is AccidentDetailsAction.OnLocationChanged -> {
+                _uiState.update { it.copy(location = action.location) }
+            }
+            is AccidentDetailsAction.OnDescriptionChanged -> {
+                _uiState.update { it.copy(description = action.desc) }
+            }
+            is AccidentDetailsAction.OnUseCurrentLocation -> {
+                // To be implemented in the next step
+            }
+            is AccidentDetailsAction.OnContinueClick -> validateAndSubmit()
+        }
+    }
+
+    private fun validateAndSubmit() {
+        val state = _uiState.value
+
+        // 0. Clear all previous errors first
+        _uiState.update { it.copy(lookupError = null, dateError = null, timeError = null) }
+
+        // 1. Validate Lookup Value using AppValidator
+        if (state.selectedLookupType == LookupType.VEHICLE_NUMBER) {
+            // Use the centralized vehicle number validator
+            if (!AppValidator.isValidVehicleNumber(state.lookupValue)) {
+                _uiState.update { it.copy(lookupError = "Please enter a valid vehicle number") }
+                return // 🛑 Stop here
+            }
+        } else {
+            // Use the centralized policy number validator
+            if (!AppValidator.isValidPolicyNumber(state.lookupValue)) {
+                _uiState.update { it.copy(lookupError = "Please enter a valid policy number") }
+                return // 🛑 Stop here
+            }
+        }
+
+        // 2. Validate Date
+        // For simple empty checks on dropdowns/pickers, .isBlank() in the ViewModel is perfectly fine.
+        if (state.incidentDate.isBlank()) {
+            _uiState.update { it.copy(dateError = "Please select the date of incident") }
+            return // 🛑 Stop here
+        }
+
+        // 3. Validate Time
+        if (state.incidentTime.isBlank()) {
+            _uiState.update { it.copy(timeError = "Please select the time of incident") }
+            return // 🛑 Stop here
+        }
+
+        // 4. If the code reaches this point, EVERYTHING is valid!
+        viewModelScope.launch {
+            _uiEvent.emit(AccidentDetailsUiEvent.NavigateNext)
         }
     }
 }

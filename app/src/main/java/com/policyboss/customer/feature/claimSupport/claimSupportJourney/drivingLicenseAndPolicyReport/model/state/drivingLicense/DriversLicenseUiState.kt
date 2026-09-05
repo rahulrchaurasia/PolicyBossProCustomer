@@ -2,7 +2,11 @@ package com.policyboss.customer.feature.claimSupport.claimSupportJourney.driving
 
 import android.net.Uri
 
-data class DriversLicenseUiState(val documentUri: Uri? = null)
+
+data class DriversLicenseUiState(
+    val documentUri: Uri? = null,
+    val errorMessage: String? = null // 🚀 ADDED: Holds the inline error
+)
 
 
 

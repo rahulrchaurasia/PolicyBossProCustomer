@@ -40,6 +40,7 @@ import com.policyboss.customer.feature.claimSupport.claimSupportJourney.damagePh
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.damagePhotos.ui.component.SelectedPhotoItem
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.ui.components.progreebar.AppStepProgressBar
+import com.policyboss.customer.ui.components.text.AppAnimatedErrorText
 import com.policyboss.customer.ui.components.toolbarHeader.AppTopBar
 import com.policyboss.customer.ui.theme.AppColors
 
@@ -126,6 +127,9 @@ fun DamagePhotosScreen(
                     }
                 }
             }
+
+            // 🚀 REUSABLE COMPONENT USED HERE
+            AppAnimatedErrorText(errorMessage = uiState.errorMessage)
 
             Spacer(modifier = Modifier.height(24.dp))
 

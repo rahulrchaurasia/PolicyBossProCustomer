@@ -26,12 +26,12 @@ class ThirdPartyDetailsViewModel @Inject constructor() : ViewModel() {
     fun onAction(action: ThirdPartyDetailsAction) {
         when (action) {
             is ThirdPartyDetailsAction.OnDriverNameChanged -> {
-                _uiState.update { it.copy(driverName = action.name) }
+                _uiState.update { it.copy(driverName = action.name, nameError = null) }
             }
             is ThirdPartyDetailsAction.OnPhoneNumberChanged -> {
-                // Example: Only allow digits
-                val digitsOnly = action.number.filter { it.isDigit() }
-                _uiState.update { it.copy(phoneNumber = digitsOnly) }
+                // Only allow digits and restrict to 10 characters max
+                val digitsOnly = action.number.filter { it.isDigit() }.take(10)
+                _uiState.update { it.copy(phoneNumber = digitsOnly, phoneError = null) }
             }
             ThirdPartyDetailsAction.OnContinueClick -> {
                 viewModelScope.launch {

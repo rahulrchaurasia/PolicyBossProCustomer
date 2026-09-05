@@ -2,5 +2,8 @@ package com.policyboss.customer.feature.claimSupport.claimSupportJourney.thirdPa
 
 data class ThirdPartyDetailsUiState(
     val driverName: String = "",
-    val phoneNumber: String = ""
+    val nameError: String? = null, // Added
+
+    val phoneNumber: String = "",
+    val phoneError: String? = null // Added
 )

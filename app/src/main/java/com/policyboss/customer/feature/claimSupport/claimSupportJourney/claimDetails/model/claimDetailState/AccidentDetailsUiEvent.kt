@@ -3,4 +3,7 @@ package com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDe
 sealed class AccidentDetailsUiEvent {
     object NavigateNext : AccidentDetailsUiEvent()
     data class ShowError(val message: String) : AccidentDetailsUiEvent()
+
+
+
 }
