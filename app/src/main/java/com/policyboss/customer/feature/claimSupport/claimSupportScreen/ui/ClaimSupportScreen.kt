@@ -34,11 +34,11 @@ import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.Cla
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimAction
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimUiState
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.claimListSection.MyClaimsListSection
+import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.ClaimHeader
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.ClaimSegmentedControl
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.ClaimSupportMenuSection
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.MyClaimsEmptyState
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.component.NeedHelpFooter
-
 import com.policyboss.customer.feature.policyVault.ui.policyVaultScreen.bottomSheet.AddPolicyBottomSheet
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
@@ -91,7 +91,11 @@ fun ClaimSupportScreen(
             // Screen Title
             //------------------------------------------------------
 
-            Header()
+            //Header()
+            ClaimHeader(
+                showDeleteMenu = uiState.selectedTab == ClaimTab.MY_CLAIMS && uiState.myClaims.isNotEmpty(),
+                onDeleteAllClick = { onAction(ClaimAction.OnDeleteAllClaims) }
+            )
 
             Spacer(
                 modifier = Modifier.height(24.dp)
@@ -257,6 +261,11 @@ private fun AnimatedClaimContent(
                         claims = uiState.myClaims,
                         onFileClaimClick = {
                             onAction(ClaimAction.OnFileClaimClick)
+                        },
+                        onDeleteClaim = { claimId ->
+
+                            onAction(ClaimAction.OnDeleteSingleClaim(claimId))
+
                         }
                     )
                 }

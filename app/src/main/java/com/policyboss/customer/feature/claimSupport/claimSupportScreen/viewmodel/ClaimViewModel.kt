@@ -3,6 +3,7 @@ package com.policyboss.customer.feature.claimSupport.claimSupportScreen.viewmode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.policyboss.customer.core.datastore.AppDataManager
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.ClaimSupportMenu
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimAction
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.state.ClaimSupportUiEvent
@@ -17,13 +18,15 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ClaimViewModel @Inject constructor(
-    private val repository: ClaimRepository // Injected!
+    private val repository: ClaimRepository,  // Injected!
+    private val appDataManager: AppDataManager // 🚀 1. Inject AppDataManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ClaimUiState())
@@ -61,10 +64,35 @@ class ClaimViewModel @Inject constructor(
                 onProductSelected(action.product)
             }
             ClaimAction.OnSupportCallClick -> {
-                viewModelScope.launch { _uiEvent.emit(ClaimSupportUiEvent.OpenSupportDialer) }
+
+
+                viewModelScope.launch {
+
+                    // 🚀 2. Read the latest number from DataStore instantly
+                    val number = appDataManager.supportNumber.first()
+
+                    // 🚀 3. Send the number back to the Route
+                    _uiEvent.emit(ClaimSupportUiEvent.OpenSupportDialer(number))
+                }
             }
             is ClaimAction.OnSupportMenuClick -> {
                 onSupportMenuClicked(action.menu)
+            }
+
+            //temporary handle delete cases
+
+            ClaimAction.OnDeleteAllClaims -> {
+                // 🚀 This instantly clears the list.
+                // The UI will automatically switch to MyClaimsEmptyState!
+                _uiState.update { it.copy(myClaims = emptyList()) }
+            }
+
+            is ClaimAction.OnDeleteSingleClaim -> {
+                // Filters out the specific claim the user wants to delete
+                _uiState.update { state ->
+                    val updatedList = state.myClaims.filterNot { it.id == action.claimId }
+                    state.copy(myClaims = updatedList)
+                }
             }
         }
     }

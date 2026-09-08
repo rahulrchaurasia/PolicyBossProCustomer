@@ -24,4 +24,8 @@ sealed interface ClaimAction {
     data class OnSupportMenuClick(
         val menu: ClaimSupportMenu
     ) : ClaimAction
+
+
+    object OnDeleteAllClaims : ClaimAction // For the top menu
+    data class OnDeleteSingleClaim(val claimId: String) : ClaimAction // For individual items
 }

@@ -12,7 +12,9 @@ sealed interface ClaimSupportUiEvent {
     data object OpenCashlessGarage : ClaimSupportUiEvent
     data object OpenInsurerContacts : ClaimSupportUiEvent
     data object OpenFaq : ClaimSupportUiEvent
-    data object OpenSupportDialer : ClaimSupportUiEvent
+
+    // 🚀 Change this from a 'data object' to a 'data class' with a parameter
+    data class OpenSupportDialer(val phoneNumber: String) : ClaimSupportUiEvent
 
     data class ShowSnackbar(val message: String) : ClaimSupportUiEvent
 }

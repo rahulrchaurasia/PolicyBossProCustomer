@@ -1,5 +1,6 @@
 package com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -7,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -16,7 +18,6 @@ import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.sta
 import com.policyboss.customer.feature.claimSupport.claimSupportScreen.viewmodel.ClaimViewModel
 import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
 import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
-
 
 @Composable
 fun ClaimSupportRoute(
@@ -56,9 +57,17 @@ fun ClaimSupportRoute(
                     ClaimSupportUiEvent.OpenFaq -> {
                         onNavigateToFaqs()
                     }
-                    ClaimSupportUiEvent.OpenSupportDialer -> {
-                        // Handle dialer logic (e.g., using Intent(Intent.ACTION_DIAL))
+
+                    // 🚀 1. Added 'is' here!
+                    is ClaimSupportUiEvent.OpenSupportDialer -> {
+
+                        // 🚀 2. Grab the dynamic number directly from the event!
+                        val intent = Intent(Intent.ACTION_DIAL).apply {
+                            data = "tel:${event.phoneNumber}".toUri()
+                        }
+                        context.startActivity(intent)
                     }
+
                     is ClaimSupportUiEvent.ShowSnackbar -> {
                         // Handle Snackbar
                     }

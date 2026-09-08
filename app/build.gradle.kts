@@ -62,7 +62,7 @@ dependencies {
 
     // Compose
   // ⭐ Use enforcedPlatform from sneaking in
-    implementation(enforcedPlatform(libs.androidx.compose.bom))
+   // implementation(enforcedPlatform(libs.androidx.compose.bom))
     //Preferred compose bom
     implementation(platform(libs.androidx.compose.bom))
 
@@ -90,6 +90,7 @@ dependencies {
 
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.material)
+
 
     debugImplementation(libs.androidx.ui.tooling)
 
@@ -139,6 +140,14 @@ dependencies {
 
     implementation(libs.retrofit.serialization)
 
+    //google location
+    implementation(libs.play.services.location)
+
+    // Coroutines bridge for Google Tasks (Fixes the .await() error)
+
+    // 🚀 Paste this EXACT string directly instead of using 'libs.'
+    // 🚀 PASTE THIS EXACT STRING (Don't use 'libs.')
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
     //video Player
     implementation(libs.androidx.media3.exoplayer)

@@ -15,5 +15,9 @@ data class AccidentDetailsUiState(
     val timeError: String? = null,   // New
 
     val location: String = "",
-    val description: String = ""
+    val description: String = "",
+
+    val latitude: Double? = null,    // 🚀 Added for the server
+    val longitude: Double? = null,   // 🚀 Added for the server
+    val locationError: String? = null
 )

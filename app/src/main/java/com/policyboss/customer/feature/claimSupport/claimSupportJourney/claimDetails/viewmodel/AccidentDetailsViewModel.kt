@@ -65,6 +65,17 @@ class AccidentDetailsViewModel @Inject constructor() : ViewModel() {
                 // To be implemented in the next step
             }
             is AccidentDetailsAction.OnContinueClick -> validateAndSubmit()
+
+            is AccidentDetailsAction.OnCurrentLocationFetched -> {
+                _uiState.update {
+                    it.copy(
+                        location = action.address,
+                        latitude = action.lat,
+                        longitude = action.lng,
+                        locationError = null
+                    )
+                }
+            }
         }
     }
 

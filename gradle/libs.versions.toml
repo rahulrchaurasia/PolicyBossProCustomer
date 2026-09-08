@@ -4,6 +4,7 @@
 agp = "8.13.2"
 kotlin = "2.0.21"
 
+
 ksp = "2.0.21-1.0.25"
 
 # Compose BOM manages all Compose UI, Foundation, and Material versions
@@ -51,6 +52,10 @@ material3 = "1.4.0"
 uiGraphics = "1.12.0"
 runtime = "1.12.0"
 material = "1.14.0"
+playServicesLocation = "21.4.0"
+
+
+
 #foundationLayout = "1.12.0"
 
 
@@ -98,6 +103,7 @@ androidx-compose-foundation = { module = "androidx.compose.foundation:foundation
 
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 
+# Under [libraries]
 
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 
@@ -120,6 +126,7 @@ androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constr
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 
 # Retrofit
+
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
@@ -151,6 +158,7 @@ androidx-compose-foundation-layout = { module = "androidx.compose.foundation:fou
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics", version.ref = "uiGraphics" }
 androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 
 

@@ -1,6 +1,7 @@
 package com.policyboss.customer.feature.claimSupport.claimSupportScreen.ui.claimListSection
 
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,16 +15,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +50,7 @@ import com.policyboss.customer.ui.theme.PolicyBossCustomerTheme
 fun MyClaimsListSection(
     claims: List<SubmittedClaim>,
     onFileClaimClick: () -> Unit,
+    onDeleteClaim: (String) -> Unit, // 🚀 ADDED: Callback for single deletion
     modifier: Modifier = Modifier
 ) {
     Box(modifier = modifier.fillMaxSize()) {
@@ -53,14 +63,62 @@ fun MyClaimsListSection(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
+
+
+
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(bottom = 80.dp) // Space for the floating button
+                contentPadding = PaddingValues(bottom = 80.dp)
             ) {
                 items(claims, key = { it.id }) { claim ->
-                    TrackClaimCard(claim = claim)
+
+                    // 🚀 1. Define the Swipe State  callback
+                    val dismissState = rememberSwipeToDismissBoxState()
+
+                    // 🚀 2. Listen for the state change natively
+                    LaunchedEffect(dismissState.currentValue) {
+                        if (dismissState.currentValue == SwipeToDismissBoxValue.EndToStart) {
+                            onDeleteClaim(claim.id)
+                        }
+                    }
+
+
+                    // 🚀 2. Wrap your Card in the SwipeToDismissBox
+                    SwipeToDismissBox(
+                        state = dismissState,
+                        enableDismissFromStartToEnd = false, // Only allow right-to-left swipe
+                        backgroundContent = {
+                            val color by animateColorAsState(
+                                targetValue = if (dismissState.targetValue == SwipeToDismissBoxValue.EndToStart) {
+                                    MaterialTheme.colorScheme.error // Red when actively swiping
+                                } else {
+                                    Color.LightGray
+                                }, label = "swipe_color"
+                            )
+
+                            // The red background revealed underneath the card
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clip(RoundedCornerShape(16.dp)) // Match your card's corner radius
+                                    .background(color)
+                                    .padding(end = 24.dp),
+                                contentAlignment = Alignment.CenterEnd
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = "Delete Claim",
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                    ) {
+                        // The actual content being swiped
+                        TrackClaimCard(claim = claim)
+                    }
                 }
             }
+
         }
 
         // Floating Action Button for "File a claim"
@@ -146,7 +204,9 @@ fun MyClaimsListSectionPreview() {
 
         MyClaimsListSection(
             claims = mockClaims,
-            onFileClaimClick = {}
+            onFileClaimClick = {},
+            onDeleteClaim = {},
+
         )
     }
 }

@@ -1,52 +1,38 @@
 package com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.ui
 
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
+// Assuming this is where you placed the location helper
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.policyboss.customer.R
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsAction
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsUiEvent
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsUiState
 import com.policyboss.customer.feature.claimSupport.claimSupportJourney.claimDetails.viewmodel.AccidentDetailsViewModel
-import com.policyboss.customer.feature.claimSupport.claimSupportJourney.fileClaim.ui.component.BottomFooter
-import com.policyboss.customer.feature.claimSupport.claimSupportScreen.viewmodel.LookupType
-import com.policyboss.customer.ui.components.toolbarHeader.AppTopBar
-import com.policyboss.customer.ui.theme.AppColors
+import com.policyboss.customer.ui.components.loading.AppLoadingOverlay
+import com.policyboss.customer.ui.components.snackBar.LocalAppSnackbar
+import com.policyboss.customer.utils.extension.findActivity
+import com.policyboss.customer.utils.extension.showAppSnackbar
+import com.policyboss.customer.utils.location.fetchCurrentLocationAndAddress
+import com.policyboss.customer.utils.permission.PermissionRationaleDialog
+import kotlinx.coroutines.launch
+
+import android.location.Geocoder
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
+import kotlinx.coroutines.tasks.await // 👈 This one is very easy to miss!
+
+
 
 @Composable
 fun AccidentDetailsRoute(
@@ -56,7 +42,56 @@ fun AccidentDetailsRoute(
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    val activity = context.findActivity()
+    val coroutineScope = rememberCoroutineScope()
+    val globalSnackbar = LocalAppSnackbar.current
 
+    // State for the reusable settings dialog
+    var showLocationSettingsDialog by remember { mutableStateOf(false) }
+    var isFetchingLocation by remember { mutableStateOf(false) }
+
+
+    // ==========================================
+    // ⭐ LOCATION PERMISSION LAUNCHER
+    // ==========================================
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        val isGranted = permissions.entries.any { it.value } // True if either Fine or Coarse is granted
+
+        if (isGranted) {
+            // Permission Granted -> Fetch Location
+            isFetchingLocation = true
+            coroutineScope.launch {
+                val locationData = fetchCurrentLocationAndAddress(context)
+                if (locationData != null) {
+                    viewModel.onAction(
+                        AccidentDetailsAction.OnCurrentLocationFetched(
+                            address = locationData.first,
+                            lat = locationData.second,
+                            lng = locationData.third
+                        )
+                    )
+                } else {
+                    globalSnackbar.showAppSnackbar("Could not determine location. Please try again.")
+                }
+                isFetchingLocation = false
+            }
+        } else {
+            // Permission Denied -> Check Rationale
+            val shouldShowRationale = activity?.shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION) == true
+
+            if (shouldShowRationale) {
+                coroutineScope.launch {
+                    globalSnackbar.showAppSnackbar("Location access is needed to auto-fill your accident location.")
+                }
+            } else {
+                // Permanently Denied -> Show Settings Dialog
+                showLocationSettingsDialog = true
+            }
+        }
+    }
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -66,10 +101,48 @@ fun AccidentDetailsRoute(
         }
     }
 
-    AccidentDetailsScreen(
-        uiState = uiState,
-        onAction = viewModel::onAction,
-        onBackClick = onNavigateBack,
-        modifier = modifier
-    )
+//    AccidentDetailsScreen(
+//        uiState = uiState,
+//        onAction = viewModel::onAction,
+//        onBackClick = onNavigateBack,
+//        modifier = modifier
+//    )
+
+    // ==========================================
+    // ⭐ UI & DIALOG RENDERING
+    // ==========================================
+
+    // Show a loading overlay while waiting for GPS to connect
+    AppLoadingOverlay(
+        isLoading = isFetchingLocation,
+        message = "Locating you..."
+    ) {
+        AccidentDetailsScreen(
+            uiState = uiState,
+            onAction = { action ->
+                // 🚀 Intercept the button click to launch permissions
+                if (action is AccidentDetailsAction.OnUseCurrentLocationClick) {
+                    locationPermissionLauncher.launch(
+                        arrayOf(
+                            android.Manifest.permission.ACCESS_FINE_LOCATION,
+                            android.Manifest.permission.ACCESS_COARSE_LOCATION
+                        )
+                    )
+                } else {
+                    viewModel.onAction(action)
+                }
+            },
+            onBackClick = onNavigateBack,
+            modifier = modifier
+        )
+    }
+
+    // Render the reusable dialog if permanently denied
+    if (showLocationSettingsDialog) {
+        PermissionRationaleDialog(
+            title = "Location Permission Required",
+            description = "You have permanently denied location access. Please enable it in Settings to use your current location.",
+            onDismiss = { showLocationSettingsDialog = false }
+        )
+    }
 }
