@@ -1,19 +1,10 @@
 plugins {
-
-
     alias(libs.plugins.android.application)
-
     alias(libs.plugins.kotlin.android)
-
     alias(libs.plugins.kotlin.compose)
-
     alias(libs.plugins.kotlin.serialization)
-
     alias(libs.plugins.hilt)
-
     alias(libs.plugins.ksp)
-
-
 }
 
 android {
@@ -39,10 +30,6 @@ android {
             )
         }
     }
-//    compileOptions {
-//        sourceCompatibility = JavaVersion.VERSION_11
-//        targetCompatibility = JavaVersion.VERSION_11
-//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -52,136 +39,90 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-
-
-    // Compose
-  // ⭐ Use enforcedPlatform from sneaking in
-   // implementation(enforcedPlatform(libs.androidx.compose.bom))
-    //Preferred compose bom
+    // ============================================================
+    // Compose BOM
+    // Enforces strict versions across all androidx.compose.* deps
+    // ============================================================
     implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
 
-    implementation(libs.androidx.activity.compose)
+    // ============================================================
+    // Compose Core
+    // ============================================================
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.material3)
-
-    // implementation(libs.androidx.ui)
-
     implementation(libs.androidx.compose.runtime)
-
-    implementation(libs.androidx.compose.ui)
-
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.ui.graphics)
-
     implementation(libs.androidx.material.icons.extended)
 
-    // Core
+    implementation(libs.androidx.activity.compose)
 
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.runtime)
-
-    implementation(libs.androidx.ui.graphics)
-
+    // Compose Tooling
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.material)
-
-
     debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
-
+    // ============================================================
+    // AndroidX Core & Lifecycle
+    // ============================================================
     implementation(libs.androidx.core.ktx)
-
     implementation(libs.androidx.lifecycle.runtime.ktx)
-
     implementation(libs.androidx.lifecycle.runtime.compose)
-
-//   implementation(libs.androidx.lifecycle.viewmodel.compose)
-
     implementation(libs.androidx.appcompat)
-
-
-    //implementation(libs.foundation)
-
-    // Splash
     implementation(libs.androidx.core.splashscreen)
 
-    // Navigation
+    // ============================================================
+    // Navigation & Hilt
+    // ============================================================
     implementation(libs.androidx.navigation.compose)
-
-    // Hilt
     implementation(libs.hilt.android)
-
     ksp(libs.hilt.compiler)
-
     implementation(libs.androidx.hilt.navigation.compose)
 
-    // ConstraintLayout
-    implementation(libs.androidx.constraintlayout.compose)
-
+    // ============================================================
+    // UI & Layouts
+    // ============================================================
+    implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
-
-    // Coil
+    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.coil.compose)
 
-    // Retrofit
+    // ============================================================
+    // Network & Serialization
+    // ============================================================
     implementation(libs.retrofit)
-
     implementation(libs.okhttp)
-
     implementation(libs.logging.interceptor)
-
     implementation(libs.kotlinx.serialization)
-
     implementation(libs.retrofit.serialization)
 
-    //google location
+    // ============================================================
+    // Data & Google Services
+    // ============================================================
+    implementation(libs.datastore.preferences)
     implementation(libs.play.services.location)
+    implementation(libs.kotlinx.coroutines.play.services)
 
-    // Coroutines bridge for Google Tasks (Fixes the .await() error)
-
-    // 🚀 Paste this EXACT string directly instead of using 'libs.'
-    // 🚀 PASTE THIS EXACT STRING (Don't use 'libs.')
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
-
-    //video Player
+    // ============================================================
+    // Media3 (ExoPlayer)
+    // ============================================================
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
 
-    // DataStore
-    implementation(libs.datastore.preferences)
-
-  //Facebook-style shimmering
-//    implementation(platform("androidx.compose:compose-bom:2026.02.00"))
-//    implementation("androidx.compose.material3:material3")
-//    implementation("androidx.compose.foundation:foundation")
-
-   // implementation(platform(libs.androidx.compose.bom))
-
-//    implementation(libs.androidx.compose.material3)
-//    implementation(libs.androidx.compose.foundation)
-
-    // Tests
+    // ============================================================
+    // Testing
+    // ============================================================
     testImplementation(libs.junit)
-
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-
     androidTestImplementation(libs.androidx.ui.test.junit4)
-
     androidTestImplementation(libs.androidx.junit)
-
     androidTestImplementation(libs.androidx.espresso.core)
-
-    debugImplementation(libs.androidx.ui.test.manifest)
-
-
-
-
-
 }
-
