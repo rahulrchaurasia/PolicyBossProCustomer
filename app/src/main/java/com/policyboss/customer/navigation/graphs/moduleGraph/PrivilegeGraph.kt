@@ -7,9 +7,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import androidx.navigation.toRoute
 import com.policyboss.customer.anim.NavigationAnimations
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.EmailPanScreen.ui.PrivilegeEmailPanRoute
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.EmailPanScreen.viewmodel.PrivilegeEmailPanViewModel
+import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyEmail.ui.PrivilegeVerifyEmailRoute
+import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyEmail.viemodel.PrivilegeVerifyEmailViewModel
+import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyPan.ui.VerifyPanRoute
+import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyPan.viewmodel.VerifyPanViewModel
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.ui.privilegeScreen.PrivilegeRoute
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.ui.privilegeScreen.privillegeStory.PrivilegeStoriesRoute
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.viewmodel.PrivilegeViewModel
@@ -105,7 +110,7 @@ fun NavGraphBuilder.privilegeGraph(
         }
 
 
-      // ==========================================
+       // ==========================================
         // 3. PRIVILEGE JOURNEY: EMAIL & PAN SCREEN
         // ==========================================
         composable<Dest.PrivilegeEmailPan>(
@@ -128,44 +133,99 @@ fun NavGraphBuilder.privilegeGraph(
             val viewModel: PrivilegeEmailPanViewModel =
                 hiltViewModel(parentEntry)
 
-
-
-
             PrivilegeEmailPanRoute(
                 viewModel = viewModel,
                 onNavigateBack = {
                     appNavigator.navigateBack()
                 },
                 onNavigateNext = {
+                    // 👇 Extract current state values and pass them forward
+                    val currentState = viewModel.uiState.value
+
+                    appNavigator.navigateTo(
+                        Dest.PrivilegeVerifyEmail(
+                            email = currentState.email,
+                            panNumber = currentState.panNumber
+                        )
+                    )
+                },
+                modifier = Modifier
+            )
+
+
+        }
+
+       // ==========================================
+        // 4. PRIVILEGE JOURNEY: Verify EMAIL  SCREEN
+        // ==========================================
+        composable<Dest.PrivilegeVerifyEmail>(
+            enterTransition = { NavigationAnimations.slideInRight }, // Moving forward
+            exitTransition = { NavigationAnimations.slideOutLeft },  // Pushed back when next screen opens
+            popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
+            popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
+
+        ) { backStackEntry ->
+
+            // 1. Scope ViewModel to the Journey Graph so next screens (OTP/PAN confirm) can share state
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
+            }
+
+
+            val viewModel: PrivilegeVerifyEmailViewModel = hiltViewModel(parentEntry)
+
+            // 👇 1. Extract the arguments safely using Compose Navigation 2.8+ syntax
+            val args = backStackEntry.toRoute<Dest.PrivilegeVerifyEmail>()
+            val passedEmail = args.email
+            val passedPan = args.panNumber
+
+            PrivilegeVerifyEmailRoute(
+                mobileNumber = passedEmail,
+                viewModel = viewModel,
+                onNavigateBack = {
+                    appNavigator.navigateBack()
+                },
+                onNavigateNext = {
                     // TODO: Navigate to the next step in the journey (e.g., OTP Verification screen)
-                    // appNavigator.navigateTo(Dest.PrivilegeOtpVerification)
+                    // appNavigator.navigateTo(Dest.PrivilegeVerifyPan)
+
+                    appNavigator.navigateTo(Dest.PrivilegeVerifyPan(panNumber = passedPan))
                 },
                 modifier = Modifier
             )
         }
 
 
-//        composable<Dest.PrivilegeVerification> { backStackEntry ->
-//
-//            // 1. Scope ViewModel to the Journey Graph so next screens (OTP/PAN confirm) can share state
-//            val parentEntry = remember(backStackEntry) {
-//                appNavigator.getBackStackEntry<Dest.PrivilegeAccountJourneyGraph>()
-//            }
-//
-//            val viewModel: PrivilegeVerificationViewModel = hiltViewModel(parentEntry)
-//
-//            PrivilegeVerificationRoute(
-//                viewModel = viewModel,
-//                onNavigateBack = {
-//                    appNavigator.navigateBack()
-//                },
-//                onNavigateNext = {
-//                    // TODO: Navigate to the next step in the journey (e.g., OTP Verification screen)
-//                    // appNavigator.navigateTo(Dest.PrivilegeOtpVerification)
-//                },
-//                modifier = Modifier
-//            )
-//        }
+        // ==========================================
+        // 4. PRIVILEGE JOURNEY: Verify PAN  SCREEN
+        // ==========================================
+        composable<Dest.PrivilegeVerifyPan>(
+            enterTransition = { NavigationAnimations.slideInRight }, // Moving forward
+            exitTransition = { NavigationAnimations.slideOutLeft },  // Pushed back when next screen opens
+            popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
+            popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
+
+        ) { backStackEntry ->
+
+            // 🚨 CRITICAL FIX: Do NOT use `parentEntry` here!
+            // To read Type-Safe arguments from SavedStateHandle, the ViewModel MUST be
+            // scoped to the current screen's `backStackEntry`.
+            val viewModel: VerifyPanViewModel = hiltViewModel(backStackEntry)
+
+            VerifyPanRoute(
+                onNavigateNext = {
+
+                },
+                onNavigateBack = {
+                    appNavigator.navigateBack()
+                },
+                onCloseJourney = {
+                    appNavigator.navigateBack()
+                },
+                viewModel = viewModel,
+                modifier = Modifier
+            )
+        }
 
     }
 }

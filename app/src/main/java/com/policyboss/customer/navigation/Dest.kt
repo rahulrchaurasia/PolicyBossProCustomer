@@ -127,8 +127,20 @@ sealed class Dest {
 
     @Serializable
     data object PrivilegeEmailPan : Dest() // Formerly EmailPan
+
+
     @Serializable
-    data object PrivilegeVerification : Dest() // Formerly EmailPan
+    data class PrivilegeVerifyEmail(
+        val email: String,
+        val panNumber: String
+    )
+
+
+    @Serializable
+
+    data class PrivilegeVerifyPan(val panNumber: String) : Dest()
+
+
     //endregion
 
     // 🚀 NEW: Add this specifically for the Home "View All" flow
