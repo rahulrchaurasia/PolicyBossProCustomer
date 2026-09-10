@@ -51,6 +51,17 @@ object AppValidator {
     // Validates a generic policy number
     fun isValidPolicyNumber(number: String): Boolean {
         // Assuming policy numbers must be at least 5 characters long
-        return number.isNotBlank() && number.length >= 5
+        val cleanNumber = number.trim()
+
+        return cleanNumber.isNotBlank() &&
+                cleanNumber.length in 5..12 &&
+                cleanNumber.all { it.isLetterOrDigit() }
+    }
+
+    // Validates PanCard
+    fun isValidPanCard(pan: String): Boolean {
+        val cleanPan = pan.trim().uppercase()
+        val panPattern = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$".toRegex()
+        return cleanPan.isNotEmpty() && panPattern.matches(cleanPan)
     }
 }

@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.border
 import com.policyboss.customer.ui.theme.placeholder
 import com.policyboss.customer.ui.theme.textPrimary
@@ -60,9 +61,14 @@ fun AppOutlinedTextField(
     singleLine: Boolean = true,
     minLines: Int = 1, // ⭐ ADDED: Allows the field to start larger for multi-line inputs
 
+    maxLines: Int = Int.MAX_VALUE, // ⭐ ADDED: Defaults to infinity so it doesn't break existing fields
+
     // =========================================
     // VALIDATION
     // =========================================
+
+    //  ADDED: Expose the readOnly parameter
+    readOnly: Boolean = false,
     isError: Boolean = false,
     errorMessage: String? = null,
     enabled: Boolean = true
@@ -79,15 +85,24 @@ fun AppOutlinedTextField(
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 64.dp), // ⭐ CHANGED: .height(64.dp) to defaultMinSize so it can grow
             enabled = enabled,
+            readOnly = readOnly,
             singleLine = singleLine,
             minLines = minLines, // ⭐ APPLIED
+            maxLines = maxLines,
             isError = isError,
 
-            textStyle = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.textPrimary // RESTORED YOUR CUSTOM COLOR
+//            textStyle = TextStyle(
+//                fontSize = 18.sp,
+//                fontWeight = FontWeight.Medium,
+//                color = MaterialTheme.colorScheme.textPrimary // RESTORED YOUR CUSTOM COLOR
+//            ),
+            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                color = AppColors.TextPrimary
             ),
+
+
+
+
 
             placeholder = {
                 Text(

@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.policyboss.customer.feature.claimSupport.graphNavigation.claimGraph
-import com.policyboss.customer.feature.joinPrivilege.ui.JoinPrivilegeScreen
+import com.policyboss.customer.feature.home.graph.homeGraph
+import com.policyboss.customer.feature.home.component.other.ui.joinPrivilege.JoinPrivilegeScreen
+import com.policyboss.customer.feature.tabfeatures.claimSupport.graphNavigation.claimGraph
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
-import com.policyboss.customer.feature.home.graph.homeGraph
 import com.policyboss.customer.navigation.graphs.moduleGraph.privilegeGraph
 import com.policyboss.customer.navigation.graphs.moduleGraph.vaultGraph
 

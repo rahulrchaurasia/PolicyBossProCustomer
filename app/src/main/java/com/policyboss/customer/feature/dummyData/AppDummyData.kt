@@ -3,9 +3,7 @@ package com.policyboss.customer.feature.dummyData
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
-import com.policyboss.customer.feature.claimSupport.claimSupportJourney.fileClaim.model.RequirementItem
-import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.ClaimStatus
-import com.policyboss.customer.feature.claimSupport.claimSupportScreen.model.SubmittedClaim
+
 import com.policyboss.customer.feature.home.model.BadgeType
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PartnerLogoModel
@@ -20,12 +18,16 @@ import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 import com.policyboss.customer.feature.home.model.video.VideoModel
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyCategory
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicySource
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyStatus
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultPolicy
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultTabItem
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.fileClaim.model.RequirementItem
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.model.ClaimStatus
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.model.SubmittedClaim
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.AddPolicyType
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyCategory
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicySource
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyStatus
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyVaultPolicy
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyVaultTabItem
+
 
 /*
 HomeDummyData
@@ -923,7 +925,11 @@ object AppDummyData {
     fun getClaimRequirements(productType: AddPolicyType): List<RequirementItem> {
         return when (productType) {
             AddPolicyType.CAR, AddPolicyType.BIKE, AddPolicyType.CV -> listOf(
-                RequirementItem(1, "Accident Details", "Policy number, Date of Incident, location, etc"),
+                RequirementItem(
+                    1,
+                    "Accident Details",
+                    "Policy number, Date of Incident, location, etc"
+                ),
                 RequirementItem(2, "Other Parties", "Other driver's information (if applicable)"),
                 RequirementItem(3, "Documents", "Images of damage, police report (if applicable), license"),
 

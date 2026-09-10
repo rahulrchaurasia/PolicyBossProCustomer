@@ -1,0 +1,15 @@
+package com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.privillageState
+
+
+
+// 3. One-time events from ViewModel to UI
+sealed interface PrivilegeUiEvent {
+
+
+    data class ShowSnackbar(val message: String) : PrivilegeUiEvent
+
+    object NavigateToFullScreenVideo : PrivilegeUiEvent // Add this!
+
+    data object NavigateToPrivilegeEmailPan : PrivilegeUiEvent // 🚀 Add this
+    // ...
+}

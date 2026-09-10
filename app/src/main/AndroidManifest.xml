@@ -24,6 +24,12 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" /> <!-- Add if you ever need video -->
 
+    <!-- 🚀 1. Required for general location (city block accuracy) -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- 🚀 2. Required for exact GPS location (street-level accuracy) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <!-- (Optional: Based on your previous AppPermissionManager code) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 

@@ -54,8 +54,9 @@ datastore = "1.1.1"
 # ============================================================
 # Google Services
 # ============================================================
-playServicesLocation = "21.4.0"
-coroutinesPlayServices = "1.11.0"
+playServicesLocation = "21.3.0"
+# Change this from "1.11.0"
+coroutinesPlayServices = "1.9.0"
 
 # ============================================================
 # Testing

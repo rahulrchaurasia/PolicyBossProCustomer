@@ -2,8 +2,8 @@ package com.policyboss.customer.core.di
 
 
 
-import com.policyboss.customer.feature.claimSupport.repository.ClaimRepository
-import com.policyboss.customer.feature.claimSupport.repository.MockClaimRepository
+import com.policyboss.customer.feature.tabfeatures.claimSupport.repository.ClaimRepository
+import com.policyboss.customer.feature.tabfeatures.claimSupport.repository.MockClaimRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

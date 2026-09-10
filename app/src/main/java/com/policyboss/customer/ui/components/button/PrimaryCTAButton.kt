@@ -23,6 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +41,7 @@ fun PrimaryCTAButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     showArrow: Boolean = true,
+    hideKeyboardOnEmit: Boolean = true, // 🚀 Control flag if ever needed, defaults to true
     textStyle: TextStyle = MaterialTheme.typography.bodyMedium,
     containerColor: Color = AppColors.DarkBackground,
     contentColor: Color = Color.White,
@@ -46,8 +49,20 @@ fun PrimaryCTAButton(
     arrowTint: Color = AppColors.DarkBackground,
     shape: Shape = RoundedCornerShape(999.dp)
 ) {
+
+    // 🚀 Get focus manager and keyboard controller inside the button
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Button(
-        onClick = onClick,
+        onClick = {
+            if (hideKeyboardOnEmit) {
+                // 🚀 Automatically clear focus and hide keyboard before running action
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            }
+            onClick()
+        },
         enabled = enabled,
         modifier = modifier
             .fillMaxWidth()
@@ -61,6 +76,8 @@ fun PrimaryCTAButton(
         ),
         contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
+
+
 
         Box(
             modifier = Modifier.fillMaxWidth()

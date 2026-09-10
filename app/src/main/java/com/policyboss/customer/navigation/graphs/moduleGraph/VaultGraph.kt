@@ -7,9 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.policyboss.customer.anim.NavigationAnimations
-import com.policyboss.customer.feature.policyVault.ui.addManualPolicy.AddManualPolicyRoute
-import com.policyboss.customer.feature.policyVault.ui.policyVaultScreen.PolicyVaultRoute
-import com.policyboss.customer.feature.policyVault.viewmodel.AddManualPolicyViewModel
+import com.policyboss.customer.feature.tabfeatures.policyVault.ui.addManualPolicy.AddManualPolicyRoute
+import com.policyboss.customer.feature.tabfeatures.policyVault.ui.policyVaultScreen.PolicyVaultRoute
+import com.policyboss.customer.feature.tabfeatures.policyVault.viewmodel.AddManualPolicyViewModel
+
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
 
