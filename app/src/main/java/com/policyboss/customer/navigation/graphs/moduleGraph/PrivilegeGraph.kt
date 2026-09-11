@@ -18,6 +18,10 @@ import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.pr
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.ui.privilegeScreen.PrivilegeRoute
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.ui.privilegeScreen.privillegeStory.PrivilegeStoriesRoute
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeScreen.viewmodel.PrivilegeViewModel
+import com.policyboss.customer.feature.tabfeatures.privilege.syncNudge.syncContact.ui.SyncContactsRoute
+import com.policyboss.customer.feature.tabfeatures.privilege.syncNudge.syncContact.viemodel.SyncContactsViewModel
+import com.policyboss.customer.feature.tabfeatures.privilege.syncNudge.syncContactsProcessing.ui.SyncContactsProcessingRouter
+import com.policyboss.customer.feature.tabfeatures.privilege.syncNudge.syncContactsProcessing.viemodel.SyncContactsProcessingViewModel
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
 
@@ -48,13 +52,14 @@ fun NavGraphBuilder.privilegeGraph(
 
         startDestination = Dest.Privilege,
 
-    ) {
-      // ==========================================
+    )
+    {
+        // ==========================================
         // 1. PRIVILEGE MAIN TAB SCREEN
         // ==========================================
         composable<Dest.Privilege> { backStackEntry ->
-         // 1. Fetch the BackStackEntry of the parent graph
-          //  Get the SHARED Parent ViewModel (Scoped to Dest.PrivilegeGraph)
+            // 1. Fetch the BackStackEntry of the parent graph
+            //  Get the SHARED Parent ViewModel (Scoped to Dest.PrivilegeGraph)
             val parentEntry = remember(backStackEntry) {
                 appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
             }
@@ -68,7 +73,7 @@ fun NavGraphBuilder.privilegeGraph(
                 onNavigateToStories = {
                     appNavigator.navigateTo(Dest.PrivilegeStories)
                     // 🚀 FIX: Use navController here!
-                   // navController.navigate(Dest.PrivilegeStories)
+                    // navController.navigate(Dest.PrivilegeStories)
                 },
                 onNavigateToEmailPan = {
                     appNavigator.navigateTo(Dest.PrivilegeEmailPan)
@@ -81,9 +86,9 @@ fun NavGraphBuilder.privilegeGraph(
         // ==========================================
         composable<Dest.PrivilegeStories>(
             enterTransition = { NavigationAnimations.slideInRight },
-        exitTransition = { NavigationAnimations.slideOutLeft },
-        popEnterTransition = { NavigationAnimations.slideInLeft },
-        popExitTransition = { NavigationAnimations.slideOutRight }
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
         )
         { backStackEntry ->
 
@@ -110,7 +115,7 @@ fun NavGraphBuilder.privilegeGraph(
         }
 
 
-       // ==========================================
+        // ==========================================
         // 3. PRIVILEGE JOURNEY: EMAIL & PAN SCREEN
         // ==========================================
         composable<Dest.PrivilegeEmailPan>(
@@ -119,19 +124,14 @@ fun NavGraphBuilder.privilegeGraph(
             popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
             popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
 
-        ) { backStackEntry ->
+        )
+        { backStackEntry ->
 
-            // 3. Fetch the EXACT SAME parent entry
 
-
-            // 1. Scope ViewModel to the Journey Graph so next screens (OTP/PAN confirm) can share state
-            val parentEntry = remember(backStackEntry) {
-                appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
-            }
-
-            // 4. Hilt will return the existing instance, keeping ExoPlayer alive and in sync
+            // 🚨 FIX: Scope to backStackEntry instead of parentEntry!
+            // This ensures a fresh ViewModel (empty fields, no errors) every time you open
             val viewModel: PrivilegeEmailPanViewModel =
-                hiltViewModel(parentEntry)
+                hiltViewModel(backStackEntry)
 
             PrivilegeEmailPanRoute(
                 viewModel = viewModel,
@@ -155,7 +155,7 @@ fun NavGraphBuilder.privilegeGraph(
 
         }
 
-       // ==========================================
+        // ==========================================
         // 4. PRIVILEGE JOURNEY: Verify EMAIL  SCREEN
         // ==========================================
         composable<Dest.PrivilegeVerifyEmail>(
@@ -164,15 +164,11 @@ fun NavGraphBuilder.privilegeGraph(
             popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
             popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
 
-        ) { backStackEntry ->
-
-            // 1. Scope ViewModel to the Journey Graph so next screens (OTP/PAN confirm) can share state
-            val parentEntry = remember(backStackEntry) {
-                appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
-            }
+        )
+        { backStackEntry ->
 
 
-            val viewModel: PrivilegeVerifyEmailViewModel = hiltViewModel(parentEntry)
+            val viewModel: PrivilegeVerifyEmailViewModel = hiltViewModel(backStackEntry)
 
             // 👇 1. Extract the arguments safely using Compose Navigation 2.8+ syntax
             val args = backStackEntry.toRoute<Dest.PrivilegeVerifyEmail>()
@@ -189,7 +185,16 @@ fun NavGraphBuilder.privilegeGraph(
                     // TODO: Navigate to the next step in the journey (e.g., OTP Verification screen)
                     // appNavigator.navigateTo(Dest.PrivilegeVerifyPan)
 
-                    appNavigator.navigateTo(Dest.PrivilegeVerifyPan(panNumber = passedPan))
+                    appNavigator.navigateTo(Dest.PrivilegeVerifyPan(panNumber = passedPan)) {
+                        // 👇 This removes the current screen (VerifyEmail) from the history
+
+                        popUpTo<Dest.PrivilegeVerifyEmail> {
+
+                            inclusive = true
+                        }
+                    }
+
+
                 },
                 modifier = Modifier
             )
@@ -205,7 +210,8 @@ fun NavGraphBuilder.privilegeGraph(
             popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
             popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
 
-        ) { backStackEntry ->
+        )
+        { backStackEntry ->
 
             // 🚨 CRITICAL FIX: Do NOT use `parentEntry` here!
             // To read Type-Safe arguments from SavedStateHandle, the ViewModel MUST be
@@ -214,7 +220,7 @@ fun NavGraphBuilder.privilegeGraph(
 
             VerifyPanRoute(
                 onNavigateNext = {
-
+                    appNavigator.navigateTo(Dest.SyncContact)
                 },
                 onNavigateBack = {
                     appNavigator.navigateBack()
@@ -226,6 +232,83 @@ fun NavGraphBuilder.privilegeGraph(
                 modifier = Modifier
             )
         }
+
+
+        // ==========================================
+        // Sync Contact Started ...
+        // ==========================================
+
+        composable<Dest.SyncContact>(
+            enterTransition = { NavigationAnimations.slideInRight }, // Moving forward
+            exitTransition = { NavigationAnimations.slideOutLeft },  // Pushed back when next screen opens
+            popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
+            popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
+
+        )
+        { backStackEntry ->
+
+            // 3. Fetch the EXACT SAME parent entry
+
+
+            // 1. Scope ViewModel to the Journey Graph so next screens (OTP/PAN confirm) can share state
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
+            }
+
+            // 4. Hilt will return the existing instance, keeping ExoPlayer alive and in sync
+            val viewModel: SyncContactsViewModel =
+                hiltViewModel(parentEntry)
+
+            SyncContactsRoute(
+                viewModel = viewModel,
+
+                onSyncContactsSuccess = {
+                    // Navigate to the processing screen!
+                    appNavigator.navigateTo(Dest.SyncContactProcess)
+                },
+                modifier = Modifier
+            )
+
+        }
+
+
+//        // ==========================================
+//        // 2. Sync Contact Processing ...
+//        // ==========================================
+
+        composable<Dest.SyncContactProcess>(
+            enterTransition = { NavigationAnimations.slideInRight },
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
+        ) {  backStackEntry ->
+            // Note: We don't necessarily need to scope this ViewModel to the parent graph
+            // unless next screens need this exact state. A standard ViewModel is usually fine here.
+
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.PrivilegeGraph>()
+            }
+
+            // 4. Hilt will return the existing instance, keeping ExoPlayer alive and in sync
+            val viewModel: SyncContactsProcessingViewModel =
+                hiltViewModel(parentEntry)
+
+
+            SyncContactsProcessingRouter(
+                viewModel = viewModel,
+                onNavigateToHome = {
+
+
+
+                    // ✅ USING YOUR APP NAVIGATOR!
+                    // This safely pops all the Sync screens off the stack
+                    // and returns the user to the root Main Dashboard.
+                    appNavigator.navigateBackToMainGraph()
+                },
+                modifier = Modifier
+            )
+        }
+
 
     }
 }

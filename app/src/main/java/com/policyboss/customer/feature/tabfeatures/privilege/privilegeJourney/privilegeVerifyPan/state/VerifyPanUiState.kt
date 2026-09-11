@@ -10,7 +10,8 @@ data class VerifyPanUiState(
     val dob: String = "",
     val isDobError: Boolean = false,
     val dobErrorMessage: String? = null,
-    val showDatePicker: Boolean = false
+    val showDatePicker: Boolean = false,
+    val isLoading: Boolean = false // 👈 Added loader state
 )
 
 // Actions represent user intents
@@ -24,6 +25,8 @@ sealed interface VerifyPanAction {
 
 // Events represent one-off triggers (Navigation, Snackbars)
 sealed interface VerifyPanEvent {
+
+    data class Loading(val isLoading: Boolean) : VerifyPanEvent
     object NavigateNext : VerifyPanEvent
     object NavigateBack : VerifyPanEvent
     object CloseJourney : VerifyPanEvent

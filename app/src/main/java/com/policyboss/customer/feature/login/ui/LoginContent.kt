@@ -43,6 +43,18 @@ import com.policyboss.customer.ui.components.textfield.AppOutlinedTextField
 import com.policyboss.customer.ui.theme.textPrimary
 import com.policyboss.customer.ui.theme.textSecondary
 
+/*
+1. .statusBarsPadding()
+What it does: Adds padding to the top of the layout equal to the height of the device's status bar.
+
+Why you use it: To prevent your app's top content (like a TopAppBar, a logo, or text) from bleeding underneath the battery, time, and notification icons.
+
+2. .navigationBarsPadding()
+What it does: Adds padding to the bottom of the layout equal to the height of the device's system navigation bar (the gesture line or the 3-button layout).
+
+Why you use it: To prevent your bottom content (like a floating action button, bottom navigation menu, or submit button) from being blocked by the system navigation controls.
+ */
+
 @Composable
 fun LoginContent(
 

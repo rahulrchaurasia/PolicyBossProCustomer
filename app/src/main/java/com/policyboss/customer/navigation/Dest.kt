@@ -141,6 +141,11 @@ sealed class Dest {
     data class PrivilegeVerifyPan(val panNumber: String) : Dest()
 
 
+    @Serializable
+    data object SyncContact : Dest() // Formerly EmailPan
+
+    @Serializable
+    object SyncContactProcess : Dest()
     //endregion
 
     // 🚀 NEW: Add this specifically for the Home "View All" flow

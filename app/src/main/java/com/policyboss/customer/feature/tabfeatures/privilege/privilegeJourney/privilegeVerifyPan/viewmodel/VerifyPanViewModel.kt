@@ -4,23 +4,27 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.policyboss.customer.core.datastore.AppDataManager
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyPan.state.VerifyPanAction
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyPan.state.VerifyPanEvent
 import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyPan.state.VerifyPanUiState
 import com.policyboss.customer.navigation.Dest
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 
 @HiltViewModel
 class VerifyPanViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle // 👈 1. Inject SavedStateHandle
+    savedStateHandle: SavedStateHandle , // 👈 1. Inject SavedStateHandle
+    private val appDataManager: AppDataManager // 👈 1. Inject AppDataManager
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(VerifyPanUiState())
@@ -44,6 +48,18 @@ class VerifyPanViewModel @Inject constructor(
                 isPanValid = isPanValidCheck
             )
         }
+
+        // 👈 2. Pre-fill the Full Name from DataStore
+        viewModelScope.launch {
+            // Use .first() to read the value exactly once when the screen opens.
+            // This prevents overwriting the user's input if they decide to edit it.
+            val storedName = appDataManager.userName.first()
+
+            // Check against your default "Guest User" fallback or empty strings
+            if (storedName != "Guest User" && storedName.isNotBlank()) {
+                _uiState.update { it.copy(fullName = storedName) }
+            }
+        }
     }
 
     fun onAction(action: VerifyPanAction) {
@@ -65,8 +81,8 @@ class VerifyPanViewModel @Inject constructor(
                         isDobError = false 
                     ) 
                 }
-            }
-            VerifyPanAction.OnConfirmClick -> {
+             }
+           is VerifyPanAction.OnConfirmClick -> {
                 validateAndSubmit()
             }
         }
@@ -80,22 +96,39 @@ class VerifyPanViewModel @Inject constructor(
         // though updating state together is standard.
         if (currentState.fullName.isBlank()) {
             _uiState.update { it.copy(isFullNameError = true, fullNameErrorMessage = "Name cannot be empty") }
-            isValid = false
+            return
         }
 
         if (currentState.dob.isBlank()) {
             _uiState.update { it.copy(isDobError = true, dobErrorMessage = "Date of birth is required") }
-            isValid = false
+            return
         }
 
-        if (isValid) {
-            viewModelScope.launch {
-                _uiEvent.send(VerifyPanEvent.NavigateNext)
-            }
-        } else {
-            viewModelScope.launch {
-                _uiEvent.send(VerifyPanEvent.ShowError("Please fill in all required details"))
-            }
+        // Clear PAN error if fixed
+        _uiState.update { it.copy(isFullNameError = false, fullNameErrorMessage = null) }
+        _uiState.update { it.copy(isDobError = false, dobErrorMessage = null) }
+
+        viewModelScope.launch {
+
+            // 1. Show the loader
+            // 1. Tell UI to show a loading state
+            _uiEvent.send(VerifyPanEvent.Loading(true))
+
+            _uiState.update { it.copy(isLoading = true) }
+
+            // 2. Simulate API Call / Validation delay (e.g., 1.5 seconds)
+            delay(1500.milliseconds)
+
+            // Optionally save the verified name back to DataStore
+            // appDataManager.saveUserName(currentState.fullName)
+
+            // 3. Hide the loader
+           // _uiState.update { it.copy(isLoading = false) }
+            _uiEvent.send(VerifyPanEvent.Loading(false))
+
+
+            // 4. Navigate Next
+            _uiEvent.send(VerifyPanEvent.NavigateNext)
         }
     }
 }

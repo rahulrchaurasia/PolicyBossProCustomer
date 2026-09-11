@@ -30,6 +30,8 @@
     <!-- 🚀 2. Required for exact GPS location (street-level accuracy) -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!-- 🚀 3. Required for contact -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!-- (Optional: Based on your previous AppPermissionManager code) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
