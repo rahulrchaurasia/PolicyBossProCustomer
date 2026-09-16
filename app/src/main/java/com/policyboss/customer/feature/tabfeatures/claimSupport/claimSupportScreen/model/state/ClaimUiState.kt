@@ -10,6 +10,8 @@ import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScre
 sealed interface ProductSelectionContext {
     data object FileNewClaim : ProductSelectionContext
     data object ViewClaimGuide : ProductSelectionContext
+
+    data object ContactListInsurance : ProductSelectionContext
 }
 
 @Immutable

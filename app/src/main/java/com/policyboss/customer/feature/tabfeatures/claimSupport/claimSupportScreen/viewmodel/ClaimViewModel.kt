@@ -125,6 +125,14 @@ class ClaimViewModel @Inject constructor(
                     _activeFlowProduct.value = product
                     _uiEvent.emit(ClaimSupportUiEvent.NavigateToClaimGuide(product))
                 }
+
+                ProductSelectionContext.ContactListInsurance -> {
+
+                    // 3. Save it to the shared state BEFORE navigating
+                    // ✅ Your new logic works perfectly here
+                    _activeFlowProduct.value = product
+                    _uiEvent.emit(ClaimSupportUiEvent.OpenInsurerContacts(product = product))
+                }
                 null -> { /* Ignore if context is somehow null */ }
             }
         }
@@ -141,7 +149,10 @@ class ClaimViewModel @Inject constructor(
                     _uiEvent.emit(ClaimSupportUiEvent.OpenCashlessGarage)
                 }
                 ClaimSupportMenu.INSURER_CONTACT -> {
-                    _uiEvent.emit(ClaimSupportUiEvent.OpenInsurerContacts)
+                  //  _uiEvent.emit(ClaimSupportUiEvent.OpenInsurerContacts)
+                    // This menu item requires a product, so open the bottom sheet with context
+                    _uiState.update { it.copy(productSelectionContext = ProductSelectionContext.ContactListInsurance) }
+
                 }
                 ClaimSupportMenu.FAQ -> {
                     _uiEvent.emit(ClaimSupportUiEvent.OpenFaq)

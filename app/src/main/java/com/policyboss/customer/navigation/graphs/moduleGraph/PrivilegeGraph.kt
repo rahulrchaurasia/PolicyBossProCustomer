@@ -299,11 +299,8 @@ fun NavGraphBuilder.privilegeGraph(
                 onNavigateToHome = {
 
 
-
                     // ✅ USING YOUR APP NAVIGATOR!
-                    // This safely pops all the Sync screens off the stack
-                    // and returns the user to the root Main Dashboard.
-                    appNavigator.navigateBackToMainGraph()
+                    appNavigator.navigateToMainAndClear()
                 },
                 modifier = Modifier
             )

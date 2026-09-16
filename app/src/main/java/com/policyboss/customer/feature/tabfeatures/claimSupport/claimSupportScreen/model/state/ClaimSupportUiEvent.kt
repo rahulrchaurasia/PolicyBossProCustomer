@@ -11,7 +11,7 @@ sealed interface ClaimSupportUiEvent {
 
     // Direct Navigations (No bottom sheet required)
     data object OpenCashlessGarage : ClaimSupportUiEvent
-    data object OpenInsurerContacts : ClaimSupportUiEvent
+    data class OpenInsurerContacts(val product: AddPolicyType) : ClaimSupportUiEvent
     data object OpenFaq : ClaimSupportUiEvent
 
     // 🚀 Change this from a 'data object' to a 'data class' with a parameter

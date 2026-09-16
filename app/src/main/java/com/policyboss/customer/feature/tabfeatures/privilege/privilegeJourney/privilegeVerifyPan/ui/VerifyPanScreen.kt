@@ -1,6 +1,7 @@
 package com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.privilegeVerifyPan.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,6 +40,7 @@ import com.policyboss.customer.feature.tabfeatures.privilege.privilegeJourney.pr
 import com.policyboss.customer.ui.components.button.PrimaryCTAButton
 import com.policyboss.customer.ui.components.datePicker.AppDatePickerDialog
 import com.policyboss.customer.ui.components.datePicker.DateConstraint
+import com.policyboss.customer.ui.components.loading.AppLoadingOverlay
 import com.policyboss.customer.ui.components.textfield.AppOutlinedTextField
 import com.policyboss.customer.ui.components.toolbarHeader.AppTopBar
 import com.policyboss.customer.ui.theme.AppColors
@@ -61,7 +63,9 @@ fun VerifyPanScreen(
         AppDatePickerDialog(
             onDateSelected = { onAction(VerifyPanAction.OnDobSelected(it)) },
             onDismiss = { onAction(VerifyPanAction.OnDismissDatePicker) },
-            dateConstraint = DateConstraint.PastOnly
+
+            // 👇 Change this line to restrict the calendar to 18+ years
+            dateConstraint = DateConstraint.AtLeastAge(18)
         )
     }
 
@@ -76,7 +80,8 @@ fun VerifyPanScreen(
         // Background waves pattern
         AuthHeaderPattern()
 
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize())
+        {
 
             // Top App Bar
             AppTopBar(
@@ -147,7 +152,7 @@ fun VerifyPanScreen(
                         Spacer(modifier = Modifier.height(16.dp))
 
                         // ------------------------------------------
-                        // CARD 1: PAN Verify
+                        // CARD 1: PAN Verify (Valid / Invalid States)
                         // ------------------------------------------
                         Card(
                             colors = CardDefaults.cardColors(containerColor = AppColors.White),
@@ -164,13 +169,19 @@ fun VerifyPanScreen(
                                 )
                                 Spacer(modifier = Modifier.height(16.dp))
 
+                                // Dynamic Modifiers for Valid vs Invalid Container
+                                val panContainerBg = if (uiState.isPanValid) Color(0xFFF1F5F9) else AppColors.White
+                                val borderModifier = if (!uiState.isPanValid) {
+                                    Modifier.border(1.dp, AppColors.ErrorRed, RoundedCornerShape(12.dp))
+                                } else {
+                                    Modifier
+                                }
+
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .background(
-                                            color = Color(0xFFF1F5F9), // Subtle grey inner background
-                                            shape = RoundedCornerShape(12.dp)
-                                        )
+                                        .background(color = panContainerBg, shape = RoundedCornerShape(12.dp))
+                                        .then(borderModifier) // Applies the red border only if invalid
                                         .padding(horizontal = 16.dp, vertical = 14.dp),
                                     horizontalArrangement = Arrangement.SpaceBetween,
                                     verticalAlignment = Alignment.CenterVertically
@@ -180,7 +191,10 @@ fun VerifyPanScreen(
                                         style = MaterialTheme.typography.bodyLarge,
                                         color = MaterialTheme.colorScheme.textPrimary
                                     )
+
+                                    // Conditional Badges
                                     if (uiState.isPanValid) {
+                                        // Valid Badge
                                         Text(
                                             text = "Valid",
                                             style = MaterialTheme.typography.labelMedium,
@@ -192,7 +206,30 @@ fun VerifyPanScreen(
                                                 )
                                                 .padding(horizontal = 10.dp, vertical = 4.dp)
                                         )
+                                    } else {
+                                        // Invalid Badge
+                                        Text(
+                                            text = "InValid",
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = AppColors.ErrorRed,
+                                            modifier = Modifier
+                                                .background(
+                                                    color = AppColors.BadgeErrorBackground,
+                                                    shape = RoundedCornerShape(12.dp)
+                                                )
+                                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                                        )
                                     }
+                                }
+
+                                // Invalid Error Text Message Below Container
+                                if (!uiState.isPanValid) {
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Text(
+                                        text = "Your PAN details seem invalid. Please try again",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = AppColors.ErrorRed
+                                    )
                                 }
                             }
                         }
@@ -303,5 +340,29 @@ private fun VerifyPanContentPreview() {
             onBackClick = {},
             onCloseClick = {}
         )
+    }
+}
+
+
+@Preview(showSystemUi = true, name = "2. Success Loading")
+@Composable
+private fun VerifyPanContent1Preview() {
+    PolicyBossCustomerTheme {
+        Column { // Fixed: Capitalized 'Column'
+            AppLoadingOverlay(
+                isLoading = true,
+                message = "Loading Data" // Custom message for this screen
+            ) {
+                VerifyPanScreen(
+                    uiState = VerifyPanUiState(
+                        fullName = "Dhruvi Desai",
+                        dob = "29/08/2001"
+                    ),
+                    onAction = {},
+                    onBackClick = {},
+                    onCloseClick = {}
+                )
+            }
+        }
     }
 }

@@ -169,6 +169,9 @@ sealed class Dest {
     data class FileClaim(val productType: AddPolicyType) : Dest()
 
     @Serializable
+    data class InsuranceContactList(val productType: AddPolicyType) : Dest()
+
+    @Serializable
     object AccidentDetails : Dest()
 
 
@@ -185,6 +188,8 @@ sealed class Dest {
     object DriversLicense : Dest()
 
 
+    @Serializable
+    object CashlessGarage : Dest()
 
 
     //endregion

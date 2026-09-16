@@ -28,7 +28,7 @@ fun ClaimSupportRoute(
     onNavigateToFileClaim: (AddPolicyType) -> Unit,
     onNavigateToClaimGuide: (AddPolicyType) -> Unit,
     onNavigateToCashlessGarage: () -> Unit,
-    onNavigateToInsurerContacts: () -> Unit,
+    onNavigateToInsurerContacts: (AddPolicyType) -> Unit,
     onNavigateToFaqs: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -49,12 +49,14 @@ fun ClaimSupportRoute(
                     is ClaimSupportUiEvent.NavigateToClaimGuide -> {
                         onNavigateToClaimGuide(event.product)
                     }
-                    ClaimSupportUiEvent.OpenCashlessGarage -> {
+                   is ClaimSupportUiEvent.OpenCashlessGarage -> {
                         onNavigateToCashlessGarage()
                     }
-                    ClaimSupportUiEvent.OpenInsurerContacts -> {
-                        onNavigateToInsurerContacts()
-                    }
+
+                   is  ClaimSupportUiEvent.OpenInsurerContacts -> {
+                       // ✅ Pass the selected product to the Route
+                       onNavigateToInsurerContacts(event.product)
+                   }
                     ClaimSupportUiEvent.OpenFaq -> {
                         onNavigateToFaqs()
                     }

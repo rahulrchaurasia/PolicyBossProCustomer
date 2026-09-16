@@ -37,17 +37,17 @@ fun VerifyPanRoute(
                      globalSnackbar.showAppSnackbar(event.message)
                 }
 
-                is VerifyPanEvent.Loading -> {
-                    showLoader = event.isLoading
-                }
+//                is VerifyPanEvent.Loading -> {
+//                    showLoader = event.isLoading
+//                }
             }
         }
     }
 
     // 🚀 WRAP THE SCREEN IN THE OVERLAY
     AppLoadingOverlay(
-        isLoading = showLoader,
-        message = "" // Custom message for this screen
+        isLoading = uiState.isLoading, // 👈 Hooked directly to ViewModel's state
+        message = uiState.loadingMessage// Custom message for this screen
     ) {
         VerifyPanScreen(
             uiState = uiState,

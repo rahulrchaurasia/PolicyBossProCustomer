@@ -52,6 +52,11 @@ dependencies {
     // ============================================================
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    // REMOVED: implementation(libs.androidx.foundation)
+    // This pulled in androidx.compose.foundation:foundation:1.12.1 directly,
+    // outside BOM control, which required compileSdk 37 / AGP 9.1.0+ and
+    // caused all 20 metadata errors. foundation is already provided below
+    // via libs.androidx.compose.foundation, correctly managed by the BOM.
 
     // ============================================================
     // Compose Core
@@ -111,6 +116,10 @@ dependencies {
     implementation(libs.datastore.preferences)
     implementation(libs.play.services.location)
     implementation(libs.kotlinx.coroutines.play.services)
+
+    // maps
+//    implementation(libs.maps.compose)
+//    implementation(libs.play.services.maps)
 
     // ============================================================
     // Media3 (ExoPlayer)

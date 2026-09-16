@@ -241,13 +241,7 @@ private fun AnimatedClaimContent(
 
             ClaimTab.MY_CLAIMS -> {
 
-//                MyClaimsEmptyState(
-//                    onFileClaimClick = {
-//                        onAction(
-//                            ClaimAction.OnFileClaimClick
-//                        )
-//                    }
-//                )
+
 
                 // Check if the list is empty
                 if (uiState.myClaims.isEmpty()) {

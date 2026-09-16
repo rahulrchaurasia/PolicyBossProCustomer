@@ -112,7 +112,14 @@ class VerifyPanViewModel @Inject constructor(
 
             // 1. Show the loader
             // 1. Tell UI to show a loading state
-            _uiEvent.send(VerifyPanEvent.Loading(true))
+            // 1. Show the loader via STATE (with your custom message!)
+            _uiState.update {
+                it.copy(
+                    isLoading = true,
+                    loadingMessage = "Verifying your PAN details..."
+                )
+            }
+
 
             _uiState.update { it.copy(isLoading = true) }
 
@@ -123,8 +130,7 @@ class VerifyPanViewModel @Inject constructor(
             // appDataManager.saveUserName(currentState.fullName)
 
             // 3. Hide the loader
-           // _uiState.update { it.copy(isLoading = false) }
-            _uiEvent.send(VerifyPanEvent.Loading(false))
+            _uiState.update { it.copy(isLoading = false) }
 
 
             // 4. Navigate Next

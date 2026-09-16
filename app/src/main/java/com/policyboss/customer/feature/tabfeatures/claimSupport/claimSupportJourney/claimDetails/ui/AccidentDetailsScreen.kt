@@ -226,7 +226,7 @@ fun AccidentDetailsScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             // ==========================================
-            // Location (To be handled properly later)
+            // Location
             // ==========================================
             FormLabel("Location")
             AppOutlinedTextField(

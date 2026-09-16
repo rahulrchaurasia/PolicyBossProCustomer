@@ -22,26 +22,35 @@ import java.util.Locale
 fun AppDatePickerDialog(
     onDateSelected: (String) -> Unit,
     onDismiss: () -> Unit,
-    // 👇 FIX: Changed from AnyDate to Any to match the sealed class exactly
     dateConstraint: DateConstraint = DateConstraint.Any
 ) {
+    // 1. Initialize state with our constraints and initial month
     val datePickerState = rememberDatePickerState(
-        selectableDates = dateConstraint.toSelectableDates()
+        selectableDates = dateConstraint.toSelectableDates(),
+        initialDisplayedMonthMillis = dateConstraint.getInitialDisplayedMonthMillis()
     )
 
     DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = {
-                datePickerState.selectedDateMillis?.let { millis ->
-                    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-                    val dateStr = formatter.format(Date(millis))
-                    onDateSelected(dateStr)
-                } ?: onDismiss()
-            }) { Text("OK") }
+            TextButton(
+                // 👇 UX IMPROVEMENT: Button is disabled if no date is picked
+                enabled = datePickerState.selectedDateMillis != null,
+                onClick = {
+                    datePickerState.selectedDateMillis?.let { millis ->
+                        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+                        val dateStr = formatter.format(Date(millis))
+                        onDateSelected(dateStr)
+                    }
+                }
+            ) {
+                Text("OK")
+            }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) {
+                Text("Cancel")
+            }
         }
     ) {
         DatePicker(state = datePickerState)

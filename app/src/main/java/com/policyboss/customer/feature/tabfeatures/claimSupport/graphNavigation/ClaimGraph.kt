@@ -10,10 +10,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.policyboss.customer.anim.NavigationAnimations
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.cashlessGarage.ui.CashlessGarageRoute
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.cashlessGarage.viewmodel.CashlessGarageViewModel
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.claimDetails.ui.AccidentDetailsRoute
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.claimDetails.viewmodel.AccidentDetailsViewModel
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.claimGuide.ui.ClaimGuideRoute
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.claimGuide.viewmodel.ClaimGuideViewModel
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.ui.InsurerContactListRoute
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.viewmodel.InsurerContactListViewModel
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.damagePhotos.ui.DamagePhotosRoute
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.damagePhotos.viewmodel.DamagePhotosViewModel
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.drivingLicenseAndPolicyReport.ui.driversLicense.DriversLicenseRoute
@@ -85,10 +89,16 @@ fun NavGraphBuilder.claimGraph(
 
                 onNavigateToCashlessGarage = {
                     // navigator.navigateTo(Dest.CashlessGarage)
+                    // 🚀 Add the navigation trigger here!
+                    appNavigator.navigateTo(Dest.CashlessGarage)
                 },
 
-                onNavigateToInsurerContacts = {
+                onNavigateToInsurerContacts = {product ->
                     // navigator.navigateTo(Dest.InsurerContacts)
+
+                    // Pass the Enum's name as a string to the route
+                    journeyViewModel.setProductType(product)
+                    appNavigator.navigateTo(Dest.InsuranceContactList(productType = product))
                 },
 
                 onNavigateToFaqs = {
@@ -327,7 +337,8 @@ fun NavGraphBuilder.claimGraph(
             exitTransition = { NavigationAnimations.slideOutLeft },
             popEnterTransition = { NavigationAnimations.slideInLeft },
             popExitTransition = { NavigationAnimations.slideOutRight }
-        ) { backStackEntry ->
+        )
+        { backStackEntry ->
 
             val parentEntry = remember(backStackEntry) {
                 appNavigator.getBackStackEntry<Dest.ClaimGraph>()
@@ -351,6 +362,64 @@ fun NavGraphBuilder.claimGraph(
                     // inclusive = false means we DESTROY the form screens, but KEEP ClaimSupport
                     appNavigator.popBackToRoute(Dest.ClaimSupport, inclusive = false)
                 }
+            )
+        }
+
+
+        // ==========================================
+        // ⭐ Screen 1 {Tab2 : screen 1} : Driver's license (Step 5/5)
+        // ==========================================
+        // 🚀 Register the new Cashless Garage Screen
+        composable<Dest.CashlessGarage>(
+            enterTransition = { NavigationAnimations.slideInRight },
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
+        ) {
+            val cashlessGarageViewModel: CashlessGarageViewModel = hiltViewModel()
+
+            CashlessGarageRoute(
+                viewModel = cashlessGarageViewModel,
+                onNavigateBack = { appNavigator.navigateBack() },
+                onNavigateToResults = {
+                    // Navigate to the list of garages map/list view
+                    // appNavigator.navigateTo(Dest.GarageResults)
+                }
+            )
+        }
+
+
+        // ==============================================================================
+        // ⭐ Screen 1 {Tab2 : screen 1} TARGET SCREEN: Insurance Contact List
+        // ==============================================================================
+        composable<Dest.InsuranceContactList>(
+            enterTransition = { NavigationAnimations.slideInRight }, // Moving forward
+            exitTransition = { NavigationAnimations.slideOutLeft },  // Pushed back when next screen opens
+            popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
+            popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
+        ) { backStackEntry ->
+
+            // 1. Extract the arguments safely from the route
+            val args = backStackEntry.toRoute<Dest.InsuranceContactList>()
+            val productType = args.productType
+
+            // Convert Enum (e.g., CAR) to display string (e.g., "Car")
+            val productName = productType.name.lowercase().replaceFirstChar { it.uppercase() }
+
+            // 2. ⭐ GET PARENT VIEWMODEL (Graph Scoped)
+            val parentEntry = remember(backStackEntry) {
+                appNavigator.getBackStackEntry<Dest.ClaimGraph>()
+            }
+            val journeyViewModel: ClaimJourneyViewModel = hiltViewModel(parentEntry)
+
+            // 3. ⭐ GET CHILD VIEWMODEL (Screen Scoped)
+            val insurerContactListViewModel: InsurerContactListViewModel = hiltViewModel()
+
+            // 4. Pass everything to the Route
+            InsurerContactListRoute(
+                productName = productName,
+                viewModel = insurerContactListViewModel,
+                onNavigateBack = { appNavigator.navigateBack() }
             )
         }
 
