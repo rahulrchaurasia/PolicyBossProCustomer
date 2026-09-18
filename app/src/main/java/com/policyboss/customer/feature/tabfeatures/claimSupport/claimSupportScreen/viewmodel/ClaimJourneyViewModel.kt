@@ -4,11 +4,11 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.customer.core.Resource
+import com.policyboss.customer.core.datastore.AppDataManager
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.claimDetails.model.claimDetailState.AccidentDetailsUiState
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.thirdPartyDetail.model.state.ThirdPartyDetailsUiState
 import com.policyboss.customer.feature.tabfeatures.claimSupport.repository.ClaimRepository
 import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.AddPolicyType
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +17,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
-
-
 
 
 // ********************************************************
@@ -54,7 +51,8 @@ enum class LookupType { POLICY_NUMBER, VEHICLE_NUMBER }
 @HiltViewModel
 class ClaimJourneyViewModel @Inject constructor(
     // 🚀 1. Inject your Repository here so we can hit the API
-    private val repository: ClaimRepository
+    private val repository: ClaimRepository,
+    private val appDataManager: AppDataManager // 🚀 1. Inject AppDataManager
 ) : ViewModel() {
 
     private val _claimDraft = MutableStateFlow(ClaimDraft())
@@ -118,6 +116,9 @@ class ClaimJourneyViewModel @Inject constructor(
             // 4. Handle response
             when (result) {
                 is Resource.Success -> {
+
+                    //save the data
+                     appDataManager.saveClaimSubmit(isClaimSubmit = true)
                     // This tells the UI to navigate to ClaimSuccess
                     _journeyEvent.emit(ClaimJourneyEvent.SubmissionSuccess)
                 }

@@ -6,6 +6,7 @@ import com.policyboss.customer.feature.dummyData.AppDummyData
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.state.InsurerContactListAction
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.state.InsurerContactListEvent
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.state.InsurerContactListUiState
+import com.policyboss.customer.utils.Constant
 
 
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +53,19 @@ class InsurerContactListViewModel @Inject constructor() : ViewModel() {
             
             is InsurerContactListAction.OnInsurerClicked -> {
                 viewModelScope.launch {
-                    _uiEvent.emit(InsurerContactListEvent.ShowToast("Clicked Insurer: ${action.insurerId}"))
+
+                    //_uiEvent.emit(InsurerContactListEvent.ShowToast("Clicked Insurer: ${action.insurerId}"))
+
+
+                    // 1. Find the clicked insurer to get its name for the Title
+                    val clickedInsurer = allInsurers.find { it.id == action.insurerId }
+                    val title = clickedInsurer?.name ?: Constant.POLICYBOSS_HOME_TITLE
+                    // 2. Define the URL
+                    // (Note: If your InsurerContactModel has a 'url' property, use clickedInsurer.url here instead)
+                    val url = Constant.POLICYBOSS_HOME_URL
+
+                    // 3. Emit the navigation event
+                    _uiEvent.emit(InsurerContactListEvent.NavigateToWebView(title = title, url = url))
                 }
             }
         }

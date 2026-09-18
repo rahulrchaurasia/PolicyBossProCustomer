@@ -2,6 +2,7 @@ package com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJou
 
 // Ensure these match your actual project structure
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.model.InsurerContactModel
@@ -36,7 +38,9 @@ fun InsurerCard(
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
+        // 1. Keep subtle shadow, but add a explicit border to fix the "dim top" issue
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        border = BorderStroke(1.dp, Color(0xFFE2E8F0)), // Subtle gray/blue border
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick() }
@@ -54,13 +58,18 @@ fun InsurerCard(
                     contentDescription = insurer.name,
                     modifier = Modifier.height(48.dp)
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
                     text = insurer.name,
                     style = MaterialTheme.typography.bodySmall,
                     color = AppColors.TextPrimary,
                     textAlign = TextAlign.Center,
-                    maxLines = 2
+                    // 2. Force exactly 2 lines of height for perfect grid alignment
+                    minLines = 2,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         } else {
@@ -82,7 +91,8 @@ fun InsurerCard(
                     text = insurer.name,
                     style = MaterialTheme.typography.bodyMedium,
                     color = AppColors.TextPrimary,
-                    maxLines = 1
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }

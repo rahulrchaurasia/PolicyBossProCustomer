@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -45,9 +47,35 @@ class ClaimViewModel @Inject constructor(
 
     init {
         // 🚀 Auto-updates UI when the Repository Flow changes
+//        viewModelScope.launch {
+//            repository.submittedClaimsFlow.collect { claimsList ->
+//                _uiState.update {
+//                    it.copy(
+//                        myClaims = claimsList
+//                        )
+//
+//                }
+//            }
+//        }
+
+
+        // 🚀 COMBINE DataStore and Repository
         viewModelScope.launch {
-            repository.submittedClaimsFlow.collect { claimsList ->
-                _uiState.update { it.copy(myClaims = claimsList) }
+            combine(
+                appDataManager.isClaimSubmit,         // Flow 1: DataStore Boolean
+                repository.submittedClaimsFlow        // Flow 2: Repository List (Dummy + New)
+            ) { hasSubmitted, claimsList ->
+
+                // If the user has submitted a claim, show the list.
+                // If not, force it to be an empty list.
+                if (hasSubmitted) claimsList else emptyList()
+
+            }.collect { finalList ->
+
+                // Update the UI state with the result
+                _uiState.update {
+                    it.copy(myClaims = finalList)
+                }
             }
         }
     }

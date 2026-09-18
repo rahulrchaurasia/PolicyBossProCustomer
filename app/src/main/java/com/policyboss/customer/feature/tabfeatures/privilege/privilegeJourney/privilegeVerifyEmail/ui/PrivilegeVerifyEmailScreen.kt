@@ -18,9 +18,9 @@ fun PrivilegeVerifyEmailScreen(
     modifier: Modifier = Modifier
 ) {
     OTPVerifyAccountContent(
-        headerIcon = R.drawable.ic_login, // Replace with appropriate icon if needed
+        headerIcon = R.drawable.ic_email, // Replace with appropriate icon if needed
         title = "Verify Privilege",
-        subtitle = "We’ve sent a verification code to your mobile number",
+        subtitle = "We’ve sent the code to your mobile number",
         targetValue = mobileNumber,
         mobileNumber = mobileNumber,
         otpText = uiState.otp,

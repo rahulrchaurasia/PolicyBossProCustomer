@@ -192,6 +192,12 @@ sealed class Dest {
     object CashlessGarage : Dest()
 
 
+    @Serializable
+    data class CommonWebView(
+        val url: String,
+        val title: String
+    ) : Dest()
+
     //endregion
 
 

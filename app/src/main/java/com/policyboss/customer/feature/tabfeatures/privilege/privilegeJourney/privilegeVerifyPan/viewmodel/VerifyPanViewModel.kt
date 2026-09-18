@@ -90,8 +90,15 @@ class VerifyPanViewModel @Inject constructor(
 
     private fun validateAndSubmit() {
         val currentState = _uiState.value
-        var isValid = true
 
+
+        if (!currentState.isPanValid) {
+//            viewModelScope.launch {
+//                _uiEvent.send(VerifyPanEvent.ShowToast("Invalid PAN. Please go back and correct it."))
+//            }
+
+            return
+        }
         // Validate sequentially so multiple errors don't trigger at once if not desired,
         // though updating state together is standard.
         if (currentState.fullName.isBlank()) {

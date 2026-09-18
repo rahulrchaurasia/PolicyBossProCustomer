@@ -1,6 +1,5 @@
 package com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.ui
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -14,7 +13,8 @@ import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJour
 fun InsurerContactListRoute(
     productName: String,
     viewModel: InsurerContactListViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToWebView: (title: String, url: String) -> Unit // 🚀 ADDED THIS
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -23,8 +23,10 @@ fun InsurerContactListRoute(
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is InsurerContactListEvent.ShowToast -> {
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+
+                is InsurerContactListEvent.NavigateToWebView -> {
+                    // 🚀 Trigger the navigation callback
+                    onNavigateToWebView(event.title, event.url)
                 }
             }
         }

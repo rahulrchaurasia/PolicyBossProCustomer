@@ -47,6 +47,7 @@ import com.policyboss.customer.feature.login.component.verifyAccount.OTPFieldSta
 import com.policyboss.customer.feature.login.component.verifyAccount.OTPStatusMessage
 import com.policyboss.customer.feature.login.component.verifyAccount.OTPTextField
 import com.policyboss.customer.ui.theme.AppColors
+import com.policyboss.customer.ui.theme.titleLargeBold
 
 @Composable
 fun OTPVerifyAccountContent(
@@ -106,8 +107,9 @@ fun OTPVerifyAccountContent(
             // =====================================
             // TOP IMAGE
             // =====================================
+
             Image(
-                painter = painterResource(id = R.drawable.ic_login),
+                painter = painterResource(id = headerIcon), // Use the parameter here
                 contentDescription = null,
                 modifier = Modifier.size(80.dp),
                 contentScale = ContentScale.Fit
@@ -119,15 +121,15 @@ fun OTPVerifyAccountContent(
             // TITLE
             // =====================================
             Text(
-                text = "Verify your number",
-                style = MaterialTheme.typography.titleLarge,
+                text = title,
+                style = MaterialTheme.typography.titleLargeBold,
                 color = AppColors.TextPrimary
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "We’ve sent the code to your mobile number",
+                text = subtitle,
                 style = MaterialTheme.typography.bodyLarge,
                 color = AppColors.TextSecondary,
                 textAlign = TextAlign.Center

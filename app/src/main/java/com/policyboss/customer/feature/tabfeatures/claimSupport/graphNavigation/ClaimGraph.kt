@@ -31,6 +31,7 @@ import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJour
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.ui.ClaimSupportRoute
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.viewmodel.ClaimJourneyViewModel
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.viewmodel.ClaimViewModel
+import com.policyboss.customer.feature.webView.CommonWebViewScreen
 
 import com.policyboss.customer.navigation.AppNavigator
 import com.policyboss.customer.navigation.Dest
@@ -356,8 +357,6 @@ fun NavGraphBuilder.claimGraph(
                     // 1. Wipe the draft so the next claim starts fresh
                     journeyViewModel.clearJourney()
 
-
-
                     // 2. Pop all the way back to the root Claims screen
                     // inclusive = false means we DESTROY the form screens, but KEEP ClaimSupport
                     appNavigator.popBackToRoute(Dest.ClaimSupport, inclusive = false)
@@ -381,9 +380,11 @@ fun NavGraphBuilder.claimGraph(
             CashlessGarageRoute(
                 viewModel = cashlessGarageViewModel,
                 onNavigateBack = { appNavigator.navigateBack() },
-                onNavigateToResults = {
-                    // Navigate to the list of garages map/list view
-                    // appNavigator.navigateTo(Dest.GarageResults)
+
+                onNavigateToWebView = { title, url ->
+                    appNavigator.navigateTo(
+                        Dest.CommonWebView(url = url, title = title)
+                    )
                 }
             )
         }
@@ -397,7 +398,8 @@ fun NavGraphBuilder.claimGraph(
             exitTransition = { NavigationAnimations.slideOutLeft },  // Pushed back when next screen opens
             popEnterTransition = { NavigationAnimations.slideInLeft }, // Returning to this screen
             popExitTransition = { NavigationAnimations.slideOutRight } // Back button pressed
-        ) { backStackEntry ->
+        )
+        { backStackEntry ->
 
             // 1. Extract the arguments safely from the route
             val args = backStackEntry.toRoute<Dest.InsuranceContactList>()
@@ -419,11 +421,44 @@ fun NavGraphBuilder.claimGraph(
             InsurerContactListRoute(
                 productName = productName,
                 viewModel = insurerContactListViewModel,
-                onNavigateBack = { appNavigator.navigateBack() }
+                onNavigateBack = { appNavigator.navigateBack() },
+                // 🚀 Catch the callback and push the CommonWebView destination
+                onNavigateToWebView = { title, url ->
+                    appNavigator.navigateTo(
+                        Dest.CommonWebView(url = url, title = title)
+                    )
+                }
             )
         }
 
 
+
+        // ==========================================
+        // ⭐ TARGET SCREEN: Common WebView
+        // ==========================================
+        composable<Dest.CommonWebView>(
+            enterTransition = { NavigationAnimations.slideInRight },
+            exitTransition = { NavigationAnimations.slideOutLeft },
+            popEnterTransition = { NavigationAnimations.slideInLeft },
+            popExitTransition = { NavigationAnimations.slideOutRight }
+        ) { backStackEntry ->
+
+            // 1. Extract arguments
+            val args = backStackEntry.toRoute<Dest.CommonWebView>()
+
+            // 2. Render Screen directly (No ViewModel needed for a pure WebView display)
+            CommonWebViewScreen(
+                title = args.title,
+                url = args.url,
+                onBackClick = {
+                    appNavigator.navigateBack()
+                },
+                onHomeClick = {
+                    // 🚀 Clears the backstack and returns to the root of the Claim journey
+                    appNavigator.popBackToRoute(Dest.ClaimSupport, inclusive = false)
+                }
+            )
+        }
     }
 }
 

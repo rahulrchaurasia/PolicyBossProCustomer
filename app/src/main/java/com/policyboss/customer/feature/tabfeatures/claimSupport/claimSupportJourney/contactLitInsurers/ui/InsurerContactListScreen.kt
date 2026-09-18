@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -34,7 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,6 +44,7 @@ import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJour
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.ui.componet.InsurerCard
 import com.policyboss.customer.ui.theme.AppColors
 import com.policyboss.customer.ui.theme.gradients.AppGradients
+import com.policyboss.customer.ui.theme.titleLargeBold
 
 // Make sure to import your gradient
 
@@ -63,6 +64,7 @@ fun InsurerContactListScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .navigationBarsPadding()
                 .padding(horizontal = 20.dp)
         ) {
             Spacer(modifier = Modifier.height(48.dp)) // Status bar spacing
@@ -94,8 +96,7 @@ fun InsurerContactListScreen(
             ) {
                 Text(
                     text = "List of $productName Insurers",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLargeBold,
                     color = AppColors.TextPrimary
                 )
 
@@ -121,11 +122,14 @@ fun InsurerContactListScreen(
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(16.dp),
+                singleLine = true, // 🚀 FIX: Keeps search bar to exactly one line
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White.copy(alpha = 0.7f),
-                    unfocusedContainerColor = Color.White.copy(alpha = 0.5f),
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                    // 🚀 FIX: Added visible borders for better UI definition
+                    unfocusedBorderColor = Color.LightGray.copy(alpha = 0.6f),
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    cursorColor = MaterialTheme.colorScheme.primary
                 ),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search)
             )

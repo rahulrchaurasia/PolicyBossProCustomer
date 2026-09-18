@@ -7,7 +7,6 @@ import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJour
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.cashlessGarage.state.CashlessGarageAction
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.cashlessGarage.state.CashlessGarageUiEvent
 import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.cashlessGarage.state.CashlessGarageUiState
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -126,7 +125,16 @@ class CashlessGarageViewModel @Inject constructor() : ViewModel() {
             try {
                 // Simulate API call
                 delay(1000.milliseconds)
-                _uiEvent.emit(CashlessGarageUiEvent.NavigateNext)
+
+                val title =  "PolicyBoss"
+
+                // 2. Define the URL
+                // (Note: If your InsurerContactModel has a 'url' property, use clickedInsurer.url here instead)
+                val url = "https://www.policyboss.com/"
+
+                // 3. Emit the navigation event
+
+                _uiEvent.emit(CashlessGarageUiEvent.NavigateNext(title = title, url = url))
             } catch (e: Exception) {
                 _uiEvent.emit(CashlessGarageUiEvent.ShowError("Failed to fetch garages."))
             } finally {

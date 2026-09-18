@@ -33,7 +33,8 @@ import kotlinx.coroutines.launch
 fun CashlessGarageRoute(
     viewModel: CashlessGarageViewModel,
     onNavigateBack: () -> Unit,
-    onNavigateToResults: () -> Unit,
+
+    onNavigateToWebView: (title: String, url: String) -> Unit , // 🚀 ADDED THIS
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -119,7 +120,10 @@ fun CashlessGarageRoute(
     LaunchedEffect(Unit) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is CashlessGarageUiEvent.NavigateNext -> onNavigateToResults()
+                is CashlessGarageUiEvent.NavigateNext ->
+                {
+                    onNavigateToWebView(event.title, event.url)
+                }
                 is CashlessGarageUiEvent.ShowError -> globalSnackbar.showAppSnackbar(event.message)
             }
         }
