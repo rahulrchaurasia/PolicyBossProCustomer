@@ -3,7 +3,7 @@ package com.policyboss.customer.feature.dummyData
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.policyboss.customer.R
-import com.policyboss.customer.feature.claimSupport.claimSupportJourney.fileClaim.model.RequirementItem
+
 import com.policyboss.customer.feature.home.model.BadgeType
 import com.policyboss.customer.feature.home.model.EarningBanner
 import com.policyboss.customer.feature.home.model.PartnerLogoModel
@@ -18,12 +18,17 @@ import com.policyboss.customer.feature.home.model.vault.VaultPolicy
 import com.policyboss.customer.feature.home.model.vault.VaultTabIds
 import com.policyboss.customer.feature.home.model.vault.VaultTabItem
 import com.policyboss.customer.feature.home.model.video.VideoModel
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyCategory
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicySource
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyStatus
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultPolicy
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultTabItem
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.contactLitInsurers.model.InsurerContactModel
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportJourney.fileClaim.model.RequirementItem
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.model.ClaimStatus
+import com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScreen.model.SubmittedClaim
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.AddPolicyType
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyCategory
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicySource
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyStatus
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyVaultPolicy
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyVaultTabItem
+
 
 /*
 HomeDummyData
@@ -921,7 +926,11 @@ object AppDummyData {
     fun getClaimRequirements(productType: AddPolicyType): List<RequirementItem> {
         return when (productType) {
             AddPolicyType.CAR, AddPolicyType.BIKE, AddPolicyType.CV -> listOf(
-                RequirementItem(1, "Accident Details", "Policy number, Date of Incident, location, etc"),
+                RequirementItem(
+                    1,
+                    "Accident Details",
+                    "Policy number, Date of Incident, location, etc"
+                ),
                 RequirementItem(2, "Other Parties", "Other driver's information (if applicable)"),
                 RequirementItem(3, "Documents", "Images of damage, police report (if applicable), license"),
 
@@ -937,6 +946,73 @@ object AppDummyData {
             )
         }
     }
+
+
+    //region Submitted Claims (Tracking)
+    val dummySubmittedClaims = listOf(
+        SubmittedClaim(
+            id = "1",
+            productType = AddPolicyType.CAR,
+            status = ClaimStatus.UNDER_REVIEW,
+            claimNumber = "#CLM-90234711",
+            registrationNumber = "MH12AB4587",
+            insurerName = "Tata AIG Insurance",
+            createdDate = "22/01/2026",
+            subStatus = "Claim registered"
+        ),
+        SubmittedClaim(
+            id = "2",
+            productType = AddPolicyType.BIKE,
+            status = ClaimStatus.APPROVED,
+            claimNumber = "#CLM-88334455",
+            registrationNumber = "MH14XY9999",
+            insurerName = "Bajaj Allianz",
+            createdDate = "15/01/2026",
+            subStatus = "Payment processed"
+        ),
+        SubmittedClaim(
+            id = "3",
+            productType = AddPolicyType.HEALTH,
+            status = ClaimStatus.REJECTED,
+            claimNumber = "#CLM-77221100",
+            registrationNumber = "N/A",
+            insurerName = "HDFC Ergo",
+            createdDate = "10/01/2026",
+            subStatus = "Documents missing"
+        )
+    )
+    //endregion
+
+
+    //region  ClaimSupport : 2nd Tab  SContact List of Insurer
+    val insurerContactList = listOf(
+        InsurerContactModel("1", "Acko General Insurance", R.drawable.ic_acko_logo), // Use your actual acko drawable
+        InsurerContactModel("2", "Tata AIG General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("3", "HDFC ERGO General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("4", "ICICI Lombard General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel(
+            "5",
+            "Bajaj Allianz General Insurance",
+            android.R.drawable.ic_menu_gallery
+        ),
+        InsurerContactModel("6", "SBI General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("7", "Reliance General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("8", "National Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("9", "New India Assurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("10", "Oriental Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("11", "United India Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("12", "Cholamandalam MS General", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("13", "Future Generali India", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("14", "Universal Sompo General", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("15", "Shriram General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("16", "Bharti AXA General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("17", "Magma HDI General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("18", "Liberty General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("19", "Raheja QBE General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("20", "Go Digit General Insurance", android.R.drawable.ic_menu_gallery),
+        InsurerContactModel("21", "Navi General Insurance", android.R.drawable.ic_menu_gallery)
+    )
+    //endregion
 
 //    val emptyPolicies = emptyList<PolicyVaultPolicy>()
 //

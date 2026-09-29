@@ -29,7 +29,9 @@ val LightColorScheme = lightColorScheme(
     onSecondary = Color.White,
     onTertiary = Color.White,
 
-    error = AppColors.ErrorRed
+    error = AppColors.ErrorRed,
+
+
 
 
 )

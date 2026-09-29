@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
@@ -66,6 +67,20 @@ fun PolicyStatusBadge(
             fontWeight = FontWeight.SemiBold,
 
             color = textColor
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    backgroundColor = 0xFFF5F5F5
+)
+@Composable
+fun PolicyStatusBadgePreview() {
+    MaterialTheme {
+        PolicyStatusBadge(
+            text = "Active",
+            backgroundColor = Color(0xFFE8F5E9),
+            textColor = Color(0xFF2E7D32)
         )
     }
 }

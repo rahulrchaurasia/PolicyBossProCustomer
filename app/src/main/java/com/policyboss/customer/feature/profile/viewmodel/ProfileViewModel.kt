@@ -1,5 +1,6 @@
 package com.policyboss.customer.feature.profile.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.customer.core.datastore.AppDataManager
@@ -61,8 +62,15 @@ class ProfileViewModel @Inject constructor(
     fun logout() {
         // 1. Launch a coroutine to do background work
         viewModelScope.launch {
+
+
+
+            Log.d("LOGOUT_DEBUG", "Before clear")
+
             // 2. Clear the session/database first
             appDataManager.clearSession()
+
+
 
             // 3. Emit the event to tell the UI to move
             _event.emit(ProfileEvent.NavigateToLogin)

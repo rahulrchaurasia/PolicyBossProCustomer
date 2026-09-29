@@ -23,8 +23,11 @@ val DarkColorScheme = darkColorScheme(
 //    surface = Color(0xFF161B26),
 
 // Add these to prevent default M3 purple colors from bleeding through
-    surfaceVariant = AppColors.DarkMediumBackground,
-    onSurfaceVariant = Color.White,
+//    surfaceVariant = AppColors.DarkMediumBackground,
+//    onSurfaceVariant = Color.White,
+
+    surfaceVariant = AppColors.Surface,
+    onSurfaceVariant = AppColors.TextPrimary,
 
 
     onPrimary = Color.White,

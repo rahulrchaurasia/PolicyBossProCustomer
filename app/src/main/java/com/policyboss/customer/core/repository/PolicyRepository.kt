@@ -1,6 +1,7 @@
 package com.policyboss.customer.core.repository
 
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.PolicyVaultPolicy
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.PolicyVaultPolicy
+
 
 /*
 ViewModels never share data with each other. Repositories share data.
