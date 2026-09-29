@@ -39,6 +39,8 @@ object AppColors {
     val SkyBlue = Color(0xFFA5CDFF)
 
     val AppBarBlue = Color(0xFFBCDEFE)
+
+    val lightBlue = Color(0xFFE0EAFF)
     val PaleCyan = Color(0xFFEBFFFC)
 
 
@@ -101,6 +103,9 @@ object AppColors {
 
     val White = Color(0xFFFFFFFF)
     val ErrorRed = Color(0xFFD92D20)
+
+    val RedBadges = Color(0xFFF04438)
+
     val SuccessGreen = Color(0xFF17B26A)
 
     // ===================================================

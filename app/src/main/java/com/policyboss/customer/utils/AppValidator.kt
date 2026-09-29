@@ -16,7 +16,17 @@ object AppValidator {
         // but since you restrict input in the UI, length is usually enough.
         return mobile.trim().length == 10
     }
-
+    /**
+     * Validates an optional mobile number.
+     * Returns TRUE if it is completely blank.
+     * Returns TRUE if it is exactly 10 digits.
+     * Returns FALSE if it is partially filled (1 to 9 digits).
+     */
+    fun isValidOptionalMobile(mobile: String): Boolean {
+        val cleanMobile = mobile.trim()
+        if (cleanMobile.isEmpty()) return true
+        return cleanMobile.length == 10
+    }
     fun isValidEmail(email: String): Boolean {
         val emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}\$".toRegex()
         return email.trim().isNotEmpty() && emailPattern.matches(email.trim())
@@ -41,6 +51,17 @@ object AppValidator {
     // Validates a generic policy number
     fun isValidPolicyNumber(number: String): Boolean {
         // Assuming policy numbers must be at least 5 characters long
-        return number.isNotBlank() && number.length >= 5
+        val cleanNumber = number.trim()
+
+        return cleanNumber.isNotBlank() &&
+                cleanNumber.length in 5..12 &&
+                cleanNumber.all { it.isLetterOrDigit() }
+    }
+
+    // Validates PanCard
+    fun isValidPanCard(pan: String): Boolean {
+        val cleanPan = pan.trim().uppercase()
+        val panPattern = "^[A-Z]{5}[0-9]{4}[A-Z]{1}$".toRegex()
+        return cleanPan.isNotEmpty() && panPattern.matches(cleanPan)
     }
 }

@@ -27,6 +27,11 @@ class AppDataManager @Inject constructor(
         // 🚀 CHANGE 1: Add Keys for Name and Email
         private val KEY_USER_NAME = stringPreferencesKey("key_user_name")
         private val KEY_USER_EMAIL = stringPreferencesKey("key_user_email")
+
+        private val KEY_SUPPORT_NUMBER = stringPreferencesKey("key_support_number")
+
+        private val KEY_CLAIM_SUBMIT = booleanPreferencesKey("key_claim_submit")
+
     }
 
     // =========================================
@@ -56,6 +61,21 @@ class AppDataManager @Inject constructor(
             pref[KEY_IS_LOGIN] = isLogin
         }
     }
+
+    suspend fun saveClaimSubmit(isClaimSubmit : Boolean) {
+
+        dataStore.edit { pref ->
+
+            pref[KEY_CLAIM_SUBMIT] = isClaimSubmit
+        }
+    }
+
+    val isClaimSubmit: Flow<Boolean> =
+
+        dataStore.data.map { pref ->
+
+            pref[KEY_CLAIM_SUBMIT] ?: false
+        }
 
     // 🚀 CHANGE 2: Add Save methods for Name and Email
     suspend fun saveUserName(name: String) {
@@ -99,6 +119,21 @@ class AppDataManager @Inject constructor(
 
     val userEmail: Flow<String> = dataStore.data.map { pref ->
         pref[KEY_USER_EMAIL] ?: ""
+    }
+
+
+    // =========================================
+    // SAVE
+    // =========================================
+    suspend fun saveSupportNumber(number: String) {
+        dataStore.edit { pref -> pref[KEY_SUPPORT_NUMBER] = number }
+    }
+
+    // =========================================
+    // GET
+    // =========================================
+    val supportNumber: Flow<String> = dataStore.data.map { pref ->
+        pref[KEY_SUPPORT_NUMBER] ?: "9224624999" // Fallback default number
     }
 
     // =========================================

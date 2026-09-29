@@ -6,7 +6,8 @@ package com.policyboss.customer.navigation
 
 
 import com.policyboss.customer.feature.login.model.verifyAccount.VerifyOtpSource
-import com.policyboss.customer.feature.policyVault.model.policyVaultModel.AddPolicyType
+import com.policyboss.customer.feature.tabfeatures.policyVault.model.policyVaultModel.AddPolicyType
+
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -124,6 +125,27 @@ sealed class Dest {
     @Serializable
     data object PrivilegeStories : Dest()
 
+    @Serializable
+    data object PrivilegeEmailPan : Dest() // Formerly EmailPan
+
+
+    @Serializable
+    data class PrivilegeVerifyEmail(
+        val email: String,
+        val panNumber: String
+    )
+
+
+    @Serializable
+
+    data class PrivilegeVerifyPan(val panNumber: String) : Dest()
+
+
+    @Serializable
+    data object SyncContact : Dest() // Formerly EmailPan
+
+    @Serializable
+    object SyncContactProcess : Dest()
     //endregion
 
     // 🚀 NEW: Add this specifically for the Home "View All" flow
@@ -147,13 +169,37 @@ sealed class Dest {
     data class FileClaim(val productType: AddPolicyType) : Dest()
 
     @Serializable
+    data class InsuranceContactList(val productType: AddPolicyType) : Dest()
+
+    @Serializable
     object AccidentDetails : Dest()
 
 
     @Serializable
     object ThirdPartyDetails : Dest()
 
+    @Serializable
+    object DamagePhotos : Dest()
+
+    @Serializable
+    object PoliceReport : Dest()
+
+    @Serializable
+    object DriversLicense : Dest()
+
+
+    @Serializable
+    object CashlessGarage : Dest()
+
+
+    @Serializable
+    data class CommonWebView(
+        val url: String,
+        val title: String
+    ) : Dest()
 
     //endregion
+
+
     }
 

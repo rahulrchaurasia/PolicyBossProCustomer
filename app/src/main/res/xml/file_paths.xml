@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<paths>
+    <!-- For files saved in cacheDir -->
+    <cache-path name="camera_images" path="." />
+
+    <!-- For files saved in getExternalFilesDir(Environment.DIRECTORY_PICTURES) -->
+    <external-files-path name="claim_images" path="Pictures" />
+</paths>

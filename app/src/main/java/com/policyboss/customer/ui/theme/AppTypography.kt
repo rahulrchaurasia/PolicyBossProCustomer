@@ -356,3 +356,8 @@ val Typography.headlineMediumBold: TextStyle
         fontWeight = FontWeight.Bold
     )
 
+val Typography.titleLargeBold: TextStyle
+    get() = titleLarge.copy(
+        fontWeight = FontWeight.Bold
+    )
+
