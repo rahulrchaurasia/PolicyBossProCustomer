@@ -12,4 +12,6 @@ interface ClaimRepository {
     
     // The POST request to submit a claim
     suspend fun submitClaimToServer(draft: ClaimDraft): Resource<SubmittedClaim>
+
+    fun clearSubmittedClaims()
 }

@@ -4,6 +4,7 @@ package com.policyboss.customer.feature.tabfeatures.claimSupport.claimSupportScr
 
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.customer.core.datastore.AppDataManager
@@ -58,6 +59,11 @@ class ClaimViewModel @Inject constructor(
 //            }
 //        }
 
+        viewModelScope.launch {
+            appDataManager.isClaimSubmit.collect { value ->
+                Log.d("CLAIM_DEBUG", "isClaimSubmit = $value")
+            }
+        }
 
         // 🚀 COMBINE DataStore and Repository
         viewModelScope.launch {
